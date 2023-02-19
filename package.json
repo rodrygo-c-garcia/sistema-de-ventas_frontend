@@ -12,7 +12,10 @@
   "dependencies": {
     "pinia": "^2.0.28",
     "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "primeflex": "^3.2.1",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.22.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.12",
