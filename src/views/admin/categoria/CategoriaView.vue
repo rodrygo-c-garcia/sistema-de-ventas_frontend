@@ -45,6 +45,18 @@
         <Button label="Save" icon="pi pi-check" @click="saveCategory(categoria.id)" />
       </template>
     </Dialog>
+
+    <!-- Eliminar categoria -->
+    <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirmar" :modal="true">
+      <div class="confirmation-content">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+        <span v-if="categoria">Esta seguro de eliminar la categoria de <b>{{ categoria.nombre }}</b>?</span>
+      </div>
+      <template #footer>
+        <Button label="No" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false" />
+        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="DeleteCategory(categoria.id)" />
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -58,7 +70,7 @@ const lista_categorias = ref([])
 const loading = ref(true)
 const submitted = ref(false)
 const productDialog = ref(false)
-
+const deleteProductDialog = ref(false);
 
 const categoria = ref({
   id: 0,
@@ -101,8 +113,6 @@ async function saveCategory(id_categoria: number) {
       try {
         await apiCategoria.postCategoria(categoria.value)
         toast.add({ severity: 'success', summary: 'Categoria Registrada', detail: 'Revise la Lista', life: 3000 });
-        productDialog.value = false;
-        ObtenerCategorias()
       } catch (e) {
         toast.add({ severity: 'error', summary: 'Hubo un error al registrar', detail: 'Intente Nuevamente', life: 3000 });
       }
@@ -110,12 +120,13 @@ async function saveCategory(id_categoria: number) {
       try {
         await apiCategoria.putCategoria(categoria.value, id_categoria)
         toast.add({ severity: 'success', summary: 'Categoria Actualizada', detail: 'Revise la Lista', life: 3000 });
-        productDialog.value = false;
-        ObtenerCategorias()
+
       } catch (e) {
         toast.add({ severity: 'error', summary: 'Hubo un error al actualizar', detail: 'Intente Nuevamente', life: 3000 });
       }
     }
+    productDialog.value = false;
+    ObtenerCategorias()
   }
 }
 
@@ -125,7 +136,24 @@ function editCateory(cat: any): void {
 }
 
 function confirmDeleteCategory(cat: any): void {
-  alert(cat.id)
+  categoria.value = cat;
+  deleteProductDialog.value = true;
+}
+
+async function DeleteCategory(id: number) {
+  try {
+    await apiCategoria.deleteCategoria(id)
+    deleteProductDialog.value = false;
+    categoria.value = {
+      id: 0,
+      nombre: '',
+      detalle: ''
+    };
+    toast.add({ severity: 'success', summary: 'Exito', detail: 'Categoria Eliminada', life: 3000 });
+    ObtenerCategorias()
+  } catch (e) {
+    toast.add({ severity: 'error', summary: 'Hubo un error al actualizar', detail: 'Intente Nuevamente', life: 3000 });
+  }
 }
 </script>
 
