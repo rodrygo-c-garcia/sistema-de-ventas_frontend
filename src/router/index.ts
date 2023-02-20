@@ -12,7 +12,37 @@ const router = createRouter({
         {
           path: '/',
           component: HomeView
-        }
+        },
+        {
+          path: "/categoria",
+          name: "categoria",
+          component: () => import("../views/admin/categoria/Categoria.vue"),
+        },
+        {
+          path: "/producto",
+          name: "producto",
+          component: () => import("../views/admin/producto/Producto.vue"),
+        },
+        {
+          path: "/pedido",
+          name: "pedido",
+          component: () => import("../views/admin/pedido/Pedido.vue"),
+        },
+        {
+          path: "/pedido/nuevo",
+          name: "pedido_nuevo",
+          component: () => import("../views/admin/pedido/NuevoPedido.vue"),
+        },
+        {
+          path: "/cliente",
+          name: "cliente",
+          component: () => import("../views/admin/cliente/Cliente.vue"),
+        },
+        {
+          path: "/usuario",
+          name: "usuario",
+          component: () => import("../views/auth/usuario/Usuario.vue"),
+        },
       ]
     },
   ]
