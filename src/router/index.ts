@@ -16,32 +16,32 @@ const router = createRouter({
         {
           path: "/categoria",
           name: "categoria",
-          component: () => import("../views/admin/categoria/Categoria.vue"),
+          component: () => import("../views/admin/categoria/CategoriaView.vue"),
         },
         {
           path: "/producto",
           name: "producto",
-          component: () => import("../views/admin/producto/Producto.vue"),
+          component: () => import("../views/admin/producto/ProductoView.vue"),
         },
         {
           path: "/pedido",
           name: "pedido",
-          component: () => import("../views/admin/pedido/Pedido.vue"),
+          component: () => import("../views/admin/pedido/PedidoView.vue"),
         },
         {
           path: "/pedido/nuevo",
           name: "pedido_nuevo",
-          component: () => import("../views/admin/pedido/NuevoPedido.vue"),
+          component: () => import("../views/admin/pedido/NuevoPedidoView.vue"),
         },
         {
           path: "/cliente",
           name: "cliente",
-          component: () => import("../views/admin/cliente/Cliente.vue"),
+          component: () => import("../views/admin/cliente/ClienteView.vue"),
         },
         {
           path: "/usuario",
           name: "usuario",
-          component: () => import("../views/auth/usuario/Usuario.vue"),
+          component: () => import("../views/auth/usuario/UsuarioView.vue"),
         },
       ]
     },
