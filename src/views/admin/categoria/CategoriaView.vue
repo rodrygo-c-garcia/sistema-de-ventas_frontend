@@ -1,10 +1,10 @@
 <template>
   <div class="card">
-    <h5>Single Column</h5>
-    <DataTable :value="lista_categorias" responsiveLayout="scroll" :lazy="true">
-      <Column field="nombre" header="Nombre" :sortable="true"></Column>
-      <Column field="detalle" header="Detalle" :sortable="true"></Column>
-      <Column field="created_at" header="Fecha de Creacion" :sortable="true"></Column>
+    <h5>Categoria</h5>
+    <DataTable :value="lista_categorias" responsiveLayout="scroll" :loading="loading">
+      <Column field="nombre" header="NOMBRE" :sortable="true"></Column>
+      <Column field="detalle" header="DETALLE" :sortable="true"></Column>
+      <Column field="created_at" header="FECHA" :sortable="true"></Column>
     </DataTable>
   </div>
 </template>
@@ -14,8 +14,7 @@ import * as apiCategoria from '@/services/categoria.service'
 import { onMounted, ref } from 'vue';
 
 const lista_categorias = ref([])
-const loading = ref(false)
-const lazyParams = ref({})
+const loading = ref(true)
 
 onMounted(() => {
   ObtenerCategorias()
@@ -24,6 +23,7 @@ onMounted(() => {
 async function ObtenerCategorias() {
   const { data } = await apiCategoria.getCategoria();
   lista_categorias.value = data
+  loading.value = false
 }
 
 </script>
