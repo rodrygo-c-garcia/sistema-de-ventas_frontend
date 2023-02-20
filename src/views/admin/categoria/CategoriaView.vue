@@ -8,9 +8,7 @@
       </template>
 
       <template #end>
-        <FileUpload mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import"
-          class="mr-2 inline-block" />
-        <Button label="Export" icon="pi pi-upload" class="p-button-help" />
+        <h5>Categoria</h5>
       </template>
     </Toolbar>
     <!-- Tabla de categorias -->
@@ -18,7 +16,15 @@
     <DataTable :value="lista_categorias" responsiveLayout="scroll" :loading="loading">
       <Column field="nombre" header="NOMBRE" :sortable="true"></Column>
       <Column field="detalle" header="DETALLE" :sortable="true"></Column>
-      <Column field="created_at" header="FECHA" :sortable="true"></Column>
+      <Column field="created_at" header="FECHA DE CREACION" :sortable="true"></Column>
+      <Column :exportable="false" style="min-width:8rem">
+        <template #body="slotProps">
+          <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+            @click="editCateory(slotProps.data)" />
+          <Button icon="pi pi-trash" class="p-button-rounded p-button-warning"
+            @click="confirmDeleteCategory(slotProps.data)" />
+        </template>
+      </Column>
     </DataTable>
 
     <!-- Agregar nueva categoria -->
@@ -36,7 +42,7 @@
       </div>
       <template #footer>
         <Button label="Cancel" icon="pi pi-times" class="p-button-danger" @click="hideDialog" />
-        <Button label="Save" icon="pi pi-check" @click="saveCategory" />
+        <Button label="Save" icon="pi pi-check" @click="saveCategory(categoria.id)" />
       </template>
     </Dialog>
   </div>
@@ -53,13 +59,11 @@ const loading = ref(true)
 const submitted = ref(false)
 const productDialog = ref(false)
 
-interface Categoria {
-  nombre: string;
-  detalle: string;
-}
-const categoria = ref<Categoria>({
+
+const categoria = ref({
+  id: 0,
   nombre: '',
-  detalle: ''
+  detalle: '',
 });
 
 onMounted(() => {
@@ -69,12 +73,12 @@ onMounted(() => {
 async function ObtenerCategorias() {
   const { data } = await apiCategoria.getCategoria();
   lista_categorias.value = data
-  console.log(data)
   loading.value = false
 }
 
-function openNew() {
+function openNew(): void {
   categoria.value = {
+    id: 0,
     nombre: '',
     detalle: ''
   };
@@ -82,26 +86,46 @@ function openNew() {
   productDialog.value = true;
 }
 
-function hideDialog() {
+function hideDialog(): void {
   productDialog.value = false;
   submitted.value = false;
 }
 
-async function saveCategory() {
+async function saveCategory(id_categoria: number) {
   submitted.value = true;
 
   if (!categoria.value.nombre.trim() || !categoria.value.detalle.trim()) {
     toast.add({ severity: 'warn', summary: 'Llene todos los campos', life: 3000 });
   } else {
-    try {
-      await apiCategoria.postCategoria(categoria.value)
-      toast.add({ severity: 'success', summary: 'Categoria Registrada', detail: 'Revise la Lista', life: 3000 });
-      productDialog.value = false;
-      ObtenerCategorias()
-    } catch (e) {
-      toast.add({ severity: 'dager', summary: 'Hubo un error al registrar', detail: 'Intente Nuevamente', life: 3000 });
+    if (!id_categoria) {
+      try {
+        await apiCategoria.postCategoria(categoria.value)
+        toast.add({ severity: 'success', summary: 'Categoria Registrada', detail: 'Revise la Lista', life: 3000 });
+        productDialog.value = false;
+        ObtenerCategorias()
+      } catch (e) {
+        toast.add({ severity: 'error', summary: 'Hubo un error al registrar', detail: 'Intente Nuevamente', life: 3000 });
+      }
+    } else {
+      try {
+        await apiCategoria.putCategoria(categoria.value, id_categoria)
+        toast.add({ severity: 'success', summary: 'Categoria Actualizada', detail: 'Revise la Lista', life: 3000 });
+        productDialog.value = false;
+        ObtenerCategorias()
+      } catch (e) {
+        toast.add({ severity: 'error', summary: 'Hubo un error al actualizar', detail: 'Intente Nuevamente', life: 3000 });
+      }
     }
   }
+}
+
+function editCateory(cat: any): void {
+  categoria.value = { ...cat };
+  productDialog.value = true;
+}
+
+function confirmDeleteCategory(cat: any): void {
+  alert(cat.id)
 }
 </script>
 
