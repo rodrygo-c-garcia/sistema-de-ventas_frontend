@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <div class="card">
     <!-- opciones de Categoria -->
     <Toolbar class="mb-4">
@@ -27,7 +28,7 @@
         <label for="name">Nombre</label>
         <InputText id="name" v-model.trim="categoria.nombre" required="true" autofocus
           :class="{ 'p-invalid': submitted && !categoria.nombre }" />
-        <small class="p-error" v-if="submitted && !categoria.nombre">Name is required.</small>
+        <small class="p-error" v-if="submitted && !categoria.nombre">Nombre es obligatorio.</small>
       </div>
       <div class="field">
         <label for="description">Detalle</label>
@@ -38,23 +39,28 @@
         <Button label="Save" icon="pi pi-check" @click="saveCategory" />
       </template>
     </Dialog>
-
-
   </div>
 </template>
 
 <script setup lang="ts">
 import * as apiCategoria from '@/services/categoria.service'
 import { onMounted, ref } from 'vue';
+import { useToast } from "primevue/usetoast";
 
+const toast = useToast();
 const lista_categorias = ref([])
 const loading = ref(true)
 const submitted = ref(false)
 const productDialog = ref(false)
-const categoria = ref({
+
+interface Categoria {
+  nombre: string;
+  detalle: string;
+}
+const categoria = ref<Categoria>({
   nombre: '',
   detalle: ''
-})
+});
 
 onMounted(() => {
   ObtenerCategorias()
@@ -63,6 +69,7 @@ onMounted(() => {
 async function ObtenerCategorias() {
   const { data } = await apiCategoria.getCategoria();
   lista_categorias.value = data
+  console.log(data)
   loading.value = false
 }
 
@@ -81,7 +88,20 @@ function hideDialog() {
 }
 
 async function saveCategory() {
+  submitted.value = true;
 
+  if (!categoria.value.nombre.trim() || !categoria.value.detalle.trim()) {
+    toast.add({ severity: 'warn', summary: 'Llene todos los campos', life: 3000 });
+  } else {
+    try {
+      await apiCategoria.postCategoria(categoria.value)
+      toast.add({ severity: 'success', summary: 'Categoria Registrada', detail: 'Revise la Lista', life: 3000 });
+      productDialog.value = false;
+      ObtenerCategorias()
+    } catch (e) {
+      toast.add({ severity: 'dager', summary: 'Hubo un error al registrar', detail: 'Intente Nuevamente', life: 3000 });
+    }
+  }
 }
 </script>
 
