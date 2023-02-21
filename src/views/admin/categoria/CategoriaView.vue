@@ -13,7 +13,8 @@
     </Toolbar>
     <!-- Tabla de categorias -->
     <h5>Categoria</h5>
-    <DataTable :value="lista_categorias" responsiveLayout="scroll" :loading="loading">
+    <DataTable ref="dt" :value="lista_categorias" responsiveLayout="scroll" dataKey="id" @page="onPage($event)"
+      :loading="loading" :paginator="true" :rows="4">
       <Column field="nombre" header="NOMBRE" :sortable="true"></Column>
       <Column field="detalle" header="DETALLE" :sortable="true"></Column>
       <Column field="created_at" header="FECHA DE CREACION" :sortable="true"></Column>
@@ -27,9 +28,9 @@
       </Column>
     </DataTable>
 
-    <!-- Agregar nueva categoria -->
-    <Dialog v-model:visible="productDialog" :style="{ width: '450px' }" header="Registrar nueva categoria" :modal="true"
-      class="p-fluid">
+    <!-- Agregar o actualizar categoria -->
+    <Dialog v-model:visible="productDialog" :style="{ width: '450px' }"
+      :header="categoria.id ? 'Modificar categoria' : 'Registrar nueva categoria'" :modal="true" class="p-fluid">
       <div class="field">
         <label for="name">Nombre</label>
         <InputText id="name" v-model.trim="categoria.nombre" required="true" autofocus
@@ -71,6 +72,7 @@ const loading = ref(true)
 const submitted = ref(false)
 const productDialog = ref(false)
 const deleteProductDialog = ref(false);
+const lazyParams = ref({});
 
 const categoria = ref({
   id: 0,
@@ -78,12 +80,18 @@ const categoria = ref({
   detalle: '',
 });
 
+
 onMounted(() => {
   ObtenerCategorias()
 })
 
+const loadLazyData = (): void => {
+  loading.value = true;
+  ObtenerCategorias()
+}
+
 async function ObtenerCategorias() {
-  const { data } = await apiCategoria.getCategoria();
+  const { data } = await apiCategoria.getCategorias();
   lista_categorias.value = data
   loading.value = false
 }
@@ -113,6 +121,7 @@ async function saveCategory(id_categoria: number) {
       try {
         await apiCategoria.postCategoria(categoria.value)
         toast.add({ severity: 'success', summary: 'Categoria Registrada', detail: 'Revise la Lista', life: 3000 });
+        ObtenerCategorias()
       } catch (e) {
         toast.add({ severity: 'error', summary: 'Hubo un error al registrar', detail: 'Intente Nuevamente', life: 3000 });
       }
@@ -120,13 +129,12 @@ async function saveCategory(id_categoria: number) {
       try {
         await apiCategoria.putCategoria(categoria.value, id_categoria)
         toast.add({ severity: 'success', summary: 'Categoria Actualizada', detail: 'Revise la Lista', life: 3000 });
-
+        ObtenerCategorias()
       } catch (e) {
         toast.add({ severity: 'error', summary: 'Hubo un error al actualizar', detail: 'Intente Nuevamente', life: 3000 });
       }
     }
     productDialog.value = false;
-    ObtenerCategorias()
   }
 }
 
@@ -155,6 +163,11 @@ async function DeleteCategory(id: number) {
     toast.add({ severity: 'error', summary: 'Hubo un error al actualizar', detail: 'Intente Nuevamente', life: 3000 });
   }
 }
+
+const onPage = (event: object) => {
+  lazyParams.value = event;
+  ObtenerCategorias()
+};
 </script>
 
 <style></style>
