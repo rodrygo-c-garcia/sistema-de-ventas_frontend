@@ -26,7 +26,6 @@ const model = ref([
     {
         label: 'Gestion de Usuario',
         items: [
-            { label: 'Proveedor', icon: 'pi pi-fw pi-prime', to: '/proveedor' },
             { label: 'Roles', icon: 'pi pi-fw pi-prime', to: '#' },
             { label: 'Usuarios', icon: 'pi pi-fw pi-desktop', to: '/usuario' }
         ]
