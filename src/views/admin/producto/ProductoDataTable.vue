@@ -1,6 +1,6 @@
 <template>
   <ProductoToolbar />
-  <DataTable ref="dt" :value="productos" v-model:selection="selectedProducts" dataKey="id" :paginator="true" :rows="10"
+  <DataTable ref="dt" :value="productos" v-model:selection="selectedProducts" dataKey="id" :paginator="true" :rows="5"
     :filters="filters" :loading="loading"
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
     :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
@@ -48,7 +48,7 @@
     </Column>
   </DataTable>
 
-  <ProductoDialog :producto="producto" />
+  <ProductoDialog :prod="producto" />
 </template>
 
 <script setup lang="ts">
@@ -56,7 +56,7 @@ import ProductoToolbar from './ProductoToolbar.vue'
 import ProductoDialog from './ProductoDialog.vue'
 
 
-import { ref, onMounted, provide } from 'vue';
+import { ref, onMounted, provide, watch, inject } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import * as apiProducto from '@/services/producto.service'
 import type { Producto } from '../types';
@@ -64,6 +64,9 @@ import type { Producto } from '../types';
 
 const display = ref(false)
 provide('display', display)
+
+const actualizar_productos = ref(false)
+provide('actualizar_productos', actualizar_productos)
 
 const loading = ref(true)
 const productos = ref([]);
@@ -77,10 +80,23 @@ onMounted(() => {
   obtenerProductos()
 })
 
+watch(() => actualizar_productos.value,
+  (newValue, oldValue) => {
+    let actualizar = false;
+    if (newValue === true && oldValue === false) {
+      actualizar = true;
+      // Realizar llamada a API para actualizar productos
+      obtenerProductos()
+    }
+    actualizar_productos.value = false; // Resetear variable a false
+  },
+  { immediate: false })
+
 async function obtenerProductos() {
   const { data: prod } = await apiProducto.getProductos();
   productos.value = prod
   loading.value = false
+  actualizar_productos.value = false
 }
 
 const formatCurrency = (value: any) => {
