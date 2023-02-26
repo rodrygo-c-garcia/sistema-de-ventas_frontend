@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { toRefs, warn, watch } from 'vue';
 import type { Ref } from 'vue';
-import type { Producto, Categoria } from '../types';
-import { onMounted, ref, inject } from 'vue'
+import type { Producto } from '../types';
+import { onMounted, ref, inject, provide } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
+import * as apiProducto from '@/services/producto.service'
 import { useToast } from 'primevue/usetoast';
 // Props
 const props = defineProps({
-  producto: {
+  prod: {
     type: Object as () => Producto,
     required: true
   }
@@ -18,8 +19,10 @@ const toast = useToast();
 const submitted = ref(false);
 const display = ref(inject<boolean>('display'));
 // desestructuramos nuestro porp y solo obtenemos producto
-const { producto } = toRefs(props);
+const { prod: producto } = toRefs(props);
 const categorias = ref([])
+
+const actualizar_productos = ref(inject<boolean>('actualizar_productos'));
 
 // FUNCIONES
 onMounted(() => {
@@ -31,30 +34,26 @@ async function ObtenerCategorias() {
   categorias.value = data
 }
 
-const closeDialog = () => {
+const closeDialog = (): void => {
   display.value = false;
   submitted.value = false;
 };
 
-const saveProduct = () => {
+const saveProduct = async () => {
   submitted.value = true;
   if (producto.value.nombre.trim()) {
     if (producto.value.stock) {
       if (producto.value.categoria_id) {
         // Si el ID existe actualizamos
         if (producto.value.id) {
-          // products.value[findIndexById(product.value.id)] = product.value;
           // toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
         } // Caso contrario creamos nuevo Prodcuto 
         else {
-          // product.value.id = createId();
-          // product.value.code = createId();
-          // product.value.image = 'product-placeholder.svg';
-          // product.value.inventoryStatus = product.value.inventoryStatus ? product.value.inventoryStatus.value : 'INSTOCK';
-          // products.value.push(product.value);
-          // toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+          await apiProducto.postProducto(producto.value)
+          toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Creado', life: 3000 });
         }
         display.value = false;
+        actualizar_productos.value = true
       } else toast.add({ severity: 'warn', summary: 'Seleccione una Categoria', detail: 'Obligatorio', life: 3000 });
     } else toast.add({ severity: 'warn', summary: 'El campo Stock no puede ir vacio', detail: 'Obligatorio', life: 3000 });
   } else toast.add({ severity: 'warn', summary: 'Llene el campo Nombre', detail: 'Obligatorio', life: 3000 });
@@ -69,8 +68,8 @@ export default {
 </script>
 <template>
   <Toast />
-  <Dialog v-model:visible="display" :style="{ width: '450px' }" header="Product Details" :modal="true" class="p-fluid">
-    <p>{{ producto }}</p>
+  <Dialog v-model:visible="display" :style="{ width: '450px' }"
+    :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
     <div class="field">
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
