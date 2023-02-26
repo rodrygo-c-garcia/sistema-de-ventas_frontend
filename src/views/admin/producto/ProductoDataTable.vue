@@ -59,7 +59,7 @@ import ProductoDialog from './ProductoDialog.vue'
 import { ref, onMounted, provide } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import * as apiProducto from '@/services/producto.service'
-import type { Producto } from './types';
+import type { Producto } from '../types';
 
 
 const display = ref(false)
