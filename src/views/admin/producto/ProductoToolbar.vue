@@ -16,31 +16,21 @@
     </template>
   </Toolbar>
 
-  <ProductoDialog :producto="producto" />
-
-  <p>{{ display }}</p>
+  <ProductoDialog :prod="producto" />
 </template>
 <script setup lang="ts">
 import ProductoDialog from './ProductoDialog.vue'
 import type { Ref } from 'vue';
-import { ref, provide, onMounted } from 'vue';
+import { ref, provide, onMounted, inject } from 'vue';
 import type { Producto } from '../types';
 
 // variables para el modal
+// const display = ref(inject<boolean>('display'));
 const display = ref(false)
 provide('display', display)
 
 const selectedProducts = ref();
-
-const producto: Ref<Producto> = ref({
-  id: 0,
-  nombre: '',
-  cod_barras: '',
-  precio_compra: 0,
-  precio_venta: 0,
-  stock: 0,
-  categoria_id: 0
-});
+const producto = ref(<Producto>({}));
 
 const openNew = (): void => {
   producto.value = {
