@@ -47,26 +47,27 @@
       </template>
     </Column>
   </DataTable>
+
+  <ProductoDialog :producto="producto" />
 </template>
 
 <script setup lang="ts">
 import ProductoToolbar from './ProductoToolbar.vue'
-import { defineComponent } from 'vue';
+import ProductoDialog from './ProductoDialog.vue'
+
 
 import { ref, onMounted, provide } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import * as apiProducto from '@/services/producto.service'
+import type { Producto } from './types';
 
-
-defineComponent({
-  name: 'ProductoDataTable',
-});
 
 const display = ref(false)
 provide('display', display)
 
 const loading = ref(true)
 const productos = ref([]);
+const producto = ref(<Producto>({}));
 const selectedProducts = ref();
 const filters = ref({
   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -88,11 +89,12 @@ const formatCurrency = (value: any) => {
   return;
 };
 
-function editProduct(prod: object): void {
-  console.log(prod)
+function editProduct(prod: any): void {
+  producto.value = prod;
+  display.value = true;
 }
 
-function confirmDeleteProduct(prod: object): void {
+function confirmDeleteProduct(prod: any): void {
   console.log(prod)
 }
 
