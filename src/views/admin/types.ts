@@ -1,5 +1,6 @@
 
 export interface Producto {
+    id: number,
     nombre: string;
     cod_barras: string;
     precio_compra: number;
@@ -8,3 +9,7 @@ export interface Producto {
     categoria_id: number;
 }
 
+export interface Categoria {
+    nombre: string,
+    detalle: string
+}
