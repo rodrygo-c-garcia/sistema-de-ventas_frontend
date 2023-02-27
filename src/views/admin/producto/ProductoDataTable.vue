@@ -1,5 +1,6 @@
 <template>
   <ProductoToolbar />
+
   <DataTable ref="dt" :value="productos" v-model:selection="selectedProducts" dataKey="id" :paginator="true" :rows="5"
     :filters="filters" :loading="loading"
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -13,7 +14,7 @@
     </template>
 
     <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
-    <Column field="cod_barra" header="Codigo de barra" :sortable="true" style="min-width:10rem"></Column>
+    <Column field="cod_barras" header="Codigo de barra" :sortable="true" style="min-width:10rem"></Column>
     <Column field="nombre" header="Nombre" :sortable="true" style="min-width:12rem"></Column>
     <Column field="categoria.nombre" header="Categoria" :sortable="true" style="min-width:12rem"></Column>
     <!-- <Column header="Image">
@@ -38,7 +39,7 @@
       </template>
     </Column>
 
-    <Column field="stock" header="Stock" :sortable="true" style="min-width:8rem"></Column>
+    <Column field="stock" header="Stock" :sortable="true" style="min-width:5rem"></Column>
     <Column :exportable="false" style="min-width:8rem">
       <template #body="slotProps">
         <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editProduct(slotProps.data)" />
@@ -47,7 +48,6 @@
       </template>
     </Column>
   </DataTable>
-
   <ProductoDialog :prod="producto" />
 </template>
 
@@ -65,7 +65,7 @@ import type { Producto } from '../types';
 const display = ref(false)
 provide('display', display)
 
-const actualizar_productos = ref(false)
+const actualizar_productos = ref(true)
 provide('actualizar_productos', actualizar_productos)
 
 const loading = ref(true)
@@ -80,23 +80,16 @@ onMounted(() => {
   obtenerProductos()
 })
 
-watch(() => actualizar_productos.value,
-  (newValue, oldValue) => {
-    let actualizar = false;
-    if (newValue === true && oldValue === false) {
-      actualizar = true;
-      // Realizar llamada a API para actualizar productos
-      obtenerProductos()
-    }
-    actualizar_productos.value = false; // Resetear variable a false
-  },
-  { immediate: false })
+
+watch(actualizar_productos, obtenerProductos)
 
 async function obtenerProductos() {
-  const { data: prod } = await apiProducto.getProductos();
-  productos.value = prod
-  loading.value = false
-  actualizar_productos.value = false
+  if (actualizar_productos.value) {
+    const { data: prod } = await apiProducto.getProductos();
+    productos.value = prod
+    loading.value = false
+    actualizar_productos.value = false
+  }
 }
 
 const formatCurrency = (value: any) => {
