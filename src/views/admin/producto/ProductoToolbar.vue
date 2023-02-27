@@ -25,7 +25,6 @@ import { ref, provide, onMounted, inject } from 'vue';
 import type { Producto } from '../types';
 
 // variables para el modal
-// const display = ref(inject<boolean>('display'));
 const display = ref(false)
 provide('display', display)
 
