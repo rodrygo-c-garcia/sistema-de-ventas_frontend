@@ -2,7 +2,7 @@
 import { toRefs, warn, watch } from 'vue';
 import type { Ref } from 'vue';
 import type { Producto } from '../types';
-import { onMounted, ref, inject, provide } from 'vue'
+import { onMounted, ref, inject, provide, reactive, watchEffect } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
 import { useToast } from 'primevue/usetoast';
@@ -14,14 +14,24 @@ const props = defineProps({
   }
 });
 
+const producto = reactive(<Producto>({}));
+let originalValues = {};
+
+watchEffect(() => {
+  Object.assign(producto, props.prod);
+  originalValues = JSON.parse(JSON.stringify(props.prod));
+});
+
+
 // VARIBLES
 const toast = useToast();
 const submitted = ref(false);
 const display = ref(inject<boolean>('display'));
-// desestructuramos nuestro porp y solo obtenemos producto
-const { prod: producto } = toRefs(props);
-const categorias = ref([])
 
+// const producto = reactive(<Producto>({}));
+
+
+const categorias = ref([])
 const actualizar_productos = ref(inject<boolean>('actualizar_productos'));
 
 // FUNCIONES
@@ -39,17 +49,26 @@ const closeDialog = (): void => {
   submitted.value = false;
 };
 
+function asignarValoresIniciales() {
+  if (display.value) {
+    Object.assign(props.prod, originalValues);
+  }
+}
+
+watch(display, asignarValoresIniciales)
+
 const saveProduct = async () => {
   submitted.value = true;
-  if (producto.value.nombre.trim()) {
-    if (producto.value.stock) {
-      if (producto.value.categoria_id) {
+  if (producto.nombre.trim()) {
+    if (producto.stock) {
+      if (producto.categoria_id) {
         // Si el ID existe actualizamos
-        if (producto.value.id) {
-          // toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-        } // Caso contrario creamos nuevo Prodcuto 
+        if (producto.id) {
+          await apiProducto.putProducto(producto, producto.id)
+          toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Actualizado', life: 3000 });
+        } // Caso contrario creamos nuevo Producto
         else {
-          await apiProducto.postProducto(producto.value)
+          await apiProducto.postProducto(producto)
           toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Creado', life: 3000 });
         }
         display.value = false;
@@ -75,8 +94,12 @@ export default {
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
     </div>
     <div class="field">
-      <label for="description">Codigo de Barras</label>
-      <InputText id="cod_barras" v-model="producto.cod_barras" required="true" rows="3" cols="20" />
+      <label for="cod_barras">Codigo de Barras</label>
+      <InputText id="cod_barras" v-model="producto.cod_barras" required="true" />
+    </div>
+    <div class="field">
+      <Dropdown v-model="producto.categoria_id" :options="categorias" optionLabel="nombre" optionValue="id"
+        placeholder="Select a City" />
     </div>
     <div class="formgrid grid">
       <div class="field col">
@@ -109,11 +132,6 @@ export default {
               producto.precio_compra) * producto.stock}` : '' }}</p>
         </div>
       </div>
-    </div>
-    <div class="field">
-      <!-- <label for="inventoryStatus" class="mb-3">Categoria</label> -->
-      <Dropdown v-model="producto.categoria_id" :options="categorias" optionLabel="nombre" optionValue="id"
-        placeholder="Select a City" />
     </div>
     <template #footer>
       <Button label="Cancel" icon="pi pi-times" class="p-button-danger" @click="closeDialog" />
