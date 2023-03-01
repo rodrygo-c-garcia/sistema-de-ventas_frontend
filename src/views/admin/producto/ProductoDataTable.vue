@@ -49,11 +49,13 @@
     </Column>
   </DataTable>
   <ProductoDialog :prod="producto" />
+  <DialogDelete :prod="producto" />
 </template>
 
 <script setup lang="ts">
 import ProductoToolbar from './ProductoToolbar.vue'
 import ProductoDialog from './ProductoDialog.vue'
+import DialogDelete from './DialogDelete.vue'
 
 
 import { ref, onMounted, provide, watch, inject } from 'vue';
@@ -61,9 +63,12 @@ import { FilterMatchMode } from 'primevue/api';
 import * as apiProducto from '@/services/producto.service'
 import type { Producto } from '../types';
 
-
+// Variables
 const display = ref(false)
 provide('display', display)
+
+const deleteProductDialog = ref(false);
+provide('deleteProductDialog', deleteProductDialog)
 
 const actualizar_productos = ref(true)
 provide('actualizar_productos', actualizar_productos)
@@ -76,10 +81,12 @@ const filters = ref({
   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
+
+// Funciones
+
 onMounted(() => {
   obtenerProductos()
 })
-
 
 watch(actualizar_productos, obtenerProductos)
 
@@ -99,12 +106,13 @@ const formatCurrency = (value: any) => {
 };
 
 function editProduct(prod: any): void {
-  producto.value = prod;
+  producto.value = { ...prod };
   display.value = true;
 }
 
 function confirmDeleteProduct(prod: any): void {
-  console.log(prod)
+  producto.value = prod;
+  deleteProductDialog.value = true;
 }
 
 </script>
