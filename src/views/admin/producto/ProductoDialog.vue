@@ -14,22 +14,12 @@ const props = defineProps({
   }
 });
 
-const producto = reactive(<Producto>({}));
-let originalValues = {};
-
-watchEffect(() => {
-  Object.assign(producto, props.prod);
-  originalValues = JSON.parse(JSON.stringify(props.prod));
-});
-
+const { prod: producto } = toRefs(props);
 
 // VARIBLES
 const toast = useToast();
 const submitted = ref(false);
 const display = ref(inject<boolean>('display'));
-
-// const producto = reactive(<Producto>({}));
-
 
 const categorias = ref([])
 const actualizar_productos = ref(inject<boolean>('actualizar_productos'));
@@ -49,26 +39,19 @@ const closeDialog = (): void => {
   submitted.value = false;
 };
 
-function asignarValoresIniciales() {
-  if (display.value) {
-    Object.assign(props.prod, originalValues);
-  }
-}
-
-watch(display, asignarValoresIniciales)
 
 const saveProduct = async () => {
   submitted.value = true;
-  if (producto.nombre.trim()) {
-    if (producto.stock) {
-      if (producto.categoria_id) {
+  if (producto.value.nombre.trim()) {
+    if (producto.value.stock) {
+      if (producto.value.categoria_id) {
         // Si el ID existe actualizamos
-        if (producto.id) {
-          await apiProducto.putProducto(producto, producto.id)
+        if (producto.value.id) {
+          await apiProducto.putProducto(producto.value, producto.value.id)
           toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Actualizado', life: 3000 });
         } // Caso contrario creamos nuevo Producto
         else {
-          await apiProducto.postProducto(producto)
+          await apiProducto.postProducto(producto.value)
           toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Creado', life: 3000 });
         }
         display.value = false;
@@ -89,6 +72,7 @@ export default {
   <Toast />
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
+    {{ producto }}
     <div class="field">
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
