@@ -71,7 +71,6 @@ export default {
   <Toast />
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
-    {{ producto }}
     <div class="field">
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
@@ -82,7 +81,7 @@ export default {
     </div>
     <div class="field">
       <Dropdown v-model="producto.categoria_id" :options="categorias" optionLabel="nombre" optionValue="id"
-        placeholder="Select a City" />
+        placeholder="Seleccione una categoria" />
     </div>
     <div class="formgrid grid">
       <div class="field col">
