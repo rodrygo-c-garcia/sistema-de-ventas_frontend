@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
     <div class="confirmation-content">
       <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -14,6 +15,8 @@
 <script setup lang="ts">
 import { toRefs, ref, inject } from 'vue'
 import type { Producto } from '../types';
+import * as apiProducto from '@/services/producto.service'
+import { useToast } from 'primevue/usetoast';
 
 
 const props = defineProps({
@@ -24,12 +27,20 @@ const props = defineProps({
 })
 // Varibles
 const deleteProductDialog = ref(inject<boolean>('deleteProductDialog'))
+const actualizar_productos = ref(inject<boolean>('actualizar_productos'))
 const { prod: producto } = toRefs(props)
+const toast = useToast();
 
 
 // Funciones
-function deleteProduct(): void {
-  alert("Eliminado")
+async function deleteProduct() {
+  try {
+    await apiProducto.deleteProducto(producto.value.id)
+    toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Eliminado', life: 3000 });
+    actualizar_productos.value = true
+  } catch (e) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error al eliminar', life: 3000 });
+  }
   deleteProductDialog.value = false
 }
 
