@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { toRefs, warn, watch } from 'vue';
-import type { Ref } from 'vue';
+import { toRefs } from 'vue';
 import type { Producto } from '../types';
-import { onMounted, ref, inject, provide, reactive, watchEffect } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
 import { useToast } from 'primevue/usetoast';
