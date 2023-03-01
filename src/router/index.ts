@@ -43,11 +43,6 @@ const router = createRouter({
           name: "usuario",
           component: () => import("../views/auth/usuario/UsuarioView.vue"),
         },
-        {
-          path: "/proveedor",
-          name: "proveedor",
-          component: () => import("../views/admin/proveedor/ProveedorView.vue"),
-        },
       ]
     },
   ]

@@ -85,10 +85,6 @@ onMounted(() => {
   ObtenerCategorias()
 })
 
-const loadLazyData = (): void => {
-  loading.value = true;
-  ObtenerCategorias()
-}
 
 async function ObtenerCategorias() {
   const { data } = await apiCategoria.getCategorias();

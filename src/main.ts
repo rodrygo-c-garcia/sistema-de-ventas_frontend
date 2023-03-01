@@ -15,6 +15,8 @@ import Textarea from "primevue/textarea";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
 import Toast from "primevue/toast";
+import Dropdown from "primevue/dropdown";
+import InputNumber from "primevue/inputnumber";
 
 import PrimeVue from 'primevue/config';
 
@@ -39,5 +41,7 @@ app.component("Textarea", Textarea);
 app.component("Dialog", Dialog);
 app.component("FileUpload", FileUpload);
 app.component("Toast", Toast);
+app.component("Dropdown", Dropdown);
+app.component("InputNumber", InputNumber);
 
 app.mount('#app')
