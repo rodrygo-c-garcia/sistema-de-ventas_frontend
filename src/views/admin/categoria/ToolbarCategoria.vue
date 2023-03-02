@@ -7,11 +7,14 @@
       <h5>Categoria</h5>
     </template>
   </Toolbar>
+
+  <DialogCategoria :cat="categoria" />
 </template>
 
 <script setup lang="ts">
 import { ref, provide } from 'vue'
 import type { Categoria } from '../types';
+import DialogCategoria from './DialogCategoria.vue'
 
 // Varibles
 const display = ref(false)
@@ -26,7 +29,6 @@ function openNew(): void {
     detalle: ''
   };
   display.value = true
-  alert(display.value)
 }
 </script>
 
