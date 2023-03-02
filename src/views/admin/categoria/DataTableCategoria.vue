@@ -1,4 +1,5 @@
 <template>
+  <ToolbarCategoria />
   <h5>Categoria</h5>
   <DataTable ref="dt" :value="categorias" dataKey="id" :paginator="true" :rows="5" :filters="filters" :loading="loading"
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -18,19 +19,19 @@
 </template>
 
 <script setup lang="ts">
-import type { Categoria } from '../types';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, provide } from 'vue'
 import * as categoriaService from '@/services/categoria.service'
 import { FilterMatchMode } from 'primevue/api';
+import ToolbarCategoria from './ToolbarCategoria.vue';
 
 // variables
 const categorias = ref([])
-const categoria = ref(<Categoria>({}))
 const loading = ref(true)
 const filters = ref({
   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
-
+const actualizar_tabla = ref(true)
+provide('actualizar_tabla', actualizar_tabla)
 // Funciones
 
 onMounted(() => {
@@ -38,9 +39,12 @@ onMounted(() => {
 })
 
 async function obtenerCategorias() {
-  const { data } = await categoriaService.getCategorias()
-  categorias.value = data
-  loading.value = false
+  if (actualizar_tabla.value) {
+    const { data } = await categoriaService.getCategorias()
+    categorias.value = data
+    loading.value = false
+    actualizar_tabla.value = false
+  }
 }
 
 function editCateory(cat: any): void {
