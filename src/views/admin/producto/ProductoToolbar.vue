@@ -31,6 +31,7 @@ provide('display', display)
 const selectedProducts = ref();
 const producto = ref(<Producto>({}));
 
+// Funciones
 const openNew = (): void => {
   producto.value = {
     id: 0,
