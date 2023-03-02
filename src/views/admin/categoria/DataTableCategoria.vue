@@ -19,6 +19,7 @@
   </DataTable>
 
   <DialogCategoria :cat="categoria" />
+  <DeleteCategoria :cat="categoria" />
 </template>
 
 <script setup lang="ts">
@@ -27,6 +28,7 @@ import * as categoriaService from '@/services/categoria.service'
 import { FilterMatchMode } from 'primevue/api';
 import ToolbarCategoria from './ToolbarCategoria.vue';
 import DialogCategoria from './DialogCategoria.vue';
+import DeleteCategoria from './DeleteCategoria.vue';
 import type { Categoria } from '../types';
 
 // variables
@@ -42,6 +44,8 @@ provide('actualizar_tabla', actualizar_tabla)
 const display = ref(false)
 provide('display', display)
 
+const deleteProductDialog = ref(false)
+provide('deleteProductDialog', deleteProductDialog)
 
 // Funciones
 
@@ -66,7 +70,8 @@ function editCateory(cat: any): void {
 }
 
 function confirmDeleteCategory(cat: any): void {
-  alert('deleteCateory')
+  categoria.value = cat
+  deleteProductDialog.value = true
 }
 </script>
 
