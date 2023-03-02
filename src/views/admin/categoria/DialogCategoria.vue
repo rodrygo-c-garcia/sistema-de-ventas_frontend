@@ -4,9 +4,7 @@
     :header="categoria.id ? 'Modificar categoria' : 'Registrar nueva categoria'" :modal="true" class="p-fluid">
     <div class="field">
       <label for="name">Nombre</label>
-      <InputText id="name" v-model.trim="categoria.nombre" required="true" autofocus
-        :class="{ 'p-invalid': submitted && !categoria.nombre }" />
-      <small class="p-error" v-if="submitted && !categoria.nombre">Nombre es obligatorio.</small>
+      <InputText id="name" v-model.trim="categoria.nombre" required="true" autofocus />
     </div>
     <div class="field">
       <label for="description">Detalle</label>
@@ -36,6 +34,7 @@ const props = defineProps({
 // varibles
 const { cat: categoria } = toRefs(props)
 const display = ref(inject<boolean>('display'))
+const actualizar_tabla = ref(inject<boolean>('actualizar_tabla'))
 const submitted = ref(false)
 const toast = useToast();
 
@@ -48,15 +47,18 @@ const hideDialog = (): void => {
 
 const saveCategory = async () => {
   submitted.value = true;
-  // editamos
-  if (categoria.value.id) {
-    await categoriaService.putCategoria(categoria.value, categoria.value.id)
-    toast.add({ severity: 'success', summary: 'Exito', detail: 'Categoria Modificado', life: 3000 });
-  } else { // registramos
-    await categoriaService.postCategoria(categoria.value)
-    toast.add({ severity: 'success', summary: 'Exito', detail: 'Categoria Registrado', life: 3000 });
-  }
-  display.value = false
+  if (categoria.value.nombre.trim()) {
+    // editamos
+    if (categoria.value.id) {
+      await categoriaService.putCategoria(categoria.value, categoria.value.id)
+      toast.add({ severity: 'success', summary: 'Exito', detail: 'Categoria Modificado', life: 3000 });
+    } else { // registramos
+      await categoriaService.postCategoria(categoria.value)
+      toast.add({ severity: 'success', summary: 'Exito', detail: 'Categoria Registrado', life: 3000 });
+    }
+    display.value = false
+    actualizar_tabla.value = true
+  } else toast.add({ severity: 'warn', summary: 'Llene el campo Nombre', detail: 'Obligatorio', life: 3000 });
 }
 </script>
 
