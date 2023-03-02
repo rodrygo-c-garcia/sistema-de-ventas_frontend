@@ -14,7 +14,6 @@
       <Button label="Cancel" icon="pi pi-times" class="p-button-danger" @click="hideDialog" />
       <Button label="Save" icon="pi pi-check" @click="saveCategory" />
     </template>
-    {{ categoria }}
   </Dialog>
 </template>
 
