@@ -1,5 +1,6 @@
 <template>
   <ToolbarCategoria />
+
   <h5>Categoria</h5>
   <DataTable ref="dt" :value="categorias" dataKey="id" :paginator="true" :rows="5" :filters="filters" :loading="loading"
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -16,27 +17,39 @@
       </template>
     </Column>
   </DataTable>
+
+  <DialogCategoria :cat="categoria" />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, provide } from 'vue'
+import { ref, onMounted, provide, watch } from 'vue'
 import * as categoriaService from '@/services/categoria.service'
 import { FilterMatchMode } from 'primevue/api';
 import ToolbarCategoria from './ToolbarCategoria.vue';
+import DialogCategoria from './DialogCategoria.vue';
+import type { Categoria } from '../types';
 
 // variables
 const categorias = ref([])
+const categoria = ref(<Categoria>({}))
 const loading = ref(true)
 const filters = ref({
   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 const actualizar_tabla = ref(true)
 provide('actualizar_tabla', actualizar_tabla)
+
+const display = ref(false)
+provide('display', display)
+
+
 // Funciones
 
 onMounted(() => {
   obtenerCategorias()
 })
+
+watch(actualizar_tabla, obtenerCategorias)
 
 async function obtenerCategorias() {
   if (actualizar_tabla.value) {
@@ -48,7 +61,8 @@ async function obtenerCategorias() {
 }
 
 function editCateory(cat: any): void {
-  alert('editCateory')
+  categoria.value = { ...cat }
+  display.value = true
 }
 
 function confirmDeleteCategory(cat: any): void {
