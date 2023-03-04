@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { toRefs } from 'vue';
 import type { Producto } from '../types';
-import { onMounted, ref, inject } from 'vue'
+import { onMounted, ref, inject, toRefs, watch } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
 import { useToast } from 'primevue/usetoast';
@@ -15,13 +14,16 @@ const props = defineProps({
 
 const { prod: producto } = toRefs(props);
 
+
 // VARIBLES
 const toast = useToast();
 const submitted = ref(false);
 const display = ref(inject<boolean>('display'));
+const uploadedFile = ref<File | null>(null);
 
 const categorias = ref([])
 const actualizar_productos = ref(inject<boolean>('actualizar_productos'));
+
 
 // FUNCIONES
 onMounted(() => {
@@ -60,6 +62,9 @@ const saveProduct = async () => {
   } else toast.add({ severity: 'warn', summary: 'Llene el campo Nombre', detail: 'Obligatorio', life: 3000 });
 }
 
+function getImagen(e: any): void {
+  producto.value.imagen = e.target.files[0]
+}
 </script>
 
 <script lang="ts">
@@ -72,12 +77,17 @@ export default {
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
     <div class="field">
+      {{ producto }}
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
     </div>
     <div class="field">
       <label for="cod_barras">Codigo de Barras</label>
       <InputText id="cod_barras" v-model="producto.cod_barras" required="true" />
+    </div>
+    <div class="field">
+      <label for="">Imagen</label>
+      <input type="file" mode="basic" accept="image/*" @change="getImagen" />
     </div>
     <div class="field">
       <Dropdown v-model="producto.categoria_id" :options="categorias" optionLabel="nombre" optionValue="id"
