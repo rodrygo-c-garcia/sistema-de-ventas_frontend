@@ -40,7 +40,8 @@ const openNew = (): void => {
     precio_compra: 0,
     precio_venta: 0,
     stock: 0,
-    categoria_id: 0
+    categoria_id: 0,
+    imagen: ''
   }
   display.value = true;
 };
