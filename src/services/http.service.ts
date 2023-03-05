@@ -12,3 +12,15 @@ export function http() {
 
 return instance
 }
+
+
+export function httpFile() {
+  // configuracion global de nuestra endpoint
+  return axios.create({
+    baseURL: url_base,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
+    },
+  });
+}

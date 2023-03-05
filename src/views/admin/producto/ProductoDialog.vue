@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { toRefs } from 'vue';
 import type { Producto } from '../types';
-import { onMounted, ref, inject } from 'vue'
+import { onMounted, ref, inject, toRefs, watch, computed } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
 import { useToast } from 'primevue/usetoast';
@@ -15,13 +14,17 @@ const props = defineProps({
 
 const { prod: producto } = toRefs(props);
 
+
 // VARIBLES
 const toast = useToast();
-const submitted = ref(false);
+const submitted = ref<boolean>(false);
 const display = ref(inject<boolean>('display'));
 
-const categorias = ref([])
+const categorias = ref<Array<any>>([]);
 const actualizar_productos = ref(inject<boolean>('actualizar_productos'));
+const img_miniatura = ref<string>('');
+const reader = new FileReader()
+
 
 // FUNCIONES
 onMounted(() => {
@@ -36,6 +39,8 @@ async function ObtenerCategorias() {
 const closeDialog = (): void => {
   display.value = false;
   submitted.value = false;
+  reader.abort()
+  img_miniatura.value = ''
 };
 
 
@@ -60,6 +65,20 @@ const saveProduct = async () => {
   } else toast.add({ severity: 'warn', summary: 'Llene el campo Nombre', detail: 'Obligatorio', life: 3000 });
 }
 
+function getImagen(e: any): void {
+  producto.value.imagen = e.target.files[0]
+
+  reader.readAsDataURL(e.target.files[0])
+  reader.onload = (e: any) => {
+    img_miniatura.value = e.target.result
+  }
+
+}
+
+const imagen_min = computed(() => {
+  return img_miniatura
+})
+
 </script>
 
 <script lang="ts">
@@ -72,12 +91,27 @@ export default {
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
     <div class="field">
+      <div class="container-img-edit">
+        <img :src="`http://127.0.0.1:8000/${producto.imagen}`" :alt="producto.imagen" class="product-image"
+          v-if="producto.imagen" />
+      </div>
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
     </div>
     <div class="field">
       <label for="cod_barras">Codigo de Barras</label>
       <InputText id="cod_barras" v-model="producto.cod_barras" required="true" />
+    </div>
+    <div class="container-img-upload">
+      <button class="btn-upload">
+        <i class="pi pi-image" style="font-size: 1.5rem"></i>
+        <label for="btn-img">{{ producto.imagen ? "Nueva imagen" : 'Subir imagen' }}</label>
+      </button>
+      <input id="btn-img" class="btn-img" type="file" accept="image/*" @change="getImagen" />
+      <figure>
+        <img v-if="imagen_min.value !== ''" class="img-miniatura" :src="imagen_min.value" alt="Imagen del producto">
+        <p v-else>Miniatura de tu producto</p>
+      </figure>
     </div>
     <div class="field">
       <Dropdown v-model="producto.categoria_id" :options="categorias" optionLabel="nombre" optionValue="id"
@@ -125,5 +159,50 @@ export default {
 <style>
 .utilidad {
   font-size: 16px;
+}
+
+.container-img-upload,
+.btn-upload,
+.container-img-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-img-upload {
+  padding: 10px;
+}
+
+.btn-img {
+  display: none;
+  appearance: none;
+  opacity: hidden;
+}
+
+.img-miniatura {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 2px 7px #000;
+}
+
+.btn-upload {
+  background-color: rgb(41, 110, 238);
+  padding: 10px;
+  color: #fff;
+  width: 40%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-upload:hover {
+  background-color: rgb(78, 127, 216);
+  transform: scale(1.02);
+}
+
+.pi-image {
+  margin-right: 10px;
 }
 </style>
