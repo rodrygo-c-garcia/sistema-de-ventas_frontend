@@ -42,3 +42,6 @@ export const deleteImage = (id: any) => {
 
 // Base de Datos
 
+export const postImagen = function(data: any) {
+  return http().post(`/imagen`, data)
+}
