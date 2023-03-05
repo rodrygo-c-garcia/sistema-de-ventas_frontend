@@ -14,3 +14,9 @@ export interface Categoria {
     nombre: string,
     detalle: string,
 }
+
+export interface Imagen {
+    id: string,
+    url: string,
+}
+
