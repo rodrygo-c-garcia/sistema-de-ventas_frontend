@@ -91,7 +91,10 @@ export default {
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
     <div class="field">
-      {{ producto }}
+      <div class="container-img-edit">
+        <img :src="`http://127.0.0.1:8000/${producto.imagen}`" :alt="producto.imagen" class="product-image"
+          v-if="producto.imagen" />
+      </div>
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
     </div>
@@ -102,7 +105,7 @@ export default {
     <div class="container-img-upload">
       <button class="btn-upload">
         <i class="pi pi-image" style="font-size: 1.5rem"></i>
-        <label for="btn-img">Subir imagen</label>
+        <label for="btn-img">{{ producto.imagen ? "Nueva imagen" : 'Subir imagen' }}</label>
       </button>
       <input id="btn-img" class="btn-img" type="file" accept="image/*" @change="getImagen" />
       <figure>
@@ -159,7 +162,8 @@ export default {
 }
 
 .container-img-upload,
-.btn-upload {
+.btn-upload,
+.container-img-edit {
   display: flex;
   align-items: center;
   justify-content: center;
