@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { Producto } from '../types';
+import type { Producto, Imagen } from '../types';
 import { onMounted, ref, inject, toRefs, watch, computed } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
+import * as imgService from '@/services/imagen.service'
 import { useToast } from 'primevue/usetoast';
 // Props
 const props = defineProps({
@@ -13,7 +14,10 @@ const props = defineProps({
 });
 
 const { prod: producto } = toRefs(props);
-
+const imagen = ref<Imagen>({
+  id: '',
+  url: ''
+})
 
 // VARIBLES
 const toast = useToast();
@@ -24,26 +28,37 @@ const categorias = ref<Array<any>>([]);
 const actualizar_productos = ref(inject<boolean>('actualizar_productos'));
 const img_miniatura = ref<string>('');
 const reader = new FileReader()
+const imgBB = ref<string>('');
+const categoria_loading = ref<boolean>(false)
+const loading_conexion_API = ref<boolean>(false)
 
 
 // FUNCIONES
-onMounted(() => {
-  ObtenerCategorias()
-})
 
 async function ObtenerCategorias() {
-  const { data } = await apiCategoria.getCategorias();
-  categorias.value = data
+  if (!categoria_loading.value) {
+    const { data } = await apiCategoria.getCategorias();
+    categorias.value = data
+    categoria_loading.value = true
+  }
 }
 
 const closeDialog = (): void => {
   display.value = false;
   submitted.value = false;
-  reader.abort()
-  img_miniatura.value = ''
+
 };
 
+watch(display, asignarValores)
+watch(display, ObtenerCategorias)
 
+function asignarValores(): void {
+  if (!display.value) {
+    reader.abort()
+    img_miniatura.value = ''
+    imgBB.value = ''
+  }
+}
 const saveProduct = async () => {
   submitted.value = true;
   if (producto.value.nombre.trim()) {
@@ -51,28 +66,51 @@ const saveProduct = async () => {
       if (producto.value.categoria_id) {
         // Si el ID existe actualizamos
         if (producto.value.id) {
+
           await apiProducto.putProducto(producto.value, producto.value.id)
           toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Actualizado', life: 3000 });
         } // Caso contrario creamos nuevo Producto
         else {
-          await apiProducto.postProducto(producto.value)
-          toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Creado', life: 3000 });
+          postProducto()
         }
         display.value = false;
-        actualizar_productos.value = true
       } else toast.add({ severity: 'warn', summary: 'Seleccione una Categoria', detail: 'Obligatorio', life: 3000 });
     } else toast.add({ severity: 'warn', summary: 'El campo Stock no puede ir vacio', detail: 'Obligatorio', life: 3000 });
   } else toast.add({ severity: 'warn', summary: 'Llene el campo Nombre', detail: 'Obligatorio', life: 3000 });
 }
 
-function getImagen(e: any): void {
-  producto.value.imagen = e.target.files[0]
+async function postProducto() {
+  try {
+    // mostrar el modal
+    loading_conexion_API.value = true;
 
-  reader.readAsDataURL(e.target.files[0])
-  reader.onload = (e: any) => {
-    img_miniatura.value = e.target.result
+    // Guardamos la imagen en la API de ImgBB
+    const response = await imgService.uploadIMG(imgBB.value)
+
+    imagen.value.id = response.data.id;
+    imagen.value.url = response.data.url
+    producto.value.imagen_id = imagen.value.id
+    await imgService.postImagen(imagen.value)
+    await apiProducto.postProducto(producto.value)
+
+    toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Guardado', life: 3000 });
+    actualizar_productos.value = true
+  } catch (error) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Fallo al registrar', life: 3000 });
+  } finally {
+    // ocultar el modal
+    loading_conexion_API.value = false;
   }
+}
 
+function leerIMG(e: any): void {
+  if (e && e.target && e.target.files && e.target.files[0]) {
+    imgBB.value = e.target.files[0];
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = (e: any) => {
+      img_miniatura.value = e.target.result;
+    }
+  }
 }
 
 const imagen_min = computed(() => {
@@ -88,12 +126,16 @@ export default {
 </script>
 <template>
   <Toast />
+  <Dialog v-model:visible="loading_conexion_API" :modal="true" class="p-fluid" :closable="false"
+    :style="{ width: '450px' }">
+    <p>Cargando...</p>
+  </Dialog>
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
     <div class="field">
       <div class="container-img-edit">
-        <img :src="`http://127.0.0.1:8000/${producto.imagen}`" :alt="producto.imagen" class="product-image"
-          v-if="producto.imagen" />
+        <!-- <img :src="`http://127.0.0.1:8000/${producto.imagen}`" :alt="producto.imagen" class="product-image"
+                                                                                        v-if="producto.imagen" /> -->
       </div>
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
@@ -105,9 +147,9 @@ export default {
     <div class="container-img-upload">
       <button class="btn-upload">
         <i class="pi pi-image" style="font-size: 1.5rem"></i>
-        <label for="btn-img">{{ producto.imagen ? "Nueva imagen" : 'Subir imagen' }}</label>
+        <label for="btn-img">Subir imagen</label>
       </button>
-      <input id="btn-img" class="btn-img" type="file" accept="image/*" @change="getImagen" />
+      <input id="btn-img" class="btn-img" size="1048576" type="file" accept="image/*" @change="leerIMG" />
       <figure>
         <img v-if="imagen_min.value !== ''" class="img-miniatura" :src="imagen_min.value" alt="Imagen del producto">
         <p v-else>Miniatura de tu producto</p>
