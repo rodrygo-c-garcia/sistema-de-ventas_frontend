@@ -46,7 +46,6 @@ async function ObtenerCategorias() {
 const closeDialog = (): void => {
   display.value = false;
   submitted.value = false;
-
 };
 
 watch(display, asignarValores)
@@ -86,7 +85,6 @@ async function postProducto() {
 
     // Guardamos la imagen en la API de ImgBB
     const response = await imgService.uploadIMG(imgBB.value)
-
     imagen.value.id = response.data.id;
     imagen.value.url = response.data.url
     producto.value.imagen_id = imagen.value.id
@@ -99,6 +97,18 @@ async function postProducto() {
     toast.add({ severity: 'error', summary: 'Error', detail: 'Fallo al registrar', life: 3000 });
   } finally {
     // ocultar el modal
+    loading_conexion_API.value = false;
+  }
+}
+
+async function putProducto() {
+  try {
+    loading_conexion_API.value = true;
+
+
+  } catch (e) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Fallo al Actualizar', life: 3000 });
+  } finally {
     loading_conexion_API.value = false;
   }
 }
@@ -126,16 +136,17 @@ export default {
 </script>
 <template>
   <Toast />
-  <Dialog v-model:visible="loading_conexion_API" :modal="true" class="p-fluid" :closable="false"
+  <Dialog v-model:visible="loading_conexion_API" :modal="true" class="p-fluid model-loading" :closable="false"
     :style="{ width: '450px' }">
-    <p>Cargando...</p>
+    <p class="border">Cargando</p>
+    <p class="mave">Cargando</p>
   </Dialog>
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
+    {{ producto }}
     <div class="field">
       <div class="container-img-edit">
-        <!-- <img :src="`http://127.0.0.1:8000/${producto.imagen}`" :alt="producto.imagen" class="product-image"
-                                                                                        v-if="producto.imagen" /> -->
+        <img :src="producto.imagen?.url" :alt="producto.imagen?.url" class="product-image" v-if="producto.imagen?.url" />
       </div>
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
@@ -147,7 +158,7 @@ export default {
     <div class="container-img-upload">
       <button class="btn-upload">
         <i class="pi pi-image" style="font-size: 1.5rem"></i>
-        <label for="btn-img">Subir imagen</label>
+        <label for="btn-img">{{ producto.imagen?.id ? "Nueva Imagen" : "Subir Imagen" }}</label>
       </button>
       <input id="btn-img" class="btn-img" size="1048576" type="file" accept="image/*" @change="leerIMG" />
       <figure>
