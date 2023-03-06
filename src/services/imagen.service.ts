@@ -45,3 +45,7 @@ export const deleteImage = (id: any) => {
 export const postImagen = function(data: any) {
   return http().post(`/imagen`, data)
 }
+
+export const updateImagen = function(data: any, id: string) {
+  return http().put(`/imagen/${id}`, data);
+}
