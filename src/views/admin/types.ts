@@ -6,7 +6,11 @@ export interface Producto {
     precio_venta: number;
     stock: number;
     categoria_id: number;
-    imagen_id: string
+    imagen_id: string,
+    imagen?: {
+        id: string,
+        url: string,
+    }
 }
 
 export interface Categoria {
