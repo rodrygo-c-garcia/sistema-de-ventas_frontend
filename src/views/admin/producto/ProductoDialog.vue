@@ -65,9 +65,7 @@ const saveProduct = async () => {
       if (producto.value.categoria_id) {
         // Si el ID existe actualizamos
         if (producto.value.id) {
-
-          await apiProducto.putProducto(producto.value, producto.value.id)
-          toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Actualizado', life: 3000 });
+          putProducto()
         } // Caso contrario creamos nuevo Producto
         else {
           postProducto()
@@ -101,11 +99,22 @@ async function postProducto() {
   }
 }
 
+
 async function putProducto() {
   try {
     loading_conexion_API.value = true;
 
-
+    if (imgBB.value) {
+      alert(producto.value.imagen?.id)
+      await imgService.deleteImageBB(producto.value.imagen?.id)
+      const response = await imgService.uploadIMG(imgBB.value)
+      imagen.value.id = response.data.id;
+      imagen.value.url = response.data.url
+      producto.value.imagen_id = imagen.value.id
+    }
+    await apiProducto.putProducto(producto.value, producto.value.id)
+    toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Actualizado', life: 3000 });
+    actualizar_productos.value = true
   } catch (e) {
     toast.add({ severity: 'error', summary: 'Error', detail: 'Fallo al Actualizar', life: 3000 });
   } finally {
