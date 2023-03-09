@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { url_base } from '@/config/index'
+import { api_key } from '@/views/admin/confidencial';
 
 export function http() {
   const instance = axios.create({
@@ -15,12 +16,14 @@ return instance
 
 
 export function httpFile() {
-  // configuracion global de nuestra endpoint
   return axios.create({
-    baseURL: url_base,
+    baseURL: `https://api.imgbb.com/1/`,
     headers: {
       "Content-Type": "multipart/form-data",
       Accept: "application/json",
+    },
+    params: {
+      key: api_key,
     },
   });
 }

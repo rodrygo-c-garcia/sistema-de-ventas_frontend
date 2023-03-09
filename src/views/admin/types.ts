@@ -6,7 +6,11 @@ export interface Producto {
     precio_venta: number;
     stock: number;
     categoria_id: number;
-    imagen: string
+    imagen_id: string,
+    imagen?: {
+        id: string,
+        url: string,
+    }
 }
 
 export interface Categoria {
@@ -14,3 +18,9 @@ export interface Categoria {
     nombre: string,
     detalle: string,
 }
+
+export interface Imagen {
+    id: string,
+    url: string,
+}
+

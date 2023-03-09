@@ -17,9 +17,9 @@
     <Column field="cod_barras" header="Codigo de barra" :sortable="true" style="min-width:8rem"></Column>
     <Column field="nombre" header="Nombre" :sortable="true" style="min-width:8rem"></Column>
     <Column field="categoria.nombre" header="Categoria" :sortable="true" style="min-width:8rem"></Column>
-    <Column header="Image">
+    <Column header="Imagen">
       <template #body="slotProps">
-        <img :src="`http://127.0.0.1:8000/${slotProps.data.imagen}`" :alt="slotProps.data.imagen" class="product-image" />
+        <img :src="slotProps.data.imagen.url" class="product-image" />
       </template>
     </Column>
     <Column field="precio_compra" header="Precio Compra" :sortable="true" style="min-width:4rem">
