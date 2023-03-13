@@ -15,8 +15,8 @@ const props = defineProps({
 
 const { prod: producto } = toRefs(props);
 const imagen = ref<Imagen>({
-  id: '',
-  url: ''
+  url: '',
+  delete_url: ''
 })
 
 // VARIBLES
@@ -80,13 +80,10 @@ async function postProducto() {
   try {
     // mostrar el modal
     loading_conexion_API.value = true;
-
     // Guardamos la imagen en la API de ImgBB
-    const response = await imgService.uploadIMG(imgBB.value)
-    imagen.value.id = response.data.id;
-    imagen.value.url = response.data.url
-    producto.value.imagen_id = imagen.value.id
-    await imgService.postImagen(imagen.value)
+    await uploadImagen();
+    const { data } = await imgService.postImagen(imagen.value)
+    producto.value.imagen_id = data.data.id
     await apiProducto.postProducto(producto.value)
 
     toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Guardado', life: 3000 });
@@ -99,25 +96,29 @@ async function postProducto() {
   }
 }
 
+async function uploadImagen() {
+  // Guardamos la imagen en la API de ImgBB
+  const response = await imgService.uploadIMG(imgBB.value)
+  imagen.value.url = response.data.thumb.url
+  imagen.value.delete_url = response.data.delete_url
+}
+
 
 async function putProducto() {
   try {
     loading_conexion_API.value = true;
-
     if (imgBB.value) {
-      alert(producto.value.imagen?.id)
-      await imgService.deleteImageBB(producto.value.imagen?.id)
-      const response = await imgService.uploadIMG(imgBB.value)
-      imagen.value.id = response.data.id;
-      imagen.value.url = response.data.url
-      producto.value.imagen_id = imagen.value.id
+      await uploadImagen();
+      await imgService.updateImagen(imagen.value, producto.value.imagen_id)
     }
     await apiProducto.putProducto(producto.value, producto.value.id)
+
     toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Actualizado', life: 3000 });
     actualizar_productos.value = true
   } catch (e) {
     toast.add({ severity: 'error', summary: 'Error', detail: 'Fallo al Actualizar', life: 3000 });
   } finally {
+
     loading_conexion_API.value = false;
   }
 }
@@ -152,7 +153,6 @@ export default {
   </Dialog>
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
-    {{ producto }}
     <div class="field">
       <div class="container-img-edit">
         <img :src="producto.imagen?.url" :alt="producto.imagen?.url" class="product-image" v-if="producto.imagen?.url" />
@@ -167,7 +167,7 @@ export default {
     <div class="container-img-upload">
       <button class="btn-upload">
         <i class="pi pi-image" style="font-size: 1.5rem"></i>
-        <label for="btn-img">{{ producto.imagen?.id ? "Nueva Imagen" : "Subir Imagen" }}</label>
+        <label for="btn-img">{{ producto.imagen?.url ? "Nueva Imagen" : "Subir Imagen" }}</label>
       </button>
       <input id="btn-img" class="btn-img" size="1048576" type="file" accept="image/*" @change="leerIMG" />
       <figure>

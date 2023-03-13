@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { url_base } from '@/config/index'
-import { api_key } from '@/views/admin/confidencial';
 
 export function http() {
   const instance = axios.create({
@@ -17,13 +16,13 @@ return instance
 
 export function httpFile() {
   return axios.create({
-    baseURL: `https://api.imgbb.com/1/`,
+    baseURL: `https://api.imgbb.com/1/upload`,
     headers: {
       "Content-Type": "multipart/form-data",
       Accept: "application/json",
     },
     params: {
-      key: api_key,
+      key: import.meta.env.VITE_API_KEY,
     },
   });
 }

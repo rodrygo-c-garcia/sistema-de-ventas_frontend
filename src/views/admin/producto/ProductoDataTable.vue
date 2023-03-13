@@ -94,7 +94,6 @@ async function obtenerProductos() {
     productos.value = prod
     loading.value = false
     actualizar_productos.value = false
-    console.log(productos.value)
   }
 }
 
