@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { url_base } from '@/config/index'
-import { api_key } from '@/views/admin/confidencial';
 
 export function http() {
   const instance = axios.create({
@@ -23,7 +22,7 @@ export function httpFile() {
       Accept: "application/json",
     },
     params: {
-      key: api_key,
+      key: process.env.API_KEY,
     },
   });
 }
