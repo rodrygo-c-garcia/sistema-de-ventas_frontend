@@ -22,7 +22,7 @@ export function httpFile() {
       Accept: "application/json",
     },
     params: {
-      key: process.env.API_KEY,
+      key: import.meta.env.VITE_API_KEY,
     },
   });
 }
