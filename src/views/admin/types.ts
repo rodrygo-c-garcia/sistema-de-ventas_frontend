@@ -6,10 +6,10 @@ export interface Producto {
     precio_venta: number;
     stock: number;
     categoria_id: number;
-    imagen_id: string,
+    imagen_id: number,
     imagen?: {
-        id: string,
         url: string,
+        delete_url: string
     }
 }
 
@@ -20,7 +20,7 @@ export interface Categoria {
 }
 
 export interface Imagen {
-    id: string,
     url: string,
+    delete_url: string
 }
 
