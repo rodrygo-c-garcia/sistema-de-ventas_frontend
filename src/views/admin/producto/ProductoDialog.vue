@@ -5,6 +5,7 @@ import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
 import * as imgService from '@/services/imagen.service'
 import { useToast } from 'primevue/usetoast';
+import LoaderView from '../LoaderView.vue'
 // Props
 const props = defineProps({
   prod: {
@@ -146,11 +147,8 @@ export default {
 </script>
 <template>
   <Toast />
-  <Dialog v-model:visible="loading_conexion_API" :modal="true" class="p-fluid model-loading" :closable="false"
-    :style="{ width: '450px' }">
-    <p class="border">Cargando</p>
-    <p class="mave">Cargando</p>
-  </Dialog>
+  <LoaderView msg="Cargando" :visible="loading_conexion_API" />
+
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
     <div class="field">
