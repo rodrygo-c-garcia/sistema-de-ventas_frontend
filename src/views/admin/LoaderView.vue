@@ -1,6 +1,6 @@
 <template>
   <Dialog v-model:visible="props.visible" :modal="true" class="p-fluid model-loading" :closable="false"
-    :style="{ width: '450px' }">
+    :style="{ width: '350px' }">
     <div class="container-loading">
       <div class="loader"></div>
       <p>Cargando</p>
@@ -35,10 +35,32 @@ export default {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 3px solid rgb(27, 20, 129);
-  border-top-color: transparent;
   animation: spin 1.2s linear infinite;
 }
+
+.loader::before,
+.loader::after {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+}
+
+.loader::before {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(0deg, rgb(161, 245, 140) 0%, rgb(48, 8, 160) 100%);
+}
+
+.loader::after {
+  width: 85%;
+  height: 85%;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
 
 @keyframes spin {
   to {
