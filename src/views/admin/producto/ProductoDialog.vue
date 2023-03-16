@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { Producto, Imagen } from '../types';
-import { onMounted, ref, inject, toRefs, watch, computed } from 'vue'
+import { ref, inject, toRefs, watch, computed } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
 import * as imgService from '@/services/imagen.service'
 import { useToast } from 'primevue/usetoast';
+import LoaderView from '../LoaderView.vue'
 // Props
 const props = defineProps({
   prod: {
@@ -59,6 +60,7 @@ function asignarValores(): void {
   }
 }
 const saveProduct = async () => {
+  // validacion de los campos del producto
   submitted.value = true;
   if (producto.value.nombre.trim()) {
     if (producto.value.stock) {
@@ -133,6 +135,7 @@ function leerIMG(e: any): void {
   }
 }
 
+// add metod computed for imagen minuature
 const imagen_min = computed(() => {
   return img_miniatura
 })
@@ -146,11 +149,8 @@ export default {
 </script>
 <template>
   <Toast />
-  <Dialog v-model:visible="loading_conexion_API" :modal="true" class="p-fluid model-loading" :closable="false"
-    :style="{ width: '450px' }">
-    <p class="border">Cargando</p>
-    <p class="mave">Cargando</p>
-  </Dialog>
+  <LoaderView msg="Cargando" :visible="loading_conexion_API" />
+
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">
     <div class="field">
