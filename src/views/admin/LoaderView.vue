@@ -3,7 +3,7 @@
     :style="{ width: '350px' }">
     <div class="container-loading">
       <div class="loader"></div>
-      <p>Cargando</p>
+      <p class="cargando">Cargando...</p>
     </div>
   </Dialog>
   {{ props.msg }}
@@ -61,10 +61,14 @@ export default {
 }
 
 
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
+}
+
+.cargando {
+  font-size: 20px;
+  font-family: sans-serif;
 }
 </style>
