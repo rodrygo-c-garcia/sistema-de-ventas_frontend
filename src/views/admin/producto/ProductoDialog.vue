@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Producto, Imagen } from '../types';
-import { onMounted, ref, inject, toRefs, watch, computed } from 'vue'
+import { ref, inject, toRefs, watch, computed } from 'vue'
 import * as apiCategoria from '@/services/categoria.service'
 import * as apiProducto from '@/services/producto.service'
 import * as imgService from '@/services/imagen.service'
@@ -60,6 +60,7 @@ function asignarValores(): void {
   }
 }
 const saveProduct = async () => {
+  // validacion de los campos del producto
   submitted.value = true;
   if (producto.value.nombre.trim()) {
     if (producto.value.stock) {
