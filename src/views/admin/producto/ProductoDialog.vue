@@ -134,6 +134,7 @@ function leerIMG(e: any): void {
   }
 }
 
+// add metod computed for imagen minuature
 const imagen_min = computed(() => {
   return img_miniatura
 })
