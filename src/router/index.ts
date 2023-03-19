@@ -16,34 +16,40 @@ const router = createRouter({
         {
           path: "/categoria",
           name: "categoria",
-          component: () => import("../views/admin/categoria/CategoriaView.vue"),
+          component: () => import("@/views/admin/categoria/CategoriaView.vue"),
         },
         {
           path: "/producto",
           name: "producto",
-          component: () => import("../views/admin/producto/ProductoView.vue"),
+          component: () => import("@/views/admin/producto/ProductoView.vue"),
         },
         {
           path: "/pedido",
           name: "pedido",
-          component: () => import("../views/admin/pedido/PedidoView.vue"),
+          component: () => import("@/views/admin/pedido/PedidoView.vue"),
         },
         {
           path: "/pedido/nuevo",
           name: "pedido_nuevo",
-          component: () => import("../views/admin/pedido/NuevoPedidoView.vue"),
+          component: () => import("@/views/admin/pedido/NuevoPedidoView.vue"),
         },
         {
           path: "/cliente",
           name: "cliente",
-          component: () => import("../views/admin/cliente/ClienteView.vue"),
+          component: () => import("@/views/admin/cliente/ClienteView.vue"),
         },
         {
           path: "/usuario",
           name: "usuario",
-          component: () => import("../views/auth/usuario/UsuarioView.vue"),
+          component: () => import("@/views/auth/usuario/UsuarioView.vue"),
         },
       ]
+    },
+      // ruta inicial Login
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/auth/LoginView.vue"),
     },
   ]
 })
