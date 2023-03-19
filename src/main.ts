@@ -17,6 +17,8 @@ import FileUpload from "primevue/fileupload";
 import Toast from "primevue/toast";
 import Dropdown from "primevue/dropdown";
 import InputNumber from "primevue/inputnumber";
+import Password from "primevue/password";
+import Checkbox from "primevue/checkbox";
 
 import PrimeVue from 'primevue/config';
 
@@ -43,5 +45,7 @@ app.component("FileUpload", FileUpload);
 app.component("Toast", Toast);
 app.component("Dropdown", Dropdown);
 app.component("InputNumber", InputNumber);
+app.component("Password", Password);
+app.component("Checkbox", Checkbox);
 
 app.mount('#app')
