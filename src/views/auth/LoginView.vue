@@ -7,10 +7,9 @@
         style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
         <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
           <div class="text-center mb-5">
-            <img src="/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3" />
             <!-- Preguntamos si existe el User -->
-            <div class="text-900 text-3xl font-medium mb-3">Welcome!</div>
-            <span class="text-600 font-medium">Sign in to continue</span>
+            <div class="text-900 text-3xl font-medium mb-3">Bienvenid@!</div>
+            <span class="text-600 font-medium">Iniciar sesion para continuar</span>
           </div>
           <div>
             <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
@@ -24,10 +23,10 @@
             <div class="flex align-items-center justify-content-between mb-5 gap-5">
               <div class="flex align-items-center">
                 <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
-                <label for="rememberme1">Remember me</label>
+                <label for="rememberme1">Recordarme</label>
               </div>
               <a class="font-medium no-underline ml-2 text-right cursor-pointer"
-                style="color: var(--primary-color)">Forgot password?</a>
+                style="color: var(--primary-color)">Olvido su contraseña?</a>
             </div>
             <Button label="Sign In" class="w-full p-3 text-xl" @:click='login'></Button>
           </div>
@@ -38,20 +37,28 @@
   <AppConfig simple />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AppConfig from '@/layout/AppConfig.vue';
 import { useLayout } from '@/layout/composables/layout';
 import { computed, ref } from 'vue'
+import { useToast } from "primevue/usetoast"
 
+const toast = useToast();
 const { layoutConfig, contextPath } = useLayout();
-const email = ref('');
-const password = ref('');
 const checked = ref(false);
 
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
 });
-</script>
 
-<script setup lang="ts"> </script>
+// LOGIN VIEW
+const usuario = ref({
+  email: '',
+  password: ''
+})
+
+function login() {
+  toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
+}
+</script>
 <style></style>
