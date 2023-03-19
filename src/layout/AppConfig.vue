@@ -48,6 +48,14 @@ const applyScale = () => {
 };
 </script>
 
+
+<script>
+export default {
+    name: "AppConfig"
+}
+</script>
+
+
 <template>
     <button class="layout-config-button p-link" type="button" @click="onConfigButtonClick()">
         <i class="pi pi-cog"></i>
