@@ -41,7 +41,7 @@ const openNew = (): void => {
     precio_venta: 0,
     stock: 0,
     categoria_id: 0,
-    imagen_id: ''
+    imagen_id: 0
   }
   display.value = true;
 };
