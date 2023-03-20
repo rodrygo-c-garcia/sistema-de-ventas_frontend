@@ -8,9 +8,11 @@ const router = createRouter({
     {
       path: '/',
       component: AppLayout,
+      meta: { requireAuth: true},
       children: [
         {
           path: '/',
+          name: "home",
           component: HomeView
         },
         {
