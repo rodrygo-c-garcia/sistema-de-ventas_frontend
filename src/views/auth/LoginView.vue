@@ -42,11 +42,14 @@ import AppConfig from '@/layout/AppConfig.vue';
 import { useLayout } from '@/layout/composables/layout';
 import { computed, ref } from 'vue'
 import { useToast } from "primevue/usetoast"
+import * as userService from '@/services/login.service'
+import { useRouter } from 'vue-router'
+import { usePinia } from '@/stores/store'
 
 const toast = useToast();
 const { layoutConfig, contextPath } = useLayout();
 const checked = ref(false);
-
+const router = useRouter()
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
 });
@@ -57,8 +60,20 @@ const usuario = ref({
   password: ''
 })
 
-function login() {
-  toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
+async function login() {
+  const { data } = await userService.login(usuario.value)
+
+  if (!data.error) {
+    const pinia = usePinia();
+    // establecemos nuestro token(encriptado) y usuario(comvertido a string) en localStorage
+    localStorage.setItem('token', window.btoa(data.access_token))
+    localStorage.setItem('user', JSON.stringify(data.user))
+    // actualizamos el usuario con Pinia
+    pinia.changeUser(data.user)
+    // redireccionamos al home
+    router.push({ name: 'home' })
+  } else
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Datos erroneos', life: 3000 });
 }
 </script>
 <style></style>
