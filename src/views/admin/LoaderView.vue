@@ -6,7 +6,6 @@
       <p class="cargando">Cargando...</p>
     </div>
   </Dialog>
-  {{ props.msg }}
 </template>
 
 <script setup lang="ts">

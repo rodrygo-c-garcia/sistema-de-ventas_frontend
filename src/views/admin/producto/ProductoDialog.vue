@@ -59,23 +59,42 @@ function asignarValores(): void {
     imgBB.value = ''
   }
 }
+
 const saveProduct = async () => {
-  // validacion de los campos del producto
   submitted.value = true;
-  if (producto.value.nombre.trim()) {
-    if (producto.value.stock) {
-      if (producto.value.categoria_id) {
-        // Si el ID existe actualizamos
-        if (producto.value.id) {
-          putProducto()
-        } // Caso contrario creamos nuevo Producto
-        else {
-          postProducto()
-        }
-        display.value = false;
-      } else toast.add({ severity: 'warn', summary: 'Seleccione una Categoria', detail: 'Obligatorio', life: 3000 });
-    } else toast.add({ severity: 'warn', summary: 'El campo Stock no puede ir vacio', detail: 'Obligatorio', life: 3000 });
-  } else toast.add({ severity: 'warn', summary: 'Llene el campo Nombre', detail: 'Obligatorio', life: 3000 });
+  try {
+    validateRequiredFields();
+    // Si el ID existe actualizamos
+    if (producto.value.id) putProducto();
+    else { // Caso contrario creamos nuevo Producto
+      if (imgBB.value === '') {
+        showError('Seleccione una imagen');
+      } else {
+        postProducto();
+      }
+    }
+    display.value = false;
+  } catch (error: unknown) {
+    showError((error as Error).message)
+  }
+}
+
+const validateRequiredFields = () => {
+  if (!producto.value.nombre.trim()) {
+    throw new Error('Llene el campo Nombre');
+  }
+
+  if (!producto.value.stock) {
+    throw new Error('El campo Stock no puede ir vacio');
+  }
+
+  if (!producto.value.categoria_id) {
+    throw new Error('Seleccione una Categoria');
+  }
+}
+
+const showError = (message: string) => {
+  toast.add({ severity: 'warn', summary: message, detail: 'Obligatorio', life: 3000 });
 }
 
 async function postProducto() {

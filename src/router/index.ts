@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AppLayout from '@/layout/AppLayout.vue';
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +55,24 @@ const router = createRouter({
       component: () => import("@/views/auth/LoginView.vue"),
     },
   ]
+})
+
+// hook de navegación global que se ejecuta en cada transición de ruta
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  if(to.meta.requireAuth){
+    try {
+      let token: string = '';
+      const token64 = localStorage.getItem('token');
+      // si esque existe el token desincretamos
+      if(token64 !== null)  token = window.atob(token64);
+      token.length > 3 ? next() : next({name: 'login'})
+    } catch(e) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      next({name: 'login'});
+    }
+  }
+  else next();
 })
 
 export default router
