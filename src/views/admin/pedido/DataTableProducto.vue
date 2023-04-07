@@ -1,16 +1,20 @@
 <template>
-  <DataTable :value="productos" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem"
-    :loading="loading">
+  <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
+    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+    :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+    responsiveLayout="scroll">
+
+    <template #header>
+      <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
+        <h5 class="mb-2 md:m-0 p-as-md-center">Administracion de Productos</h5>
+      </div>
+    </template>
+
     <Column field="cod_barras" header="Codigo de barra" :sortable="true" style="min-width:8rem"></Column>
     <Column field="nombre" header="Nombre" :sortable="true" style="min-width:8rem"></Column>
     <Column header="Imagen">
       <template #body="slotProps">
         <img :src="slotProps.data.imagen.url" class="product-image" alt="" />
-      </template>
-    </Column>
-    <Column field="precio_compra" header="Precio Compra" :sortable="true" style="min-width:4rem">
-      <template #body="slotProps">
-        {{ formatCurrency(slotProps.data.precio_compra) }}
       </template>
     </Column>
     <Column field="precio_venta" header="Precio Venta" :sortable="true" style="min-width:4rem">
@@ -25,6 +29,9 @@
     </Column>
 
     <Column field="stock" header="Stock" :sortable="true" style="min-width:5rem"></Column>
+    <Column :exportable="false" style="min-width:8rem">
+
+    </Column>
   </DataTable>
 </template>
 
@@ -58,3 +65,13 @@ export default {
   name: 'DataTableProducto'
 }
 </script>
+
+<style>
+.product-image {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 2px 7px #000;
+}
+</style>
