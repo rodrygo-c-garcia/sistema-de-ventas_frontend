@@ -100,7 +100,6 @@ async function obtenerProductos() {
 const formatCurrency = (value: any) => {
   if (value)
     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  return;
 };
 
 function editProduct(prod: any): void {
