@@ -35,7 +35,7 @@ const toast = useToast();
 // Funciones
 async function deleteProduct() {
   try {
-    await apiProducto.deleteProducto(producto.value.id)
+    apiProducto.deleteProducto(producto.value.id)
     toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Eliminado', life: 3000 });
     actualizar_productos.value = true
   } catch (e) {
@@ -51,4 +51,3 @@ export default {
   name: "DialogDelete",
 }
 </script>
-<style></style>
