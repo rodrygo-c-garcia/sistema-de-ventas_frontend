@@ -105,7 +105,7 @@ async function postProducto() {
     await uploadImagen();
     const { data } = await imgService.postImagen(imagen.value)
     producto.value.imagen_id = data.data.id
-    await apiProducto.postProducto(producto.value)
+    apiProducto.postProducto(producto.value)
 
     toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Guardado', life: 3000 });
     actualizar_productos.value = true
@@ -132,7 +132,8 @@ async function putProducto() {
       await uploadImagen();
       await imgService.updateImagen(imagen.value, producto.value.imagen_id)
     }
-    await apiProducto.putProducto(producto.value, producto.value.id)
+    // Esperar a que se resuelva la promesa
+    await apiProducto.putProducto(producto.value, producto.value.id);
 
     toast.add({ severity: 'success', summary: 'Exito', detail: 'Producto Actualizado', life: 3000 });
     actualizar_productos.value = true
