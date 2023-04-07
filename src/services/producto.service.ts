@@ -1,4 +1,4 @@
-import { http, httpFile } from './http.service'
+import { http } from './http.service'
 
 export const getProductos = function(){
   return http().get(`/producto`)
