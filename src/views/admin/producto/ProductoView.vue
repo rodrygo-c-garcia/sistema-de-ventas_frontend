@@ -11,5 +11,3 @@
 import ProductoDataTable from './ProductoDataTable.vue'
 
 </script>
-
-<style></style>
