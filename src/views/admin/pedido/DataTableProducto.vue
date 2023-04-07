@@ -1,8 +1,8 @@
 <template>
-  <DataTable :value="productos" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem">
+  <DataTable :value="productos" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem"
+    :loading="loading">
     <Column field="cod_barras" header="Codigo de barra" :sortable="true" style="min-width:8rem"></Column>
     <Column field="nombre" header="Nombre" :sortable="true" style="min-width:8rem"></Column>
-    <Column field="categoria.nombre" header="Categoria" :sortable="true" style="min-width:8rem"></Column>
     <Column header="Imagen">
       <template #body="slotProps">
         <img :src="slotProps.data.imagen.url" class="product-image" alt="" />
@@ -33,6 +33,7 @@ import * as serviceProducto from '@/services/producto.service'
 import { ref, onMounted } from 'vue';
 
 const productos = ref([])
+const loading = ref(true)
 
 onMounted(() => {
   obtenerProductos()
@@ -41,6 +42,7 @@ onMounted(() => {
 async function obtenerProductos() {
   const { data: prod } = await serviceProducto.getProductos();
   productos.value = prod
+  loading.value = false
 
 }
 
