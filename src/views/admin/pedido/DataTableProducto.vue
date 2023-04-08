@@ -55,7 +55,17 @@ const loading = ref(true)
 const productos = ref<Array<any>>([])
 
 const total_carrito = ref<number>(0.0)
-const carrito = ref<Array<any>>([])
+
+// carrito
+interface CarritoItem {
+  id: number;
+  nombre: string;
+  precio: number;
+  sub_total: number;
+  cantidad: number;
+}
+
+const carrito = ref<Array<CarritoItem>>([])
 
 onMounted(() => {
   obtenerProductos()
@@ -76,18 +86,12 @@ const formatCurrency = (value: any) => {
 
 // Carrito 
 function addStore(producto: any) {
-  let prod: {
-    id: number;
-    nombre: string;
-    precio: number;
-    sub_total: number;
-    cantidad: number;
-  } = {
+  let prod: CarritoItem = {
     id: producto.id,
     nombre: producto.nombre,
-    precio: producto.precio,
+    precio: producto.precio_venta,
     sub_total: 0.0,
-    cantidad: 1
+    cantidad: 0
   };
 
   // sacamos el subtotal de un producto
@@ -96,6 +100,12 @@ function addStore(producto: any) {
   // Guardamos el producto en el arrglo
   carrito.value.push(prod)
 }
+
+function searchProduct(id: number) {
+  // retorna el indice del elemento a buscar
+  let index = carrito.value.findIndex((producto: CarritoItem) => producto.id === id)
+}
+
 </script>
 
 <script lang="ts">
