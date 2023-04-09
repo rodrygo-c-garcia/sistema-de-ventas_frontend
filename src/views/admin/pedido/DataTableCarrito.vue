@@ -26,8 +26,9 @@
       <template #body="slotProps">
         <Button icon="pi pi-plus" class="p-button-rounded p-button-success mr-2"
           @click="increaseProductQuantity(slotProps.data)" />
-        <Button icon="pi pi-minus" class="p-button-rounded p-button-success mr-2"
+        <Button icon="pi pi-minus" class="p-button-rounded p-button-danger mr-2"
           @click="subtractProductQuantity(slotProps.data)" />
+        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" @click="deleteProduct(slotProps.data)" />
       </template>
     </Column>
   </DataTable>
@@ -36,11 +37,13 @@
 
 <script setup lang="ts">
 import { defineProps, ref, toRefs } from 'vue';
+import type { CarritoItem } from '../types'
+
 
 const props = defineProps({
   car: {
-    type: Array,
-    required: false
+    type: Array<CarritoItem>,
+    required: true
   }
 })
 
@@ -53,11 +56,19 @@ const formatCurrency = (value: any) => {
   return null;
 };
 
-function subtractProductQuantity(data: any) {
+function increaseProductQuantity(producto: any) {
+  const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+  carrito.value[index].cantidad++
+  carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
 
 }
-function increaseProductQuantity(data: any) {
 
+function subtractProductQuantity(producto: any) {
+  const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+  if (carrito.value[index].cantidad > 1) {
+    carrito.value[index].cantidad--
+    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
+  }
 }
 </script>
 
