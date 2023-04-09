@@ -23,9 +23,12 @@
     </Column>
     <Column field="cantidad" header="Cantidad" :sortable="true" style="min-width:5rem"></Column>
     <Column :exportable="false" style="min-width:8rem">
-      <!-- <template #body="slotProps">
-        <Button icon="pi pi-cart-plus" class="p-button-rounded p-button-success mr-2" @click="addStore(slotProps.data)" />
-      </template> -->
+      <template #body="slotProps">
+        <Button icon="pi pi-plus" class="p-button-rounded p-button-success mr-2"
+          @click="increaseProductQuantity(slotProps.data)" />
+        <Button icon="pi pi-minus" class="p-button-rounded p-button-success mr-2"
+          @click="subtractProductQuantity(slotProps.data)" />
+      </template>
     </Column>
   </DataTable>
   {{ carrito }}
@@ -49,6 +52,13 @@ const formatCurrency = (value: any) => {
     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   return null;
 };
+
+function subtractProductQuantity(data: any) {
+
+}
+function increaseProductQuantity(data: any) {
+
+}
 </script>
 
 <script lang="ts">
