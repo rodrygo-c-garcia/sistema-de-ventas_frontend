@@ -48,6 +48,7 @@
 import DataTableCarrito from './DataTableCarrito.vue';
 import * as serviceProducto from '@/services/producto.service'
 import { ref, onMounted } from 'vue';
+import type { CarritoItem } from '../types'
 
 // loading
 const loading = ref(true)
@@ -56,14 +57,6 @@ const productos = ref<Array<any>>([])
 
 const total_carrito = ref<number>(0.0)
 
-// carrito
-interface CarritoItem {
-  id: number;
-  nombre: string;
-  precio: number;
-  sub_total: number;
-  cantidad: number;
-}
 
 const carrito = ref<Array<CarritoItem>>([])
 
@@ -107,7 +100,7 @@ function searchProduct(id: number) {
   for (let prod = 0; prod < carrito.value.length; prod++) {
     if (carrito.value[prod].id == id) {
       carrito.value[prod].cantidad++
-      carrito.value[prod].sub_total *= carrito.value[prod].cantidad
+      carrito.value[prod].sub_total = carrito.value[prod].cantidad * carrito.value[prod].precio
       return true
     }
   }
