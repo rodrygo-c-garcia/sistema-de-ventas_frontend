@@ -51,4 +51,3 @@ export default {
   name: "DialogDelete",
 }
 </script>
-<style></style>

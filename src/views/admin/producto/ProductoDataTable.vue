@@ -19,7 +19,7 @@
     <Column field="categoria.nombre" header="Categoria" :sortable="true" style="min-width:8rem"></Column>
     <Column header="Imagen">
       <template #body="slotProps">
-        <img :src="slotProps.data.imagen.url" class="product-image" />
+        <img :src="slotProps.data.imagen.url" class="product-image" alt="" />
       </template>
     </Column>
     <Column field="precio_compra" header="Precio Compra" :sortable="true" style="min-width:4rem">
@@ -57,7 +57,7 @@ import ProductoDialog from './ProductoDialog.vue'
 import DialogDelete from './DialogDelete.vue'
 
 
-import { ref, onMounted, provide, watch, inject } from 'vue';
+import { ref, onMounted, provide, watch } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import * as apiProducto from '@/services/producto.service'
 import type { Producto } from '../types';
@@ -100,7 +100,6 @@ async function obtenerProductos() {
 const formatCurrency = (value: any) => {
   if (value)
     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  return;
 };
 
 function editProduct(prod: any): void {

@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <h3>Nuevo Pedido</h3>
-    <h6>User: {{ pinia.user?.name }}</h6>
-    <h6>Email: {{ pinia.user?.email }}</h6>
-    {{ pinia.user }}
+  <!-- BUSCADOR -->
+  <div class="card">
+    <h3>Buscador</h3>
+
   </div>
+  <!-- DATA TABLE -->
+  <DataTableProducto />
 </template>
 
 <script setup lang="ts">
-import { usePinia } from '@/stores/store'
-const pinia = usePinia();
+import DataTableProducto from './DataTableProducto.vue';
 </script>
-
-<style></style>
