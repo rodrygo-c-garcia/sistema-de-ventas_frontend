@@ -91,21 +91,28 @@ function addStore(producto: any) {
     nombre: producto.nombre,
     precio: producto.precio_venta,
     sub_total: 0.0,
-    cantidad: 0
+    cantidad: 1
   };
 
   // sacamos el subtotal de un producto
-  prod['sub_total'] = parseFloat((prod.precio * prod.cantidad).toFixed(2))
 
-  // Guardamos el producto en el arrglo
-  carrito.value.push(prod)
+  prod['sub_total'] = parseFloat((prod.precio * prod.cantidad).toFixed(2))
+  // Guardamos el producto en el arreglo
+  if (!searchProduct(prod.id))
+    carrito.value.push(prod)
 }
 
 function searchProduct(id: number) {
   // retorna el indice del elemento a buscar
-  let index = carrito.value.findIndex((producto: CarritoItem) => producto.id === id)
+  for (let prod = 0; prod < carrito.value.length; prod++) {
+    if (carrito.value[prod].id == id) {
+      carrito.value[prod].cantidad++
+      carrito.value[prod].sub_total *= carrito.value[prod].cantidad
+      return true
+    }
+  }
+  return false
 }
-
 </script>
 
 <script lang="ts">
