@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <div class="card">
     <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -7,7 +8,7 @@
 
       <template #header>
         <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
-          <h5 class="mb-2 md:m-0 p-as-md-center">Administracion de Productos</h5>
+          <h5 class="mb-2 md:m-0 p-as-md-center">Productos Disponibles</h5>
         </div>
       </template>
 
@@ -37,6 +38,7 @@
         </template>
       </Column>
     </DataTable>
+    {{ productos }}
   </div>
   <!-- CARRITO -->
   <div class="card">
@@ -48,7 +50,8 @@
 import DataTableCarrito from './DataTableCarrito.vue';
 import * as serviceProducto from '@/services/producto.service'
 import { ref, onMounted } from 'vue';
-import type { CarritoItem } from '../types'
+import { useToast } from 'primevue/usetoast';
+import type { CarritoItem, Producto } from '../types'
 
 // loading
 const loading = ref(true)
@@ -56,6 +59,7 @@ const loading = ref(true)
 const productos = ref<Array<any>>([])
 
 const total_carrito = ref<number>(0.0)
+const toast = useToast();
 
 
 const carrito = ref<Array<CarritoItem>>([])
@@ -68,7 +72,6 @@ async function obtenerProductos() {
   const { data: prod } = await serviceProducto.getProductos();
   productos.value = prod
   loading.value = false
-
 }
 
 const formatCurrency = (value: any) => {
@@ -78,7 +81,7 @@ const formatCurrency = (value: any) => {
 };
 
 // Carrito 
-function addStore(producto: any) {
+function addStore(producto: Producto) {
   let prod: CarritoItem = {
     id: producto.id,
     nombre: producto.nombre,
@@ -90,6 +93,18 @@ function addStore(producto: any) {
   // sacamos el subtotal de un producto
 
   prod['sub_total'] = parseFloat((prod.precio * prod.cantidad).toFixed(2))
+
+  // Buscamos el indice del elemento a reducir el stock
+  console.log(producto.id)
+  let index = productos.value.findIndex((prod: any) => prod.id === producto.id)
+
+  if (index !== -1) {
+    if (productos.value[index].stock === 0)
+      toast.add({ severity: 'warn', summary: 'Stock Vacio', detail: 'Agregue mas productos', life: 3000 });
+    else
+      productos.value[index].stock--
+  }
+
   // Guardamos el producto en el arreglo
   if (!searchProduct(prod.id))
     carrito.value.push(prod)
