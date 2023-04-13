@@ -38,7 +38,6 @@
         </template>
       </Column>
     </DataTable>
-    {{ productos }}
   </div>
   <!-- CARRITO -->
   <div class="card">
@@ -95,22 +94,20 @@ function addStore(producto: Producto) {
   prod['sub_total'] = parseFloat((prod.precio * prod.cantidad).toFixed(2))
 
   // Buscamos el indice del elemento a reducir el stock
-  console.log(producto.id)
   let index = productos.value.findIndex((prod: any) => prod.id === producto.id)
 
+  // preguntamos si existe el producto buscado y reducimos el stock que va a gregandoce
   if (index !== -1) {
-    if (productos.value[index].stock === 0)
-      toast.add({ severity: 'warn', summary: 'Stock Vacio', detail: 'Agregue mas productos', life: 3000 });
-    else
-      productos.value[index].stock--
+    if (productos.value[index].stock === 0) toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[index].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
+    else productos.value[index].stock--
   }
 
-  // Guardamos el producto en el arreglo
-  if (!searchProduct(prod.id))
+  // Guardamos el producto en el arreglo de carrito, solo una vez por pruducto
+  if (!increaseProductQuantity(prod.id))
     carrito.value.push(prod)
 }
 
-function searchProduct(id: number) {
+function increaseProductQuantity(id: number) {
   // retorna el indice del elemento a buscar
   for (let prod = 0; prod < carrito.value.length; prod++) {
     if (carrito.value[prod].id == id) {
