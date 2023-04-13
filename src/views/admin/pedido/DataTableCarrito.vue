@@ -37,17 +37,22 @@
 
 <script setup lang="ts">
 import { defineProps, ref, toRefs } from 'vue';
-import type { CarritoItem } from '../types'
+import type { CarritoItem, Producto } from '../types'
 
 
 const props = defineProps({
   car: {
     type: Array<CarritoItem>,
     required: true
+  },
+  prod: {
+    type: Array<Producto>,
+    required: true
   }
 })
 
 const { car: carrito } = toRefs(props)
+const { prod: productos } = toRefs(props)
 
 
 const formatCurrency = (value: any) => {
