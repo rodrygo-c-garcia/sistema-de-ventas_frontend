@@ -96,20 +96,22 @@ function addStore(producto: Producto) {
   // Buscamos el indice del elemento a reducir el stock
   let index = productos.value.findIndex((prod: any) => prod.id === producto.id)
 
+
+  // Guardamos el producto en el arreglo de carrito, solo una vez por pruducto
+  if (!increaseProductQuantity(prod.id, index))
+    carrito.value.push(prod)
+
   // preguntamos si existe el producto buscado y reducimos el stock que va a gregandoce
   if (index !== -1) {
     if (productos.value[index].stock === 0) toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[index].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
     else productos.value[index].stock--
   }
-
-  // Guardamos el producto en el arreglo de carrito, solo una vez por pruducto
-  if (!increaseProductQuantity(prod.id))
-    carrito.value.push(prod)
 }
 
-function increaseProductQuantity(id: number) {
+function increaseProductQuantity(id: number, index: number) {
   // retorna el indice del elemento a buscar
   for (let prod = 0; prod < carrito.value.length; prod++) {
+    if (productos.value[index].stock === 0) return true
     if (carrito.value[prod].id == id) {
       carrito.value[prod].cantidad++
       carrito.value[prod].sub_total = carrito.value[prod].cantidad * carrito.value[prod].precio
