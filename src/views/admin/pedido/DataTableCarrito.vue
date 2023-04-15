@@ -76,6 +76,8 @@ function increaseProductQuantity(producto: CarritoItem) {
     carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
     productos.value[indexProd].stock--
   } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
+
+  total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
 }
 
 function subtractProductQuantity(producto: CarritoItem) {
