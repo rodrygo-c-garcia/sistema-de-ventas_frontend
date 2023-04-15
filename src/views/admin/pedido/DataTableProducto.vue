@@ -41,7 +41,7 @@
   </div>
   <!-- CARRITO -->
   <div class="card">
-    <DataTableCarrito :car="carrito" :prod="productos" />
+    <DataTableCarrito :car="carrito" :prod="productos" :total_car="total_carrito" />
   </div>
 </template>
 
