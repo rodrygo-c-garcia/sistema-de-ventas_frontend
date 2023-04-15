@@ -57,7 +57,6 @@ const loading = ref(true)
 
 const productos = ref<Array<Producto>>([])
 
-const total_carrito = ref<number>(0.0)
 const toast = useToast();
 
 
