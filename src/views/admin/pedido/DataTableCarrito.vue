@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <DataTable ref="dt" :value="carrito" dataKey="id" :paginator="true" :rows="5"
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
     :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
@@ -32,13 +33,12 @@
       </template>
     </Column>
   </DataTable>
-  {{ carrito }}
 </template>
 
 <script setup lang="ts">
 import { defineProps, ref, toRefs } from 'vue';
 import type { CarritoItem, Producto } from '../types'
-
+import { useToast } from 'primevue/usetoast';
 
 const props = defineProps({
   car: {
@@ -54,6 +54,7 @@ const props = defineProps({
 const { car: carrito } = toRefs(props)
 const { prod: productos } = toRefs(props)
 
+const toast = useToast()
 
 const formatCurrency = (value: any) => {
   if (value)
