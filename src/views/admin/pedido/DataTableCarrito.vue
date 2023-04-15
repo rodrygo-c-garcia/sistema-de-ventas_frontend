@@ -32,6 +32,11 @@
         <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" @click="deleteProduct(slotProps.data)" />
       </template>
     </Column>
+    <template #footer>
+      <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
+        <h7 class="mb-2 md:m-0 p-as-md-center">Total: <span>{{ total_carrito }}</span></h7>
+      </div>
+    </template>
   </DataTable>
 </template>
 
@@ -53,6 +58,7 @@ const props = defineProps({
 
 const { car: carrito } = toRefs(props)
 const { prod: productos } = toRefs(props)
+const total_carrito = ref<number>(0)
 
 const toast = useToast()
 
