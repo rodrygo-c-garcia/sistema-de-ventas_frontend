@@ -63,21 +63,33 @@ const formatCurrency = (value: any) => {
 };
 
 function increaseProductQuantity(producto: CarritoItem) {
-  const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
-  carrito.value[index].cantidad++
-  carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
+  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
+  if (productos.value[indexProd].stock >= 1) {
+    const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+    carrito.value[index].cantidad++
+    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
+    productos.value[indexProd].stock--
+  } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 }
 
 function subtractProductQuantity(producto: CarritoItem) {
+  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
   const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
   if (carrito.value[index].cantidad > 1) {
     carrito.value[index].cantidad--
     carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
+    productos.value[indexProd].stock++
+  } else {
+    productos.value[indexProd].stock++
+    carrito.value.splice(index, 1)
   }
 }
 
 function deleteProduct(producto: CarritoItem) {
+  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
   const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+  productos.value[indexProd].stock += carrito.value[index].cantidad
+
   // eliminamos del array el producto bucado
   carrito.value.splice(index, 1)
 }
