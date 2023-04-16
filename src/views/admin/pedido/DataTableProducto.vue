@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import DataTableCarrito from './DataTableCarrito.vue';
 import * as serviceProducto from '@/services/producto.service'
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, provide } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import type { CarritoItem, Producto } from '../types'
 
@@ -61,6 +61,7 @@ const toast = useToast();
 
 
 const carrito = ref<Array<CarritoItem>>([])
+const total_carrito = ref<number>(0)
 
 onMounted(() => {
   obtenerProductos()
@@ -105,6 +106,7 @@ function addStore(producto: Producto) {
     if (productos.value[index].stock === 0) toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[index].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
     else productos.value[index].stock--
   }
+  increaseTotalCarrito()
 }
 
 function increaseProductQuantity(id: number, index: number) {
@@ -118,6 +120,11 @@ function increaseProductQuantity(id: number, index: number) {
     }
   }
   return false
+}
+
+function increaseTotalCarrito() {
+  console.log('entro')
+  total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
 }
 </script>
 
