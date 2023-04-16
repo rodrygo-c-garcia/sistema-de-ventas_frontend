@@ -53,12 +53,17 @@ const props = defineProps({
   prod: {
     type: Array<Producto>,
     required: true
+  },
+  total_car: {
+    type: Number,
+    required: true
   }
 })
 
 const { car: carrito } = toRefs(props)
 const { prod: productos } = toRefs(props)
-const total_carrito = ref<number>(0)
+const total_carrito = ref(props.total_car)
+
 
 const toast = useToast()
 
@@ -77,7 +82,7 @@ function increaseProductQuantity(producto: CarritoItem) {
     productos.value[indexProd].stock--
   } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 
-  total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
+  total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, total_carrito.value)
 }
 
 function subtractProductQuantity(producto: CarritoItem) {
