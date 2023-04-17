@@ -54,5 +54,3 @@ export default {
   name: 'ProductoToolbar',
 }
 </script>
-
-<style></style>
