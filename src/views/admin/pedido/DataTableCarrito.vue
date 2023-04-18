@@ -34,14 +34,14 @@
     </Column>
     <template #footer>
       <div class="table-header flex flex-column md:flex-row md:justiify-content-between">
-        <h7 class="mb-2 md:m-0 p-as-md-center">Total: <span>{{ total_carrito }}</span></h7>
+        <h5 class="mb-2 md:m-0 p-as-md-center"> Total: <span>{{ total_carrito }}</span></h5>
       </div>
     </template>
   </DataTable>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, toRefs } from 'vue';
+import { defineProps, ref, toRefs, defineEmits } from 'vue';
 import type { CarritoItem, Producto } from '../types'
 import { useToast } from 'primevue/usetoast';
 
@@ -62,7 +62,7 @@ const props = defineProps({
 
 const { car: carrito } = toRefs(props)
 const { prod: productos } = toRefs(props)
-const total_carrito = ref(props.total_car)
+const { total_car: total_carrito } = toRefs(props)
 
 
 const toast = useToast()
@@ -73,6 +73,11 @@ const formatCurrency = (value: any) => {
   return null;
 };
 
+// Escuchar cambios en la referencia local y emitir un evento personalizado
+const actualizarTotalCarrito = () => {
+  // emit('update:total_carrito', total_carrito.value)
+}
+
 function increaseProductQuantity(producto: CarritoItem) {
   let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
   if (productos.value[indexProd].stock >= 1) {
@@ -82,7 +87,7 @@ function increaseProductQuantity(producto: CarritoItem) {
     productos.value[indexProd].stock--
   } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 
-  total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, total_carrito.value)
+  // total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, total_carrito.value)
 }
 
 function subtractProductQuantity(producto: CarritoItem) {
