@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, toRefs, defineEmits } from 'vue';
+import { defineProps, ref, toRefs, defineEmits, watch } from 'vue';
 import type { CarritoItem, Producto } from '../types'
 import { useToast } from 'primevue/usetoast';
 
