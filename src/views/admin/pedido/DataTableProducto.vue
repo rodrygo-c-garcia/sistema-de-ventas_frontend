@@ -123,8 +123,8 @@ function increaseProductQuantity(id: number, index: number) {
 }
 
 function increaseTotalCarrito() {
-  console.log('entro')
-  total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, total_carrito.value)
+  // sumamos todos los subtotales de los productos
+  total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
 }
 </script>
 
