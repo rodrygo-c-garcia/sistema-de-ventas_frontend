@@ -62,43 +62,66 @@ const props = defineProps({
 
 const { car: carrito } = toRefs(props)
 const { prod: productos } = toRefs(props)
-const { total_car: total_carrito } = toRefs(props)
+const total_carrito = ref(props.total_car)
 
 
 const toast = useToast()
+// Definir el evento emitido por el componente
+const emits = defineEmits(['update:total_carrito'])
 
-const formatCurrency = (value: any) => {
-  if (value)
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  return null;
-};
+// Escuchar cambios en la prop total_car y actualizar la ref local
+watch(() => props.total_car, (newValue) => {
+  total_carrito.value = newValue
+})
 
-// Escuchar cambios en la referencia local y emitir un evento personalizado
-const actualizarTotalCarrito = () => {
-  // emit('update:total_carrito', total_carrito.value)
+// Escuchar cambios en la ref local y emitir un evento al padre
+watch(total_carrito, (newValue) => {
+  emits('update:total_carrito', newValue)
+})
+
+// Actualizar el total del carrito usando la ref local
+const updateTotalCarrito = (option: boolean, valor: number) => {
+  if (option)
+    total_carrito.value += valor
+  else
+    total_carrito.value -= valor
+
+  // total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
 }
 
 function increaseProductQuantity(producto: CarritoItem) {
+  // buscamos el indice del producto a aumentar la cantidad
   let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
+  let index = 0
+
+  // preguntamos si la cantidad del producto encontrado es mayor o igual a 1 
   if (productos.value[indexProd].stock >= 1) {
-    const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+    index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+    // aumentamos la cantidad en el carrito
     carrito.value[index].cantidad++
     carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
     productos.value[indexProd].stock--
   } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 
-  // total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, total_carrito.value)
+  updateTotalCarrito(true, carrito.value[index].precio)
 }
 
 function subtractProductQuantity(producto: CarritoItem) {
+  // buscamos el indice del producto a disminuir la cantidad
   let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
+  // buscamos el indice del producto en el carrito 
   const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+  // pregunta si la cantidad del producto es 1 en el carrito
   if (carrito.value[index].cantidad > 1) {
+    // vamos a ir disminuyendo la cantidad
     carrito.value[index].cantidad--
     carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
     productos.value[indexProd].stock++
+    updateTotalCarrito(false, carrito.value[index].precio)
   } else {
+    // eliminamos el producto del carrito
     productos.value[indexProd].stock++
+    updateTotalCarrito(false, carrito.value[index].precio)
     carrito.value.splice(index, 1)
   }
 }
@@ -111,6 +134,13 @@ function deleteProduct(producto: CarritoItem) {
   // eliminamos del array el producto bucado
   carrito.value.splice(index, 1)
 }
+
+const formatCurrency = (value: any) => {
+  if (value)
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  return null;
+};
+
 </script>
 
 <script lang="ts">
