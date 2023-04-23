@@ -32,3 +32,11 @@ export interface User {
   created_at: string;
   updated_at: string;
 }
+
+export interface CarritoItem {
+  id: number;
+  nombre: string;
+  precio: number;
+  sub_total: number;
+  cantidad: number;
+}
