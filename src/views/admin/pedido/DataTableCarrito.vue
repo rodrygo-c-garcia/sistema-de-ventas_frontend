@@ -131,6 +131,7 @@ function deleteProduct(producto: CarritoItem) {
   const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
   productos.value[indexProd].stock += carrito.value[index].cantidad
 
+  updateTotalCarrito(false, carrito.value[index].precio * carrito.value[index].cantidad)
   // eliminamos del array el producto bucado
   carrito.value.splice(index, 1)
 }
