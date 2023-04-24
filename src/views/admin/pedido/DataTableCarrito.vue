@@ -28,7 +28,7 @@
         <Button icon="pi pi-plus" class="p-button-rounded p-button-success mr-2"
           @click="increaseProductQuantity(slotProps.data)" />
         <Button icon="pi pi-minus" class="p-button-rounded p-button-warning mr-2"
-          @click="subtractProductQuantity(slotProps.data)" />
+          @click="decreaseProductQuantity(slotProps.data)" />
         <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" @click="deleteProduct(slotProps.data)" />
       </template>
     </Column>
@@ -115,16 +115,17 @@ function increaseProductQuantity(producto: CarritoItem) {
   } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 }
 
-function subtractProductQuantity(producto: CarritoItem) {
+function decreaseProductQuantity(producto: CarritoItem) {
   // buscamos el indice del producto a disminuir la cantidad
-  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
+  let indexProd = findProductIndex(producto.id)
   // buscamos el indice del producto en el carrito 
-  const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+  const index = findCarritoIndex(producto.id)
   // pregunta si la cantidad del producto es 1 en el carrito
   if (carrito.value[index].cantidad > 1) {
     // vamos a ir disminuyendo la cantidad
     carrito.value[index].cantidad--
     carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
+    // aumentamos el stock
     productos.value[indexProd].stock++
     updateCartTotal(false, carrito.value[index].precio)
   } else {
