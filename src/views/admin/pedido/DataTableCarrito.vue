@@ -28,8 +28,9 @@
         <Button icon="pi pi-plus" class="p-button-rounded p-button-success mr-2"
           @click="increaseProductQuantity(slotProps.data)" />
         <Button icon="pi pi-minus" class="p-button-rounded p-button-warning mr-2"
-          @click="subtractProductQuantity(slotProps.data)" />
-        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" @click="deleteProduct(slotProps.data)" />
+          @click="decreaseProductQuantity(slotProps.data)" />
+        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2"
+          @click="removeProductFromCart(slotProps.data)" />
       </template>
     </Column>
     <template #footer>
@@ -69,6 +70,10 @@ const toast = useToast()
 // Definir el evento emitido por el componente
 const emits = defineEmits(['update:total_carrito'])
 
+// Definir constantes para evitar números mágicos
+const AUMENTAR = true;
+const DISMINUIR = false;
+
 // Escuchar cambios en la prop total_car y actualizar la ref local
 watch(() => props.total_car, (newValue) => {
   total_carrito.value = newValue
@@ -80,58 +85,64 @@ watch(total_carrito, (newValue) => {
 })
 
 // Actualizar el total del carrito usando la ref local
-const updateTotalCarrito = (option: boolean, valor: number) => {
-  if (option)
-    total_carrito.value += valor
-  else
-    total_carrito.value -= valor
+const updateCartTotal = (option: boolean, valor: number) => {
+  total_carrito.value += option ? valor : -valor;
+}
 
-  // total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
+function findProductIndex(id: number) {
+  return productos.value.findIndex((prod: Producto) => prod.id == id)
+}
+
+function findCarritoIndex(id: number) {
+  return carrito.value.findIndex((cgt: CarritoItem) => cgt.id == id)
 }
 
 function increaseProductQuantity(producto: CarritoItem) {
   // buscamos el indice del producto a aumentar la cantidad
-  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
-  let index = 0
+  let indexProd = findProductIndex(producto.id);
+  let index = 0;
 
   // preguntamos si la cantidad del producto encontrado es mayor o igual a 1 
   if (productos.value[indexProd].stock >= 1) {
-    index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+    index = findCarritoIndex(producto.id);
     // aumentamos la cantidad en el carrito
-    carrito.value[index].cantidad++
-    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
-    productos.value[indexProd].stock--
-  } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
+    carrito.value[index].cantidad++;
+    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio;
+    // disminuimos esl stock del producto
+    productos.value[indexProd].stock--;
 
-  updateTotalCarrito(true, carrito.value[index].precio)
+    updateCartTotal(AUMENTAR, carrito.value[index].precio);
+
+  } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 }
 
-function subtractProductQuantity(producto: CarritoItem) {
+function decreaseProductQuantity(producto: CarritoItem) {
   // buscamos el indice del producto a disminuir la cantidad
-  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
+  let indexProd = findProductIndex(producto.id)
   // buscamos el indice del producto en el carrito 
-  const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+  const index = findCarritoIndex(producto.id)
   // pregunta si la cantidad del producto es 1 en el carrito
   if (carrito.value[index].cantidad > 1) {
     // vamos a ir disminuyendo la cantidad
     carrito.value[index].cantidad--
     carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
+    // aumentamos el stock
     productos.value[indexProd].stock++
-    updateTotalCarrito(false, carrito.value[index].precio)
+    updateCartTotal(false, carrito.value[index].precio)
   } else {
     // eliminamos el producto del carrito
     productos.value[indexProd].stock++
-    updateTotalCarrito(false, carrito.value[index].precio)
+    updateCartTotal(DISMINUIR, carrito.value[index].precio)
     carrito.value.splice(index, 1)
   }
 }
 
-function deleteProduct(producto: CarritoItem) {
-  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
-  const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+function removeProductFromCart(producto: CarritoItem) {
+  let indexProd = findProductIndex(producto.id)
+  let index = findCarritoIndex(producto.id)
   productos.value[indexProd].stock += carrito.value[index].cantidad
 
-  updateTotalCarrito(false, carrito.value[index].precio * carrito.value[index].cantidad)
+  updateCartTotal(DISMINUIR, carrito.value[index].precio * carrito.value[index].cantidad)
   // eliminamos del array el producto bucado
   carrito.value.splice(index, 1)
 }
