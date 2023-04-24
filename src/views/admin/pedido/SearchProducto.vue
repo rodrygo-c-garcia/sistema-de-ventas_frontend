@@ -11,8 +11,6 @@
 
 <script lang="ts">
 export default {
-  name: 'SearchPrduct'
+  name: 'SearchProducto'
 }
 </script>
-
-<style></style>
