@@ -29,7 +29,8 @@
           @click="increaseProductQuantity(slotProps.data)" />
         <Button icon="pi pi-minus" class="p-button-rounded p-button-warning mr-2"
           @click="decreaseProductQuantity(slotProps.data)" />
-        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" @click="deleteProduct(slotProps.data)" />
+        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2"
+          @click="removeProductFromCart(slotProps.data)" />
       </template>
     </Column>
     <template #footer>
@@ -136,12 +137,12 @@ function decreaseProductQuantity(producto: CarritoItem) {
   }
 }
 
-function deleteProduct(producto: CarritoItem) {
-  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
-  const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+function removeProductFromCart(producto: CarritoItem) {
+  let indexProd = findProductIndex(producto.id)
+  let index = findCarritoIndex(producto.id)
   productos.value[indexProd].stock += carrito.value[index].cantidad
 
-  updateCartTotal(false, carrito.value[index].precio * carrito.value[index].cantidad)
+  updateCartTotal(DISMINUIR, carrito.value[index].precio * carrito.value[index].cantidad)
   // eliminamos del array el producto bucado
   carrito.value.splice(index, 1)
 }
