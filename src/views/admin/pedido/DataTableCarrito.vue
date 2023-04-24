@@ -92,6 +92,10 @@ function findProductIndex(id: number) {
   return productos.value.findIndex((prod: Producto) => prod.id == id)
 }
 
+function findCarritoIndex(id: number) {
+  return carrito.value.findIndex((cgt: CarritoItem) => cgt.id == id)
+}
+
 function increaseProductQuantity(producto: CarritoItem) {
   // buscamos el indice del producto a aumentar la cantidad
   let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
