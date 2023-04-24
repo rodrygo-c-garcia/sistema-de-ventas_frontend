@@ -88,6 +88,10 @@ const updateCartTotal = (option: boolean, valor: number) => {
   total_carrito.value += option ? valor : -valor;
 }
 
+function findProductIndex(id: number) {
+  return productos.value.findIndex((prod: Producto) => prod.id == id)
+}
+
 function increaseProductQuantity(producto: CarritoItem) {
   // buscamos el indice del producto a aumentar la cantidad
   let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
