@@ -132,7 +132,7 @@ function decreaseProductQuantity(producto: CarritoItem) {
   } else {
     // eliminamos el producto del carrito
     productos.value[indexProd].stock++
-    updateCartTotal(false, carrito.value[index].precio)
+    updateCartTotal(DISMINUIR, carrito.value[index].precio)
     carrito.value.splice(index, 1)
   }
 }
