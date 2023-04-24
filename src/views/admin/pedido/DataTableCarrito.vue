@@ -98,19 +98,21 @@ function findCarritoIndex(id: number) {
 
 function increaseProductQuantity(producto: CarritoItem) {
   // buscamos el indice del producto a aumentar la cantidad
-  let indexProd = productos.value.findIndex((prod: Producto) => prod.id === producto.id);
-  let index = 0
+  let indexProd = findProductIndex(producto.id);
+  let index = 0;
 
   // preguntamos si la cantidad del producto encontrado es mayor o igual a 1 
   if (productos.value[indexProd].stock >= 1) {
-    index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
+    index = findCarritoIndex(producto.id);
     // aumentamos la cantidad en el carrito
-    carrito.value[index].cantidad++
-    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
-    productos.value[indexProd].stock--
-  } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
+    carrito.value[index].cantidad++;
+    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio;
+    // disminuimos esl stock del producto
+    productos.value[indexProd].stock--;
 
-  updateCartTotal(true, carrito.value[index].precio)
+    updateCartTotal(AUMENTAR, carrito.value[index].precio);
+
+  } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 }
 
 function subtractProductQuantity(producto: CarritoItem) {
