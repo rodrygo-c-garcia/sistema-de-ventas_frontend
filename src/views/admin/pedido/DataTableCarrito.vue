@@ -69,6 +69,10 @@ const toast = useToast()
 // Definir el evento emitido por el componente
 const emits = defineEmits(['update:total_carrito'])
 
+// Definir constantes para evitar números mágicos
+const AUMENTAR = true;
+const DISMINUIR = false;
+
 // Escuchar cambios en la prop total_car y actualizar la ref local
 watch(() => props.total_car, (newValue) => {
   total_carrito.value = newValue
@@ -80,13 +84,8 @@ watch(total_carrito, (newValue) => {
 })
 
 // Actualizar el total del carrito usando la ref local
-const updateTotalCarrito = (option: boolean, valor: number) => {
-  if (option)
-    total_carrito.value += valor
-  else
-    total_carrito.value -= valor
-
-  // total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
+const updateCartTotal = (option: boolean, valor: number) => {
+  total_carrito.value += option ? valor : -valor;
 }
 
 function increaseProductQuantity(producto: CarritoItem) {
@@ -103,7 +102,7 @@ function increaseProductQuantity(producto: CarritoItem) {
     productos.value[indexProd].stock--
   } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
 
-  updateTotalCarrito(true, carrito.value[index].precio)
+  updateCartTotal(true, carrito.value[index].precio)
 }
 
 function subtractProductQuantity(producto: CarritoItem) {
@@ -117,11 +116,11 @@ function subtractProductQuantity(producto: CarritoItem) {
     carrito.value[index].cantidad--
     carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
     productos.value[indexProd].stock++
-    updateTotalCarrito(false, carrito.value[index].precio)
+    updateCartTotal(false, carrito.value[index].precio)
   } else {
     // eliminamos el producto del carrito
     productos.value[indexProd].stock++
-    updateTotalCarrito(false, carrito.value[index].precio)
+    updateCartTotal(false, carrito.value[index].precio)
     carrito.value.splice(index, 1)
   }
 }
@@ -131,7 +130,7 @@ function deleteProduct(producto: CarritoItem) {
   const index = carrito.value.findIndex((prod: CarritoItem) => prod.id === producto.id)
   productos.value[indexProd].stock += carrito.value[index].cantidad
 
-  updateTotalCarrito(false, carrito.value[index].precio * carrito.value[index].cantidad)
+  updateCartTotal(false, carrito.value[index].precio * carrito.value[index].cantidad)
   // eliminamos del array el producto bucado
   carrito.value.splice(index, 1)
 }
