@@ -1,6 +1,8 @@
 <template>
   <Toast />
   <div class="card">
+    <SearchProducto />
+
     <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
       :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
@@ -47,6 +49,8 @@
 
 <script setup lang="ts">
 import DataTableCarrito from './DataTableCarrito.vue';
+import SearchProducto from './SearchProducto.vue';
+
 import * as serviceProducto from '@/services/producto.service'
 import { ref, onMounted, provide } from 'vue';
 import { useToast } from 'primevue/usetoast';
