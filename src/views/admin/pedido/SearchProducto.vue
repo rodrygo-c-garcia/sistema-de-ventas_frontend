@@ -9,6 +9,19 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import { defineProps, ref } from 'vue';
+import type { Producto } from '../types';
+
+const props = defineProps({
+  productos: {
+    type: Array<Producto>,
+    required: true
+  }
+})
+
+</script>
+
 <script lang="ts">
 export default {
   name: 'SearchProducto'
