@@ -1,7 +1,8 @@
 <template>
   <Toast />
   <div class="card">
-    <SearchProducto :productos="productos" />
+
+    <SearchProducto @searched="val => productos = val" />
 
     <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
