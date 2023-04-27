@@ -4,6 +4,11 @@ export const getProductos = function(){
   return http().get(`/producto`)
 } 
 
+// funcion para obtener resultados de la busqueda
+export const lookingForProduct = function(termino: String){
+  return http().get(`search?search=${termino}`)
+}
+
 export const postProducto = function(data: any): Object {
   return http().post(`/producto`, data)
 }
