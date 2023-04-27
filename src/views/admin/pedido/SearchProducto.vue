@@ -2,7 +2,6 @@
   <div class="card" style="display: flex; justify-content: center;">
     <span class="p-input-icon-left">
       <i class="pi pi-search" style="color: blue; font-size: 18px;" />
-      <!-- <InputText type="text" v-model="identificacion" placeholder="Buscar NIT del cliente" @keyup="getCliente" /> -->
       <InputText style="width: 500px; height: 50px; box-shadow: 2px 1px 4px green;" type="text" v-model="search_term"
         placeholder="Buscar Codigo de Barra o nombre del Producto" @keyup="searchProduct()" />
     </span>
@@ -10,24 +9,20 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
-import type { Producto } from '../types';
-
-const props = defineProps({
-  productos: {
-    type: Array<Producto>,
-    required: true
-  }
-})
+import { ref, defineEmits } from 'vue';
+import * as productoService from '@/services/producto.service';
 
 // Varibles 
-const products_found = ref<Array<Producto>>([]);
-const search_term = ref<String>('')
+const search_term = ref<string>('')
+
+const emit = defineEmits(['searched']);
 
 // Funciones 
-function searchProduct() {
-
+async function searchProduct() {
+  const { data: { data } } = await productoService.lookingForProduct(search_term.value);
+  emit('searched', data);
 }
+
 </script>
 
 <script lang="ts">
