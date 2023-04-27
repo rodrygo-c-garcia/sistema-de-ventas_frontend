@@ -4,7 +4,7 @@
 
     <SearchProducto @searched="val => productos = val" />
 
-    <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
+    <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
       :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
       responsiveLayout="scroll">
@@ -58,7 +58,7 @@ import { useToast } from 'primevue/usetoast';
 import type { CarritoItem, Producto } from '../types'
 
 // loading
-const loading = ref(true)
+// const loading = ref(true)
 
 const productos = ref<Array<Producto>>([])
 
@@ -69,13 +69,13 @@ const carrito = ref<Array<CarritoItem>>([])
 const total_carrito = ref<number>(0)
 
 onMounted(() => {
-  obtenerProductos()
+  // obtenerProductos()
 })
 
 async function obtenerProductos() {
   const { data: prod } = await serviceProducto.getProductos();
   productos.value = prod
-  loading.value = false
+  // loading.value = false
 }
 
 const formatCurrency = (value: any) => {
