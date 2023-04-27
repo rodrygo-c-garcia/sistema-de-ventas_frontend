@@ -9,18 +9,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, inject } from 'vue';
 import * as productoService from '@/services/producto.service';
 
 // Variables 
 const search_term = ref<string>('');
+const loading = ref(inject<boolean>('loading'))
+
 const emit = defineEmits(['searched']);
 
 // Funciones 
 async function searchProduct() {
+  loading.value = true;
   const { data: { data } } = await productoService.lookingForProduct(search_term.value);
   // agregamos data.data por la paginacion
   emit('searched', data.data);
+  loading.value = false;
 }
 
 </script>
