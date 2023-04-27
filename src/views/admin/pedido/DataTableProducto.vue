@@ -4,7 +4,7 @@
 
     <SearchProducto @searched="val => productos = val" />
 
-    <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5"
+    <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
       :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
       responsiveLayout="scroll">
@@ -58,31 +58,16 @@ import { useToast } from 'primevue/usetoast';
 import type { CarritoItem, Producto } from '../types'
 
 // loading
-// const loading = ref(true)
+const loading = ref<boolean>(false);
+provide('loading', loading);
 
-const productos = ref<Array<Producto>>([])
+const productos = ref<Array<Producto>>([]);
 
 const toast = useToast();
 
 
 const carrito = ref<Array<CarritoItem>>([])
 const total_carrito = ref<number>(0)
-
-onMounted(() => {
-  // obtenerProductos()
-})
-
-async function obtenerProductos() {
-  const { data: prod } = await serviceProducto.getProductos();
-  productos.value = prod
-  // loading.value = false
-}
-
-const formatCurrency = (value: any) => {
-  if (value)
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  return null;
-};
 
 // Carrito 
 function addStore(producto: Producto) {
@@ -131,6 +116,13 @@ function increaseTotalCarrito() {
   // sumamos todos los subtotales de los productos
   total_carrito.value = carrito.value.reduce((total, producto) => total + producto.sub_total, 0)
 }
+
+const formatCurrency = (value: any) => {
+  if (value)
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  return null;
+};
+
 </script>
 
 <script lang="ts">
