@@ -12,15 +12,15 @@
 import { ref, defineEmits } from 'vue';
 import * as productoService from '@/services/producto.service';
 
-// Varibles 
-const search_term = ref<string>('')
-
+// Variables 
+const search_term = ref<string>('');
 const emit = defineEmits(['searched']);
 
 // Funciones 
 async function searchProduct() {
   const { data: { data } } = await productoService.lookingForProduct(search_term.value);
-  emit('searched', data);
+  // agregamos data.data por la paginacion
+  emit('searched', data.data);
 }
 
 </script>
