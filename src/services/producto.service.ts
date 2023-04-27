@@ -5,7 +5,7 @@ export const getProductos = function(){
 } 
 
 // funcion para obtener resultados de la busqueda
-export const searchingProducto = function(termino: String){
+export const lookingForProduct = function(termino: String){
   return http().get(`search?search=${termino}`)
 }
 
