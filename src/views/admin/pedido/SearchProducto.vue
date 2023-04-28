@@ -23,7 +23,7 @@ async function searchProduct() {
   loading.value = true;
   const { data: { data } } = await productoService.lookingForProduct(search_term.value);
   // agregamos data.data por la paginacion
-  emit('searched', data.data);
+  emit('searched', search_term.value.length > 0 ? data.data : []);
   loading.value = false;
 }
 
