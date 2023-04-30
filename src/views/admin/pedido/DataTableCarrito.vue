@@ -60,7 +60,7 @@ const total_carrito = ref<number>(0);
 
 const toast = useToast()
 // Definir el evento emitido por el componente
-const emits = defineEmits(['update:total_carrito'])
+const emit = defineEmits(['updateButtonColor'])
 
 // Definir constantes para evitar números mágicos
 const AUMENTAR = true;
@@ -84,6 +84,8 @@ const addToCart = () => {
 
     producto['sub_total'] = producto['precio'] * producto['cantidad'];
     carrito.value.push(producto);
+
+    emit('updateButtonColor', carrito)
   }
 }
 
