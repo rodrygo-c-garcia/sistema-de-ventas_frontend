@@ -42,110 +42,69 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, toRefs, defineEmits, watch } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
 import type { CarritoItem, Producto } from '../types'
 import { useToast } from 'primevue/usetoast';
 
+
 const props = defineProps({
-  car: {
-    type: Array<CarritoItem>,
-    required: true
-  },
   prod: {
-    type: Array<Producto>,
-    required: true
-  },
-  total_car: {
-    type: Number,
+    type: Object,
     required: true
   }
 })
 
-const { car: carrito } = toRefs(props)
-const { prod: productos } = toRefs(props)
-const total_carrito = ref(props.total_car)
-
+const carrito = ref<Array<CarritoItem>>([]);
+const total_carrito = ref<number>(0);
 
 const toast = useToast()
 // Definir el evento emitido por el componente
-const emits = defineEmits(['update:total_carrito'])
+const emit = defineEmits(['updateButtonColor'])
 
 // Definir constantes para evitar números mágicos
 const AUMENTAR = true;
 const DISMINUIR = false;
 
-// Escuchar cambios en la prop total_car y actualizar la ref local
-watch(() => props.total_car, (newValue) => {
-  total_carrito.value = newValue
-})
+// definir una función para añadir el prod al carrito
+const addToCart = () => {
+  // si es falsy se ejecuta el codigo
+  if (!findProduct()) {
+    const producto = {
+      id: props.prod.id,
+      nombre: props.prod.nombre,
+      precio: props.prod.precio_compra,
+      sub_total: 0,
+      cantidad: 1
+    }
 
-// Escuchar cambios en la ref local y emitir un evento al padre
-watch(total_carrito, (newValue) => {
-  emits('update:total_carrito', newValue)
-})
-
-// Actualizar el total del carrito usando la ref local
-const updateCartTotal = (option: boolean, valor: number) => {
-  total_carrito.value += option ? valor : -valor;
-}
-
-function findProductIndex(id: number) {
-  return productos.value.findIndex((prod: Producto) => prod.id == id)
-}
-
-function findCarritoIndex(id: number) {
-  return carrito.value.findIndex((cgt: CarritoItem) => cgt.id == id)
-}
-
-function increaseProductQuantity(producto: CarritoItem) {
-  // buscamos el indice del producto a aumentar la cantidad
-  let indexProd = findProductIndex(producto.id);
-  let index = 0;
-
-  // preguntamos si la cantidad del producto encontrado es mayor o igual a 1 
-  if (productos.value[indexProd].stock >= 1) {
-    index = findCarritoIndex(producto.id);
-    // aumentamos la cantidad en el carrito
-    carrito.value[index].cantidad++;
-    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio;
-    // disminuimos esl stock del producto
-    productos.value[indexProd].stock--;
-
-    updateCartTotal(AUMENTAR, carrito.value[index].precio);
-
-  } else toast.add({ severity: 'warn', summary: `Stock Vacio de ${productos.value[indexProd].nombre}`, detail: 'Agregue mas productos de este tipo', life: 3000 });
-}
-
-function decreaseProductQuantity(producto: CarritoItem) {
-  // buscamos el indice del producto a disminuir la cantidad
-  let indexProd = findProductIndex(producto.id)
-  // buscamos el indice del producto en el carrito 
-  const index = findCarritoIndex(producto.id)
-  // pregunta si la cantidad del producto es 1 en el carrito
-  if (carrito.value[index].cantidad > 1) {
-    // vamos a ir disminuyendo la cantidad
-    carrito.value[index].cantidad--
-    carrito.value[index].sub_total = carrito.value[index].cantidad * carrito.value[index].precio
-    // aumentamos el stock
-    productos.value[indexProd].stock++
-    updateCartTotal(false, carrito.value[index].precio)
-  } else {
-    // eliminamos el producto del carrito
-    productos.value[indexProd].stock++
-    updateCartTotal(DISMINUIR, carrito.value[index].precio)
-    carrito.value.splice(index, 1)
+    producto['sub_total'] = producto['precio'] * producto['cantidad'];
+    carrito.value.push(producto);
+    emit('updateButtonColor', carrito.value)
   }
 }
 
-function removeProductFromCart(producto: CarritoItem) {
-  let indexProd = findProductIndex(producto.id)
-  let index = findCarritoIndex(producto.id)
-  productos.value[indexProd].stock += carrito.value[index].cantidad
-
-  updateCartTotal(DISMINUIR, carrito.value[index].precio * carrito.value[index].cantidad)
-  // eliminamos del array el producto bucado
-  carrito.value.splice(index, 1)
+function findProduct() {
+  return carrito.value.find(producto => producto.id === props.prod.id);
 }
+// usar watch para observar el prop prod y ejecutar addToCart cuando cambie
+watch(() => props.prod, addToCart)
+
+function increaseProductQuantity(prod: CarritoItem) {
+
+}
+
+function decreaseProductQuantity(prod: CarritoItem) {
+
+}
+
+function removeProductFromCart(prod: CarritoItem) {
+  const index = carrito.value.findIndex(item => item.id === prod.id);
+  if (index !== -1) {
+    carrito.value.splice(index, 1);
+    emit('updateButtonColor', carrito.value)
+  }
+}
+
 
 const formatCurrency = (value: any) => {
   if (value)
