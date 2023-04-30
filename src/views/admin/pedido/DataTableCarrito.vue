@@ -38,7 +38,6 @@
         <h5 class="mb-2 md:m-0 p-as-md-center"> Total: <span>{{ total_carrito }}</span></h5>
       </div>
     </template>
-    {{ carrito }}
   </DataTable>
 </template>
 
@@ -99,7 +98,11 @@ function decreaseProductQuantity(prod: CarritoItem) {
 }
 
 function removeProductFromCart(prod: CarritoItem) {
-
+  const index = carrito.value.findIndex(item => item.id === prod.id);
+  if (index !== -1) {
+    carrito.value.splice(index, 1);
+    emit('updateButtonColor', carrito.value)
+  }
 }
 
 
