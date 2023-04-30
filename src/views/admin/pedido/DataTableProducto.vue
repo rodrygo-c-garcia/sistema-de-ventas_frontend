@@ -43,7 +43,7 @@
   </div>
   <!-- CARRITO -->
   <div class="card">
-    <DataTableCarrito :prod="producto" @updateButtonColor="val => carrito = val" />
+    <DataTableCarrito :prod="producto" @updateButtonColor="handleColors" />
   </div>
 </template>
 
