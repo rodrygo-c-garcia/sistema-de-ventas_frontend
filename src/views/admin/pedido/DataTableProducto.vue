@@ -78,6 +78,11 @@ function addStore(prod: Producto, indice: number) {
 // funcion emitida
 function handleSearch(val: Producto[]) {
   productos.value = val;
+// Funcion Emitida
+function handleColors(val: CarritoItem[]) {
+  carrito.value = val;
+  assignColors();
+}
   // recorremos todos los elementos para asignar el color de su boton
   productos.value.forEach(function (prod, indice) {
     if (findProduct(prod)) buttonColors.value[indice] = 'p-button-danger';
