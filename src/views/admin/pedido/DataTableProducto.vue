@@ -65,13 +65,19 @@ const productos = ref<Array<Producto>>([]);
 const producto = ref({});
 
 const toast = useToast();
-
+const buttonColor = ref('p-button-success');
 
 // FUNCIONES
 
 // Carrito 
 function addStore(prod: Producto) {
+  buttonColor.value = 'p-button-danger';
   producto.value = prod;
+}
+
+function handleSearch(val: Producto[]) {
+  productos.value = val;
+  buttonColor.value = 'p-button-succes';
 }
 
 const formatCurrency = (value: any) => {
