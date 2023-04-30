@@ -68,20 +68,27 @@ const DISMINUIR = false;
 
 // definir una función para añadir el prod al carrito
 const addToCart = () => {
-  const producto = {
-    id: props.prod.id,
-    nombre: props.prod.nombre,
-    precio: props.prod.precio_compra,
-    sub_total: 0,
-    cantidad: 1
-  }
+  let producto = findProduct();
 
-  producto['sub_total'] = producto['precio'] * producto['cantidad'];
-  carrito.value.push(producto);
+  console.log(producto);
+
+  // si es falsy se ejecuta el codigo
+  if (!producto) {
+    const producto = {
+      id: props.prod.id,
+      nombre: props.prod.nombre,
+      precio: props.prod.precio_compra,
+      sub_total: 0,
+      cantidad: 1
+    }
+
+    producto['sub_total'] = producto['precio'] * producto['cantidad'];
+    carrito.value.push(producto);
+  }
 }
 
-function findIndexProduct() {
-  return carrito.value.findIndex(producto => producto.id === props.prod.id)
+function findProduct() {
+  return carrito.value.find(producto => producto.id === props.prod.id)
 }
 // usar watch para observar el prop prod y ejecutar addToCart cuando cambie
 watch(() => props.prod, addToCart)
