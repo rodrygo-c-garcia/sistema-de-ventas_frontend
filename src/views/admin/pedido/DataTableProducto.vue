@@ -70,15 +70,22 @@ const buttonColor = ref('p-button-success');
 
 // FUNCIONES
 
-// Carrito 
+// Agregando producto al Carrito 
 function addStore(prod: Producto) {
   buttonColor.value === 'p-button-danger' ? showMessage(`Producto ${prod.nombre} ya esta en el carrito`, '') : producto.value = prod;
   buttonColor.value = 'p-button-danger';
 }
 
+// funcion emitida
 function handleSearch(val: Producto[]) {
   productos.value = val;
-  buttonColor.value = 'p-button-succes';
+
+  if (!findProduct()) buttonColor.value = 'p-button-success';
+  else buttonColor.value = 'p-button-danger';
+}
+
+function findProduct() {
+  return carrito.value?.find(producto => producto.id === productos.value[0]?.id)
 }
 
 function showMessage(message: string, detail: string) {
