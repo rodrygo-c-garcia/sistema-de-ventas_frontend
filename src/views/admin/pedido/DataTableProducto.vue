@@ -37,7 +37,7 @@
       <Column field="stock" header="Stock" :sortable="true" style="min-width:5rem"></Column>
       <Column :exportable="false" style="min-width:8rem">
         <template #body="slotProps">
-          <Button icon="pi pi-cart-plus" class="p-button-rounded p-button-success mr-2"
+          <Button :class="buttonColor" icon="pi pi-cart-plus" class="p-button-rounded p-button-success mr-2"
             @click="addStore(slotProps.data)" />
         </template>
       </Column>
