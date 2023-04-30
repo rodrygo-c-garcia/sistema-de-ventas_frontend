@@ -4,9 +4,8 @@
 
     <SearchProducto @searched="handleSearch" />
 
-    <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
+    <DataTable ref="dt" :value="productos" dataKey="id" :rows="5" :loading="loading"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-      :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
       responsiveLayout="scroll">
 
       <template #header>
