@@ -66,16 +66,12 @@ const producto = ref({});
 const toast = useToast();
 
 
-
 // FUNCIONES
 
 // Carrito 
 function addStore(prod: Producto) {
   producto.value = prod;
-  console.log(producto.value)
 }
-
-
 
 const formatCurrency = (value: any) => {
   if (value)
