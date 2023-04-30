@@ -71,13 +71,17 @@ const buttonColor = ref('p-button-success');
 
 // Carrito 
 function addStore(prod: Producto) {
+  buttonColor.value === 'p-button-danger' ? showMessage(`Producto ${prod.nombre} ya esta en el carrito`, '') : producto.value = prod;
   buttonColor.value = 'p-button-danger';
-  producto.value = prod;
 }
 
 function handleSearch(val: Producto[]) {
   productos.value = val;
   buttonColor.value = 'p-button-succes';
+}
+
+function showMessage(message: string, detail: string) {
+  toast.add({ severity: 'warn', summary: message, detail: detail, life: 3000 });
 }
 
 const formatCurrency = (value: any) => {
