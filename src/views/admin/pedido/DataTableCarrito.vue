@@ -66,16 +66,18 @@ const emit = defineEmits(['updateButtonColor'])
 const AUMENTAR = true;
 const DISMINUIR = false;
 
+// FUNCIONES
 // definir una función para añadir el prod al carrito
 const addToCart = () => {
   // si es falsy se ejecuta el codigo
   if (!findProduct()) {
-    const producto = {
+    const producto: CarritoItem = {
       id: props.prod.id,
       nombre: props.prod.nombre,
       precio: props.prod.precio_compra,
       sub_total: 0,
-      cantidad: 1
+      cantidad: 1,
+      stock: props.prod.stock
     }
 
     producto['sub_total'] = producto['precio'] * producto['cantidad'];
