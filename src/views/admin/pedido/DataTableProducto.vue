@@ -66,26 +66,29 @@ const producto = ref({});
 
 
 const toast = useToast();
-const buttonColor = ref('p-button-success');
+const buttonColors = ref<Array<String>>([]);
 
 // FUNCIONES
 
 // Agregando producto al Carrito 
-function addStore(prod: Producto) {
-  buttonColor.value === 'p-button-danger' ? showMessage(`Producto ${prod.nombre} ya esta en el carrito`, '') : producto.value = prod;
-  buttonColor.value = 'p-button-danger';
+function addStore(prod: Producto, indice: number) {
+  buttonColors.value[indice] === 'p-button-danger' ? showMessage(`Producto ${prod.nombre} ya esta en el carrito`, '') : producto.value = prod;
+  buttonColors.value[indice] = 'p-button-danger';
 }
 
 // funcion emitida
 function handleSearch(val: Producto[]) {
   productos.value = val;
+  // recorremos todos los elementos para asignar el color de su boton
+  productos.value.forEach(function (prod, indice) {
+    if (findProduct(prod)) buttonColors.value[indice] = 'p-button-danger';
+    else buttonColors.value[indice] = 'p-button-success';
+  })
 
-  if (!findProduct()) buttonColor.value = 'p-button-success';
-  else buttonColor.value = 'p-button-danger';
 }
 
-function findProduct() {
-  return carrito.value?.find(producto => producto.id === productos.value[0]?.id)
+function findProduct(prod: Producto) {
+  return carrito.value?.find(item => item.id === prod.id);
 }
 
 function showMessage(message: string, detail: string) {
