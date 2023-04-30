@@ -38,13 +38,15 @@
         <h5 class="mb-2 md:m-0 p-as-md-center"> Total: <span>{{ total_carrito }}</span></h5>
       </div>
     </template>
+    {{ carrito }}
   </DataTable>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, toRefs, defineEmits, watch } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
 import type { CarritoItem, Producto } from '../types'
 import { useToast } from 'primevue/usetoast';
+
 
 const props = defineProps({
   prod: {
@@ -54,8 +56,6 @@ const props = defineProps({
 })
 
 const carrito = ref<Array<CarritoItem>>([]);
-
-const { prod: productos } = toRefs(props);
 const total_carrito = ref<number>(0);
 
 const toast = useToast()
@@ -65,6 +65,25 @@ const emits = defineEmits(['update:total_carrito'])
 // Definir constantes para evitar números mágicos
 const AUMENTAR = true;
 const DISMINUIR = false;
+
+// definir una función para añadir el prod al carrito
+const addToCart = () => {
+  console.log(props.prod)
+
+  const producto = {
+    id: props.prod.id,
+    nombre: props.prod.nombre,
+    precio: props.prod.precio_compra,
+    sub_total: 0,
+    cantidad: 1
+  }
+
+  producto['sub_total'] = producto['precio'] * producto['cantidad'];
+  carrito.value.push(producto);
+}
+
+// usar watch para observar el prop prod y ejecutar addToCart cuando cambie
+watch(() => props.prod, addToCart)
 
 function increaseProductQuantity(prod: CarritoItem) {
 
@@ -77,6 +96,7 @@ function decreaseProductQuantity(prod: CarritoItem) {
 function removeProductFromCart(prod: CarritoItem) {
 
 }
+
 
 const formatCurrency = (value: any) => {
   if (value)
