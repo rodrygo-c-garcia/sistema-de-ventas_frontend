@@ -39,4 +39,5 @@ export interface CarritoItem {
   precio: number;
   sub_total: number;
   cantidad: number;
+  stock: number
 }
