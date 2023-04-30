@@ -84,13 +84,12 @@ const addToCart = () => {
 
     producto['sub_total'] = producto['precio'] * producto['cantidad'];
     carrito.value.push(producto);
-
-    emit('updateButtonColor', carrito)
+    emit('updateButtonColor', carrito.value)
   }
 }
 
 function findProduct() {
-  return carrito.value.find(producto => producto.id === props.prod.id)
+  return carrito.value.find(producto => producto.id === props.prod.id);
 }
 // usar watch para observar el prop prod y ejecutar addToCart cuando cambie
 watch(() => props.prod, addToCart)
