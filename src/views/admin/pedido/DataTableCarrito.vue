@@ -68,8 +68,6 @@ const DISMINUIR = false;
 
 // definir una función para añadir el prod al carrito
 const addToCart = () => {
-  console.log(props.prod)
-
   const producto = {
     id: props.prod.id,
     nombre: props.prod.nombre,
@@ -82,6 +80,9 @@ const addToCart = () => {
   carrito.value.push(producto);
 }
 
+function findIndexProduct() {
+  return carrito.value.findIndex(producto => producto.id === props.prod.id)
+}
 // usar watch para observar el prop prod y ejecutar addToCart cuando cambie
 watch(() => props.prod, addToCart)
 
