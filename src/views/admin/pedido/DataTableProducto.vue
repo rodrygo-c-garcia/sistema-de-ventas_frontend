@@ -61,7 +61,9 @@ const loading = ref<boolean>(false);
 provide('loading', loading);
 
 const productos = ref<Array<Producto>>([]);
+const carrito = ref<Array<CarritoItem>>([]);
 const producto = ref({});
+
 
 const toast = useToast();
 const buttonColor = ref('p-button-success');
