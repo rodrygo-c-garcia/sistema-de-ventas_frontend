@@ -83,6 +83,7 @@ function handleColors(val: CarritoItem[]) {
   carrito.value = val;
   assignColors();
 }
+function assignColors() {
   // recorremos todos los elementos para asignar el color de su boton
   productos.value.forEach(function (prod, indice) {
     if (findProduct(prod)) buttonColors.value[indice] = 'p-button-danger';
