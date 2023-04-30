@@ -68,12 +68,8 @@ const DISMINUIR = false;
 
 // definir una función para añadir el prod al carrito
 const addToCart = () => {
-  let find_producto = findProduct();
-
-  console.log(find_producto);
-
   // si es falsy se ejecuta el codigo
-  if (!find_producto) {
+  if (!findProduct()) {
     const producto = {
       id: props.prod.id,
       nombre: props.prod.nombre,
