@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits, inject } from 'vue';
+import { ref, inject } from 'vue';
 import * as productoService from '@/services/producto.service';
 
 // Variables 
