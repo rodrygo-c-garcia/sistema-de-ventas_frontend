@@ -71,25 +71,33 @@ const buttonColors = ref<Array<String>>([]);
 
 // Agregando producto al Carrito 
 function addStore(prod: Producto, indice: number) {
-  buttonColors.value[indice] === 'p-button-danger' ? showMessage(`Producto ${prod.nombre} ya esta en el carrito`, '') : producto.value = prod;
-  buttonColors.value[indice] = 'p-button-danger';
+  // buscamos el producto en carrito para hacer cambios y alertar a watch
+  if (!findProduct(prod)) {
+    producto.value = { ...prod };
+    buttonColors.value[indice] = 'p-button-danger';
+  } else {
+    showMessage(`Producto ${prod.nombre} ya esta en el carrito`, '')
+  }
 }
 
 // funcion emitida
 function handleSearch(val: Producto[]) {
   productos.value = val;
+  assignColors()
+}
+
 // Funcion Emitida
 function handleColors(val: CarritoItem[]) {
   carrito.value = val;
   assignColors();
 }
+
 function assignColors() {
   // recorremos todos los elementos para asignar el color de su boton
   productos.value.forEach(function (prod, indice) {
     if (findProduct(prod)) buttonColors.value[indice] = 'p-button-danger';
     else buttonColors.value[indice] = 'p-button-success';
   })
-
 }
 
 function findProduct(prod: Producto) {
