@@ -22,6 +22,7 @@
         {{ formatCurrency(slotProps.data.sub_total) }}
       </template>
     </Column>
+    <Column field="stock" header="Stock" :sortable="true" style="min-width:5rem"></Column>
     <Column field="cantidad" header="Cantidad" :sortable="true" style="min-width:5rem"></Column>
     <Column :exportable="false" style="min-width:8rem">
       <template #body="slotProps">
