@@ -2,7 +2,8 @@
   <Toast />
   <div class="card">
 
-    <SearchProducto @searched="val => productos = val" />
+    <!-- <SearchProducto @searched="val => productos = val" /> -->
+    <SearchProducto @searched="handleSearch" />
 
     <DataTable ref="dt" :value="productos" dataKey="id" :paginator="true" :rows="5" :loading="loading"
       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
