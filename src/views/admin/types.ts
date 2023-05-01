@@ -41,3 +41,11 @@ export interface CarritoItem {
   cantidad: number;
   stock: number
 }
+
+// Para el Toast
+export const severety = {
+  SUCCESS: 'success',
+  INFO: 'info',
+  WARN: 'warn',
+  ERROR: 'error'
+}
