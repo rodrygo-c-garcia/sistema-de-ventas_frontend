@@ -114,6 +114,9 @@ function showMessage(severety: string, message: string, detail: string) {
   toast.add({ severity: severety, summary: message, detail: detail, life: 3000 });
 }
 
+function findIndexProduct(prod: CarritoItem) {
+  return carrito.value.findIndex(item => item.id === prod.id);
+}
 
 const formatCurrency = (value: any) => {
   if (value)
