@@ -109,6 +109,10 @@ function removeProductFromCart(prod: CarritoItem) {
   }
 }
 
+function showMessage(severety: string, message: string, detail: string) {
+  toast.add({ severity: severety, summary: message, detail: detail, life: 3000 });
+}
+
 
 const formatCurrency = (value: any) => {
   if (value)
