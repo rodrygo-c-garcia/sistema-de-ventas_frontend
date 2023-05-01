@@ -44,7 +44,8 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, watch } from 'vue';
-import type { CarritoItem, Producto } from '../types'
+import type { CarritoItem, Producto } from '../types';
+import { severety } from '../types';
 import { useToast } from 'primevue/usetoast';
 
 
