@@ -22,6 +22,7 @@
         {{ formatCurrency(slotProps.data.sub_total) }}
       </template>
     </Column>
+    <Column field="stock" header="Stock" :sortable="true" style="min-width:5rem"></Column>
     <Column field="cantidad" header="Cantidad" :sortable="true" style="min-width:5rem"></Column>
     <Column :exportable="false" style="min-width:8rem">
       <template #body="slotProps">
@@ -43,7 +44,8 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, watch } from 'vue';
-import type { CarritoItem, Producto } from '../types'
+import type { CarritoItem, Producto } from '../types';
+import { severety } from '../types';
 import { useToast } from 'primevue/usetoast';
 
 
@@ -65,16 +67,18 @@ const emit = defineEmits(['updateButtonColor'])
 const AUMENTAR = true;
 const DISMINUIR = false;
 
+// FUNCIONES
 // definir una función para añadir el prod al carrito
 const addToCart = () => {
   // si es falsy se ejecuta el codigo
   if (!findProduct()) {
-    const producto = {
+    const producto: CarritoItem = {
       id: props.prod.id,
       nombre: props.prod.nombre,
       precio: props.prod.precio_compra,
       sub_total: 0,
-      cantidad: 1
+      cantidad: 1,
+      stock: props.prod.stock
     }
 
     producto['sub_total'] = producto['precio'] * producto['cantidad'];
@@ -90,21 +94,30 @@ function findProduct() {
 watch(() => props.prod, addToCart)
 
 function increaseProductQuantity(prod: CarritoItem) {
-
+  if (prod.stock > prod.cantidad) prod.cantidad++;
+  else showMessage(severety.WARN, 'La cantidad no debe exceder el Stock', '');
 }
 
 function decreaseProductQuantity(prod: CarritoItem) {
-
+  if (prod.cantidad > 1) prod.cantidad--;
+  else removeProductFromCart(prod);
 }
 
 function removeProductFromCart(prod: CarritoItem) {
-  const index = carrito.value.findIndex(item => item.id === prod.id);
+  const index = findIndexProduct(prod);
   if (index !== -1) {
     carrito.value.splice(index, 1);
     emit('updateButtonColor', carrito.value)
   }
 }
 
+function showMessage(severety: string, message: string, detail: string) {
+  toast.add({ severity: severety, summary: message, detail: detail, life: 3000 });
+}
+
+function findIndexProduct(prod: CarritoItem) {
+  return carrito.value.findIndex(item => item.id === prod.id);
+}
 
 const formatCurrency = (value: any) => {
   if (value)

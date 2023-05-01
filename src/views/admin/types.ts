@@ -39,4 +39,13 @@ export interface CarritoItem {
   precio: number;
   sub_total: number;
   cantidad: number;
+  stock: number
+}
+
+// Para el Toast
+export const severety = {
+  SUCCESS: 'success',
+  INFO: 'info',
+  WARN: 'warn',
+  ERROR: 'error'
 }

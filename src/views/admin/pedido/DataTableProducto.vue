@@ -53,7 +53,8 @@ import SearchProducto from './SearchProducto.vue';
 
 import { ref, provide } from 'vue';
 import { useToast } from 'primevue/usetoast';
-import type { CarritoItem, Producto } from '../types'
+import type { CarritoItem, Producto } from '../types';
+import { severety } from '../types';
 
 // loading
 const loading = ref<boolean>(false);
@@ -76,7 +77,7 @@ function addStore(prod: Producto, indice: number) {
     producto.value = { ...prod };
     buttonColors.value[indice] = 'p-button-danger';
   } else {
-    showMessage(`Producto ${prod.nombre} ya esta en el carrito`, '')
+    showMessage(severety.WARN, `Producto ${prod.nombre} ya esta en el carrito`, '')
   }
 }
 
@@ -104,8 +105,8 @@ function findProduct(prod: Producto) {
   return carrito.value?.find(item => item.id === prod.id);
 }
 
-function showMessage(message: string, detail: string) {
-  toast.add({ severity: 'warn', summary: message, detail: detail, life: 3000 });
+function showMessage(severety: string, message: string, detail: string) {
+  toast.add({ severity: severety, summary: message, detail: detail, life: 3000 });
 }
 
 const formatCurrency = (value: any) => {
