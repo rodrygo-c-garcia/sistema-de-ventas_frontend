@@ -99,11 +99,12 @@ function increaseProductQuantity(prod: CarritoItem) {
 }
 
 function decreaseProductQuantity(prod: CarritoItem) {
-
+  if (prod.cantidad > 1) prod.cantidad--;
+  else removeProductFromCart(prod);
 }
 
 function removeProductFromCart(prod: CarritoItem) {
-  const index = carrito.value.findIndex(item => item.id === prod.id);
+  const index = findIndexProduct(prod);
   if (index !== -1) {
     carrito.value.splice(index, 1);
     emit('updateButtonColor', carrito.value)
