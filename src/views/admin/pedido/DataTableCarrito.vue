@@ -94,7 +94,8 @@ function findProduct() {
 watch(() => props.prod, addToCart)
 
 function increaseProductQuantity(prod: CarritoItem) {
-
+  if (prod.stock > prod.cantidad) prod.cantidad++;
+  else showMessage(severety.WARN, 'La cantidad no debe exceder el Stock', '');
 }
 
 function decreaseProductQuantity(prod: CarritoItem) {
