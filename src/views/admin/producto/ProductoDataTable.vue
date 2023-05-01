@@ -97,11 +97,6 @@ async function obtenerProductos() {
   }
 }
 
-const formatCurrency = (value: any) => {
-  if (value)
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-};
-
 function editProduct(prod: any): void {
   producto.value = { ...prod };
   display.value = true;
@@ -111,6 +106,11 @@ function confirmDeleteProduct(prod: any): void {
   producto.value = prod;
   deleteProductDialog.value = true;
 }
+
+const formatCurrency = (value: any) => {
+  if (value)
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+};
 
 </script>
 

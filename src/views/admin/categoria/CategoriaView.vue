@@ -9,5 +9,3 @@
 import DataTableCategoria from './DataTableCategoria.vue';
 
 </script>
-
-<style></style>

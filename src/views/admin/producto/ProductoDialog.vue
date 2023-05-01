@@ -28,6 +28,7 @@ const display = ref(inject<boolean>('display'));
 const categorias = ref<Array<any>>([]);
 const actualizar_productos = ref(inject<boolean>('actualizar_productos'));
 const img_miniatura = ref<string>('');
+// para leer archivos en este caso imagenes
 const reader = new FileReader()
 const imgBB = ref<string>('');
 const categoria_loading = ref<boolean>(false)
@@ -223,10 +224,10 @@ export default {
       <div class="field col">
         <div class="card">
           <p class="utilidad"> {{ (producto.precio_venta - producto.precio_compra > 0) ? `Utilidad:
-                      $${producto.precio_venta -
+            $${producto.precio_venta -
             producto.precio_compra}` : 'Sin utilidad' }}</p>
           <p> {{ (producto.precio_venta - producto.precio_compra > 0) ? `Utlidad Total:
-                      $${(producto.precio_venta -
+            $${(producto.precio_venta -
               producto.precio_compra) * producto.stock}` : '' }}</p>
         </div>
       </div>
