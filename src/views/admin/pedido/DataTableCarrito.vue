@@ -63,13 +63,9 @@ const toast = useToast()
 // Definir el evento emitido por el componente
 const emit = defineEmits(['updateButtonColor'])
 
-// Definir constantes para evitar números mágicos
-const AUMENTAR = true;
-const DISMINUIR = false;
-
 // FUNCIONES
 // definir una función para añadir el prod al carrito
-const addToCart = () => {
+const addToCart = (): void => {
   // si es falsy se ejecuta el codigo
   if (!findProduct()) {
     const producto: CarritoItem = {
@@ -88,13 +84,13 @@ const addToCart = () => {
   }
 }
 
-function findProduct() {
+function findProduct(): CarritoItem | undefined {
   return carrito.value.find(producto => producto.id === props.prod.id);
 }
 // usar watch para observar el prop prod y ejecutar addToCart cuando cambie
 watch(() => props.prod, addToCart)
 
-function increaseProductQuantity(prod: CarritoItem) {
+function increaseProductQuantity(prod: CarritoItem): void {
   if (prod.stock > prod.cantidad) {
     prod.cantidad++;
     calculateSubtotal(prod);
@@ -102,7 +98,7 @@ function increaseProductQuantity(prod: CarritoItem) {
   else showMessage(severety.WARN, 'La cantidad no debe exceder el Stock', '');
 }
 
-function decreaseProductQuantity(prod: CarritoItem) {
+function decreaseProductQuantity(prod: CarritoItem): void {
   if (prod.cantidad > 1) {
     prod.cantidad--;
     calculateSubtotal(prod);
@@ -110,18 +106,18 @@ function decreaseProductQuantity(prod: CarritoItem) {
   else removeProductFromCart(prod);
 }
 
-function calculateSubtotal(prod: CarritoItem) {
+function calculateSubtotal(prod: CarritoItem): void {
   prod.sub_total = prod.precio * prod.cantidad;
   calculateTotal()
 }
 
-function calculateTotal() {
+function calculateTotal(): void {
   total_carrito.value = carrito.value.reduce((acumulator: number, product: CarritoItem) => {
     return acumulator + product.sub_total;
   }, 0)
 }
 
-function removeProductFromCart(prod: CarritoItem) {
+function removeProductFromCart(prod: CarritoItem): void {
   const index = findIndexProduct(prod);
   if (index !== -1) {
     carrito.value.splice(index, 1);
@@ -130,11 +126,11 @@ function removeProductFromCart(prod: CarritoItem) {
   }
 }
 
-function showMessage(severety: string, message: string, detail: string) {
+function showMessage(severety: string, message: string, detail: string): void {
   toast.add({ severity: severety, summary: message, detail: detail, life: 3000 });
 }
 
-function findIndexProduct(prod: CarritoItem) {
+function findIndexProduct(prod: CarritoItem): number {
   return carrito.value.findIndex(item => item.id === prod.id);
 }
 
