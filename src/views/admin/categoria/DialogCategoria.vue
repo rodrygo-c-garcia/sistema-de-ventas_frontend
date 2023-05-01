@@ -66,5 +66,3 @@ export default {
   name: 'DialogCategoria'
 }
 </script>
-
-<style></style>

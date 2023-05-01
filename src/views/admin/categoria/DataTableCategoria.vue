@@ -80,5 +80,3 @@ export default {
   name: 'DataTableCategoria'
 }
 </script>
-
-<style></style>
