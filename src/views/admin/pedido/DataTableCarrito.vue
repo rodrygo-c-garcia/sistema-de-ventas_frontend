@@ -75,7 +75,7 @@ const addToCart = () => {
     const producto: CarritoItem = {
       id: props.prod.id,
       nombre: props.prod.nombre,
-      precio: props.prod.precio_compra,
+      precio: props.prod.precio_venta,
       sub_total: 0,
       cantidad: 1,
       stock: props.prod.stock
