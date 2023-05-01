@@ -83,6 +83,7 @@ const addToCart = () => {
 
     producto['sub_total'] = producto['precio'] * producto['cantidad'];
     carrito.value.push(producto);
+    calculateTotal()
     emit('updateButtonColor', carrito.value)
   }
 }
@@ -94,19 +95,37 @@ function findProduct() {
 watch(() => props.prod, addToCart)
 
 function increaseProductQuantity(prod: CarritoItem) {
-  if (prod.stock > prod.cantidad) prod.cantidad++;
+  if (prod.stock > prod.cantidad) {
+    prod.cantidad++;
+    calculateSubtotal(prod);
+  }
   else showMessage(severety.WARN, 'La cantidad no debe exceder el Stock', '');
 }
 
 function decreaseProductQuantity(prod: CarritoItem) {
-  if (prod.cantidad > 1) prod.cantidad--;
+  if (prod.cantidad > 1) {
+    prod.cantidad--;
+    calculateSubtotal(prod);
+  }
   else removeProductFromCart(prod);
+}
+
+function calculateSubtotal(prod: CarritoItem) {
+  prod.sub_total = prod.precio * prod.cantidad;
+  calculateTotal()
+}
+
+function calculateTotal() {
+  total_carrito.value = carrito.value.reduce((acumulator: number, product: CarritoItem) => {
+    return acumulator + product.sub_total;
+  }, 0)
 }
 
 function removeProductFromCart(prod: CarritoItem) {
   const index = findIndexProduct(prod);
   if (index !== -1) {
     carrito.value.splice(index, 1);
+    calculateTotal()
     emit('updateButtonColor', carrito.value)
   }
 }
