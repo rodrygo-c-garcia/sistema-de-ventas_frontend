@@ -1,7 +1,7 @@
 <template>
   <Toolbar class="mb-4">
     <template #start>
-      <Button label="New" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
+      <Button label="Producto Nuevo" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
       <Button label="Delete" icon="pi pi-trash" class="p-button-danger"
         :disabled="!selectedProducts || !selectedProducts.length" />
     </template>
