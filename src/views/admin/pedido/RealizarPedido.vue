@@ -8,4 +8,10 @@
 
 </script>
 
+<script lang="ts">
+export default {
+  name: 'RealizarPedido',
+}
+</script>
+
 <style scoped></style>
