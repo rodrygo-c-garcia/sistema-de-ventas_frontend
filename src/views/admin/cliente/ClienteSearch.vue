@@ -13,5 +13,3 @@ export default {
   name: 'ClienteDialog',
 }
 </script>
-
-<style scoped></style>
