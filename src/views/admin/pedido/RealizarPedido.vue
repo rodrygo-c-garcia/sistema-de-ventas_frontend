@@ -13,5 +13,3 @@ export default {
   name: 'RealizarPedido',
 }
 </script>
-
-<style scoped></style>
