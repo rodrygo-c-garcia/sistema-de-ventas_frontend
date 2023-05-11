@@ -68,7 +68,7 @@ const props = defineProps({
 // ATRIBUTOS
 const carrito = ref<Array<CarritoItem>>([]);
 const total_carrito = ref<number>(0);
-const visible = ref<Boolean>(false);
+const visible = ref<boolean>(false);
 provide('visible', visible);
 
 const toast = useToast()
@@ -157,7 +157,7 @@ const formatCurrency = (value: any) => {
 
 <script lang="ts">
 export default {
-  name: 'DataTableCarrito'
+  name: "DataTableCarrito",
 }
 </script>
 
