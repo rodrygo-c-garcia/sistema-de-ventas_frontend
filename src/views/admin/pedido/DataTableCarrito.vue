@@ -40,15 +40,24 @@
       </div>
     </template>
   </DataTable>
+  <!-- boton para abrir el Dialog de Realizar Pedido -->
+  <div class="card container-btn-pedido">
+    <Button label="Proceder con el Pedido" icon="pi pi-external-link" severity="success" @click="checkCartQuantity" />
+  </div>
+
+  <RealizarPedidoVue />
+
+  {{ visible }}
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, provide } from 'vue';
 import type { CarritoItem } from '../types';
 import { severety } from '../types';
 import { useToast } from 'primevue/usetoast';
+import RealizarPedidoVue from './RealizarPedido.vue';
 
-
+// PROPS
 const props = defineProps({
   prod: {
     type: Object,
@@ -56,10 +65,14 @@ const props = defineProps({
   }
 })
 
+// ATRIBUTOS
 const carrito = ref<Array<CarritoItem>>([]);
 const total_carrito = ref<number>(0);
+const visible = ref<boolean>(false);
+provide('visible', visible);
 
 const toast = useToast()
+
 // Definir el evento emitido por el componente
 const emit = defineEmits(['updateButtonColor'])
 
@@ -140,10 +153,21 @@ const formatCurrency = (value: any) => {
   return null;
 };
 
+function checkCartQuantity() {
+  if (carrito.value.length === 0) showMessage('info', 'Agrega productos al carrito', 'Carrito esta vacio');
+  else visible.value = true;
+}
 </script>
 
 <script lang="ts">
 export default {
-  name: 'DataTableCarrito'
+  name: "DataTableCarrito",
 }
 </script>
+
+<style scoped>
+.container-btn-pedido {
+  display: flex;
+  justify-content: center;
+}
+</style>
