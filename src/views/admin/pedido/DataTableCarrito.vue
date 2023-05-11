@@ -42,17 +42,17 @@
   </DataTable>
   <!-- boton para abrir el Dialog de Realizar Pedido -->
   <div class="card container-btn-pedido">
-    <Button label="Proceder con el Pedido" severity="success" />
+    <Button label="Proceder con el Pedido" icon="pi pi-external-link" severity="success" @click="visible = true" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, provide } from 'vue';
 import type { CarritoItem } from '../types';
 import { severety } from '../types';
 import { useToast } from 'primevue/usetoast';
 
-
+// PROPS
 const props = defineProps({
   prod: {
     type: Object,
@@ -60,10 +60,14 @@ const props = defineProps({
   }
 })
 
+// ATRIBUTOS
 const carrito = ref<Array<CarritoItem>>([]);
 const total_carrito = ref<number>(0);
+const visible = ref<Boolean>(false);
+provide('visible', visible);
 
 const toast = useToast()
+
 // Definir el evento emitido por el componente
 const emit = defineEmits(['updateButtonColor'])
 
