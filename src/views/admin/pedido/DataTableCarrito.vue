@@ -151,3 +151,10 @@ export default {
   name: 'DataTableCarrito'
 }
 </script>
+
+<style scoped>
+.container-btn-pedido {
+  display: flex;
+  justify-content: center;
+}
+</style>
