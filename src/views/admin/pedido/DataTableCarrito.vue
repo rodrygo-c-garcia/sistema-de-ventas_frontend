@@ -44,6 +44,10 @@
   <div class="card container-btn-pedido">
     <Button label="Proceder con el Pedido" icon="pi pi-external-link" severity="success" @click="visible = true" />
   </div>
+
+  <RealizarPedidoVue />
+
+  {{ visible }}
 </template>
 
 <script setup lang="ts">
@@ -51,6 +55,7 @@ import { ref, watch, provide } from 'vue';
 import type { CarritoItem } from '../types';
 import { severety } from '../types';
 import { useToast } from 'primevue/usetoast';
+import RealizarPedidoVue from './RealizarPedido.vue';
 
 // PROPS
 const props = defineProps({
