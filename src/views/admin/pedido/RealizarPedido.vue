@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
+  <Dialog v-model:visible="visible" modal header="Realizar Pedido" :style="{ width: '50vw' }">
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
       aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
