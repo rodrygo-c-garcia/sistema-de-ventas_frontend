@@ -153,6 +153,10 @@ const formatCurrency = (value: any) => {
   return null;
 };
 
+function checkCartQuantity() {
+  if (carrito.value.length === 0) showMessage('info', 'Agrega productos al carrito', 'Carrito esta vacio');
+  else visible.value = true;
+}
 </script>
 
 <script lang="ts">
