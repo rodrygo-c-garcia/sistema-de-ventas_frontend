@@ -42,7 +42,7 @@
   </DataTable>
   <!-- boton para abrir el Dialog de Realizar Pedido -->
   <div class="card container-btn-pedido">
-    <Button label="Proceder con el Pedido" icon="pi pi-external-link" severity="success" @click="visible = true" />
+    <Button label="Proceder con el Pedido" icon="pi pi-external-link" severity="success" @click="checkCartQuantity" />
   </div>
 
   <RealizarPedidoVue />
