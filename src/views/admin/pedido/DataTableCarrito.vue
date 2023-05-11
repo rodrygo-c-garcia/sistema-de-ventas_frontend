@@ -40,6 +40,10 @@
       </div>
     </template>
   </DataTable>
+  <!-- boton para abrir el Dialog de Realizar Pedido -->
+  <div class="card container-btn-pedido">
+    <Button label="Proceder con el Pedido" severity="success" />
+  </div>
 </template>
 
 <script setup lang="ts">
