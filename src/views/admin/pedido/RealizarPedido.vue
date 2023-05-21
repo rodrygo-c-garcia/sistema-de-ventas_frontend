@@ -15,6 +15,9 @@ import { inject, ref } from 'vue';
 
 // ATRIBUTOS
 const visible = ref(inject<boolean>("visible"));
+
+// FUNCIONES
+
 </script>
 
 <script lang="ts">
