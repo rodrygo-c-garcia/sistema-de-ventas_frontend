@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <h2>Cliente Search</h2>
   </div>
 </template>
 
@@ -10,6 +10,6 @@
 
 <script lang="ts">
 export default {
-  name: 'ClienteDialog',
+  name: 'ClienteSearch',
 }
 </script>
