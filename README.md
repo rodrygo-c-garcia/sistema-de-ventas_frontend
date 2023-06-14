@@ -1,6 +1,7 @@
 # Sistema-Ventas-Frontend (VueJs3 + TS)
 Ariel Rodrigo Colque Garcia
-This template should help get you started developing with Vue 3 in Vite.
+
+- This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
 
