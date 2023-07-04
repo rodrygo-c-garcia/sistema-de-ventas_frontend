@@ -45,9 +45,7 @@
     <Button label="Proceder con el Pedido" icon="pi pi-external-link" severity="success" @click="checkCartQuantity" />
   </div>
 
-  <RealizarPedidoVue />
-
-  {{ visible }}
+  <RealizarPedido :total_carrito="total_carrito" />
 </template>
 
 <script setup lang="ts">
@@ -55,7 +53,7 @@ import { ref, watch, provide } from 'vue';
 import type { CarritoItem } from '../types';
 import { severety } from '../types';
 import { useToast } from 'primevue/usetoast';
-import RealizarPedidoVue from './RealizarPedido.vue';
+import RealizarPedido from './RealizarPedido.vue';
 
 // PROPS
 const props = defineProps({
