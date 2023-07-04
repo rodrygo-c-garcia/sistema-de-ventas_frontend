@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-content-between">
+    <div class="flex justify-content-between align-items-center">
       <div class="flex flex-column gap-2">
         <label for="price">Cantidad recibida:</label>
         <InputNumber inputId="horizontal" v-model="amount_received" showButtons buttonLayout="horizontal" :step="0.50"
