@@ -8,16 +8,16 @@
           decrementButtonIcon="pi pi-minus" mode="currency" currency="USD" locale="en-US" :min="0" :max="500" />
       </div>
       <div>
-        <h5>Total: {{ total_carrito }}</h5>
-        <h5>Total: </h5>
-        <h5>Total: </h5>
+        <h5>Total: $ {{ total_carrito }}</h5>
+        <h5>Pago: $ {{ amount_received }}</h5>
+        <h5>Cambio: $ {{ change }}</h5>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, toRefs } from 'vue'
+import { ref, defineProps, toRefs, watch } from 'vue'
 
 // PROPs
 
@@ -32,7 +32,14 @@ const { total: total_carrito } = toRefs(props);
 
 // Variables
 const amount_received = ref<number>(0);
+const change = ref<number>(0);
 
+
+// Watcher
+watch(amount_received, (newValue, oldValue) => {
+  // Actualizar el valor de 'change'
+  change.value = (newValue > total_carrito.value) ? (newValue - total_carrito.value) : 0;
+});
 
 </script>
 
