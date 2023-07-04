@@ -66,7 +66,7 @@ const producto = ref({});
 
 
 const toast = useToast();
-const buttonColors = ref<Array<String>>([]);
+const buttonColors = ref<Array<string>>([]);
 
 // FUNCIONES
 
