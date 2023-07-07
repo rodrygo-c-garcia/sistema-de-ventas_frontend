@@ -4,7 +4,7 @@
       <PagoView :total="total" />
     </section>
     <section class="card">
-      <ClienteSearch />
+      <ClienteSearchRegister />
     </section>
     <Button>Cerrar</Button>
   </Dialog>
@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { inject, ref, defineProps, toRefs } from 'vue';
 import PagoView from './PagoView.vue'
-import ClienteSearch from '../cliente/ClienteSearch.vue'
+import ClienteSearchRegister from '../cliente/ClienteSearchRegister.vue'
 
 // PROPs
 
