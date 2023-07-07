@@ -5,7 +5,7 @@
         <label for="price">Cantidad recibida:</label>
         <InputNumber inputId="horizontal" v-model="amount_received" showButtons buttonLayout="horizontal" :step="0.50"
           decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
-          decrementButtonIcon="pi pi-minus" mode="currency" currency="USD" locale="en-US" :min="0" :max="500" />
+          decrementButtonIcon="pi pi-minus" mode="currency" currency="USD" locale="en-US" :min="0" :max="2000" />
       </div>
       <div>
         <h5>Total: $ {{ total_carrito }}</h5>
