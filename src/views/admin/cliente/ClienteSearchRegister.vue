@@ -1,13 +1,15 @@
 <template>
   <div>
     <h5>Cliente</h5>
-    <div class="card flex justify-content-center">
+    <div class="card flex justify-content-between align-items-center">
+      <!-- Buscar Cliente -->
+      <div>
+        <SearchCliente />
+      </div>
       <!-- Registrar nuevo cliente -->
       <div>
         <RegisterCliente />
       </div>
-      <!-- Buscar Cliente -->
-      <div></div>
     </div>
   </div>
 </template>
@@ -15,6 +17,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import RegisterCliente from './RegisterCliente.vue';
+import SearchCliente from './SearchCliente.vue';
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
