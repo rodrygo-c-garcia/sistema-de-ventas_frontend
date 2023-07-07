@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5>Cliente</h5>
-    <div class="card flex justify-content-between align-items-center">
+    <div class="flex justify-content-between align-items-center">
       <!-- Buscar Cliente -->
       <div>
         <SearchCliente />
