@@ -1,5 +1,5 @@
 <template>
-  <Button label="Nuevo Cliente" icon="pi pi-external-link" @click="visible = true" />
+  <Button label="Nuevo Cliente" icon="pi pi-user-plus" @click="visible = true" />
   <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
