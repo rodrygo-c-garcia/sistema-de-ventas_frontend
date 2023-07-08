@@ -1,13 +1,24 @@
 <template>
   <Button label="Nuevo Cliente" icon="pi pi-user-plus" @click="visible = true" />
-  <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
+  <Dialog v-model:visible="visible" modal header="Nuevo Cliente" :style="{ width: '30vw' }" class="p-fluid">
+    <div class="field">
+      <label for="nombre">Nombre y Apellido</label>
+      <InputText id="nombre" required="true" />
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <InputText id="email" type="email" required="true" />
+    </div>
+    <div class="flex justify-content-between">
+      <div class="field">
+        <label for="telefono">Telefono</label>
+        <InputNumber id="telefono" required="true" />
+      </div>
+      <div class="field">
+        <label for="nit">NIT</label>
+        <InputNumber id="nit" required="true" />
+      </div>
+    </div>
   </Dialog>
 </template>
 
