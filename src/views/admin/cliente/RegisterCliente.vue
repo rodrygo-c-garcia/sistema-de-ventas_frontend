@@ -23,6 +23,9 @@
       <label for="direccion">Direccion</label>
       <InputText id="direccion" required="true" />
     </div>
+    <div class="field">
+      <Button label="Registrar" @click="visible = true" />
+    </div>
   </Dialog>
 </template>
 
