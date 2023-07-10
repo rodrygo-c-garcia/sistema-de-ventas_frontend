@@ -19,6 +19,10 @@
         <InputNumber id="nit" required="true" />
       </div>
     </div>
+    <div class="field">
+      <label for="direccion">Direccion</label>
+      <InputText id="direccion" required="true" />
+    </div>
   </Dialog>
 </template>
 
