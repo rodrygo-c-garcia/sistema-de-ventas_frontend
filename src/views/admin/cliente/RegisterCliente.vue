@@ -14,7 +14,7 @@
         <label for="telefono">Telefono</label>
         <InputNumber id="telefono" required="true" />
       </div>
-      <div class="field">
+      <div class="field nit">
         <label for="nit">NIT</label>
         <InputNumber id="nit" required="true" />
       </div>
@@ -35,3 +35,9 @@ export default {
   name: "RegisterCliente"
 }
 </script>
+
+<style>
+.nit {
+  width: 100px;
+}
+</style>
