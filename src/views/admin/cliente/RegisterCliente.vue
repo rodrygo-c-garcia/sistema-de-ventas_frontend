@@ -31,6 +31,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { Cliente } from '../types';
+
+// PROP
+const { cliente } = defineProps({
+  cliente: {
+    type: Object as () => Cliente | null,
+    default: null,
+  },
+});
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
