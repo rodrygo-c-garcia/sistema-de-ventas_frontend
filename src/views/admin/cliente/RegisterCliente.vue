@@ -1,6 +1,7 @@
 <template>
   <Button label="Nuevo Cliente" icon="pi pi-user-plus" @click="visible = true" />
-  <Dialog v-model:visible="visible" modal header="Nuevo Cliente" :style="{ width: '30vw' }" class="p-fluid">
+  <Dialog v-model:visible="visible" modal :header="cliente ? 'Modificar Cliente' : 'Registrar Cliente'"
+    :style="{ width: '30vw' }" class="p-fluid">
     <div class="field">
       <label for="nombre">Nombre y Apellido</label>
       <InputText id="nombre" required="true" />
