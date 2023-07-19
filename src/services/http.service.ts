@@ -3,9 +3,9 @@ import { url_base } from '@/config/index'
 
 export function http() {
   let token : string = "";
-  try{
+  try{ // intenta
     token = window.atob(localStorage.getItem('token') ?? '');
-  } catch(e){}
+  } catch(e){} // capturar
 
   const instance = axios.create({
     baseURL: url_base,
