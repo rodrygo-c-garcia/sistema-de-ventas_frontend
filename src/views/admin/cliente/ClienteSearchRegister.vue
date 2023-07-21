@@ -18,6 +18,10 @@
 import { ref } from 'vue';
 import RegisterCliente from './RegisterCliente.vue';
 import SearchCliente from './SearchCliente.vue';
+import type { Cliente } from '../types';
+
+const cliente = ref(<Cliente>({}));
+
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
