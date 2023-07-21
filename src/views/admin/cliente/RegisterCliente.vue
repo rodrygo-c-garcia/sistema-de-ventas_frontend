@@ -16,11 +16,12 @@
       <div class="field">
         <label for="telefono">Telefono</label>
         <InputNumber id="telefono" required="true" v-model="customer.telefono" :min="60000000" :max="79999999"
-          :useGrouping="false" />
+          :useGrouping="false" placeholder="00000000" />
       </div>
       <div class="field nit">
         <label for="nit">NIT</label>
-        <InputNumber id="nit" required="true" v-model="customer.nit" :min="1000" :max="9999" :useGrouping="false" />
+        <InputNumber id="nit" required="true" v-model="customer.nit" :min="1000" :max="9999" :useGrouping="false"
+          placeholder="0000" />
       </div>
     </div>
     <div class="field">
