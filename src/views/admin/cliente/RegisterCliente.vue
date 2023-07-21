@@ -51,9 +51,20 @@ const props = defineProps({
 const visible = ref<boolean>(false);
 const { cliente: customer } = toRefs(props);
 
+// Toast
+const toast = useToast();
+
 // FUNCIONES
 function registerCustomer(): void {
-  console.log(customer.value)
+  // validar los campos
+  if (!customer.value.nombre_completo || !customer.value.email || !customer.value.telefono || !customer.value.nit || !customer.value.direccion) {
+    // Mostrar algún mensaje de error o hacer lo que desees en caso de campos vacíos o inválidos
+    return;
+  }
+}
+
+const showError = (message: string) => {
+  toast.add({ severity: 'warn', summary: message, detail: 'Obligatorio', life: 3000 });
 }
 </script>
 
