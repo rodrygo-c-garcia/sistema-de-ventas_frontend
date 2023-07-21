@@ -4,40 +4,40 @@
     :style="{ width: '30vw' }" class="p-fluid">
     <div class="field">
       <label for="nombre">Nombre y Apellido</label>
-      <InputText id="nombre" required="true" v-model="cliente.nombre_completo" />
+      <InputText id="nombre" required="true" v-model="customer.nombre_completo" />
     </div>
 
     <div class="field">
       <label for="email">Email</label>
-      <InputText id="email" type="email" required="true" v-model="cliente.email" />
+      <InputText id="email" type="email" required="true" v-model="customer.email" />
     </div>
     <div class="flex justify-content-between">
       <div class="field">
         <label for="telefono">Telefono</label>
-        <InputNumber id="telefono" required="true" v-model="cliente.telefono" />
+        <InputNumber id="telefono" required="true" v-model="customer.telefono" />
       </div>
       <div class="field nit">
         <label for="nit">NIT</label>
-        <InputNumber id="nit" required="true" v-model="cliente.nit" />
+        <InputNumber id="nit" required="true" v-model="customer.nit" />
       </div>
     </div>
     <div class="field">
       <label for="direccion">Direccion</label>
-      <InputText id="direccion" required="true" v-model="cliente.direccion" />
+      <InputText id="direccion" required="true" v-model="customer.direccion" />
     </div>
     <div class="field">
       <Button label="Registrar" @click="registerCustomer" />
     </div>
-    {{ cliente }}
+    {{ customer }}
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 import type { Cliente } from '../types';
 
 // PROP
-const { cliente } = defineProps({
+const props = defineProps({
   cliente: {
     type: Object as () => Cliente,
     required: true
@@ -46,10 +46,11 @@ const { cliente } = defineProps({
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
+const { cliente: customer } = toRefs(props);
 
 // FUNCIONES
 function registerCustomer(): void {
-  console.log(cliente)
+  console.log(customer.value)
 }
 </script>
 
