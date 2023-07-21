@@ -29,14 +29,14 @@
       <InputText id="direccion" required="true" v-model="customer.direccion" />
     </div>
     <div class="field">
-      <Button label="Registrar" @click="registerCustomer" />
+      <Button label="Guardar" @click="(isEditing ? updateCustomer() : registerCustomer())" />
     </div>
     {{ customer }}
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs } from 'vue';
+import { ref, watch } from 'vue';
 import type { Cliente } from '../types';
 import * as serviceCliente from '@/services/categoria.service';
 import { useToast } from 'primevue/usetoast';
