@@ -36,6 +36,8 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue';
 import type { Cliente } from '../types';
+import * as serviceCliente from '@/services/categoria.service';
+import { useToast } from 'primevue/usetoast';
 
 // PROP
 const props = defineProps({
