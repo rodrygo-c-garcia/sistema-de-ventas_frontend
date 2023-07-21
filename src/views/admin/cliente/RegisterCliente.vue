@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import type { Cliente } from '../types';
-import * as serviceCliente from '@/services/categoria.service';
+import * as serviceCliente from '@/services/cliente.service';
 import { useToast } from 'primevue/usetoast';
 
 // PROP
