@@ -49,3 +49,13 @@ export const severety = {
   WARN: 'warn',
   ERROR: 'error'
 }
+
+
+// Interface Cliente
+export interface Cliente {
+  nombre_completo: string;
+  email: string;
+  telefono: number;
+  nit: number;
+  direccion: string;
+}
