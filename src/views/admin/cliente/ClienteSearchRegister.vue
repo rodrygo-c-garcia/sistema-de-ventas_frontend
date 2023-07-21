@@ -8,7 +8,7 @@
       </div>
       <!-- Registrar nuevo cliente -->
       <div>
-        <RegisterCliente />
+        <RegisterCliente :cliente="cliente" />
       </div>
     </div>
   </div>
