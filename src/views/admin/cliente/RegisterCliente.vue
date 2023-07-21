@@ -26,7 +26,7 @@
       <InputText id="direccion" required="true" v-model="cliente.direccion" />
     </div>
     <div class="field">
-      <Button label="Registrar" @click="visible = true" />
+      <Button label="Registrar" @click="registerCustomer" />
     </div>
     {{ cliente }}
   </Dialog>
@@ -47,6 +47,10 @@ const { cliente } = defineProps({
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
 
+// FUNCIONES
+function registerCustomer(): void {
+  console.log(cliente)
+}
 </script>
 
 
