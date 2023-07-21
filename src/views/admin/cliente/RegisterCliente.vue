@@ -4,29 +4,31 @@
     :style="{ width: '30vw' }" class="p-fluid">
     <div class="field">
       <label for="nombre">Nombre y Apellido</label>
-      <InputText id="nombre" required="true" />
+      <InputText id="nombre" required="true" v-model="cliente.nombre_completo" />
     </div>
+
     <div class="field">
       <label for="email">Email</label>
-      <InputText id="email" type="email" required="true" />
+      <InputText id="email" type="email" required="true" v-model="cliente.email" />
     </div>
     <div class="flex justify-content-between">
       <div class="field">
         <label for="telefono">Telefono</label>
-        <InputNumber id="telefono" required="true" />
+        <InputNumber id="telefono" required="true" v-model="cliente.telefono" />
       </div>
       <div class="field nit">
         <label for="nit">NIT</label>
-        <InputNumber id="nit" required="true" />
+        <InputNumber id="nit" required="true" v-model="cliente.nit" />
       </div>
     </div>
     <div class="field">
       <label for="direccion">Direccion</label>
-      <InputText id="direccion" required="true" />
+      <InputText id="direccion" required="true" v-model="cliente.direccion" />
     </div>
     <div class="field">
       <Button label="Registrar" @click="visible = true" />
     </div>
+    {{ cliente }}
   </Dialog>
 </template>
 
