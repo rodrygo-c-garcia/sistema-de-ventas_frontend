@@ -63,6 +63,24 @@ function registerCustomer(): void {
   }
 }
 
+const validateRequiredFields = (): void => {
+  // campos requeridos
+  const requiredFields = {
+    nombre_completo: 'Ingrese su nombre completo',
+    email: 'Ingrese su email',
+    telefono: 'Ingrese su telefono',
+    nit: 'Ingrese su nit',
+    direccion: 'Ingrese su direccion'
+  };
+
+  for (const field in requiredFields) {
+    // Aquí tipamos field como una de las claves de Cliente
+    const key = field as keyof Cliente;
+    if (!customer.value[key]) throw new Error(requiredFields[key]);
+  }
+
+}
+
 const showError = (message: string): void => {
   toast.add({ severity: 'warn', summary: message, detail: 'Obligatorio', life: 3000 });
 }
