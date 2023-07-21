@@ -53,7 +53,6 @@ export const severety = {
 
 // Interface Cliente
 export interface Cliente {
-  id: number;
   nombre_completo: string;
   email: string;
   telefono: number;
