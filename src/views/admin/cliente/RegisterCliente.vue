@@ -63,7 +63,7 @@ function registerCustomer(): void {
   }
 }
 
-const showError = (message: string) => {
+const showError = (message: string): void => {
   toast.add({ severity: 'warn', summary: message, detail: 'Obligatorio', life: 3000 });
 }
 </script>
