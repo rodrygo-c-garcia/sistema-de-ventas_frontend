@@ -45,24 +45,41 @@ import { useToast } from 'primevue/usetoast';
 const props = defineProps({
   cliente: {
     type: Object as () => Cliente,
-    required: true
+    required: false
   },
 });
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
-const { cliente: customer } = toRefs(props);
+const customer = ref<Cliente>({
+  nombre_completo: '',
+  email: '',
+  telefono: 0,
+  nit: 0,
+  direccion: ''
+});
+const isEditing = ref<boolean>(false); // Esta es la variable que indica si estamos editando o no
 
 // Toast
 const toast = useToast();
 
+// WATCHERS
+watch(() => props.cliente, (newValue) => {
+  // Si hay un nuevo valor de cliente, lo asignamos a la variable reactiva y ponemos isEditing en true
+  if (newValue) {
+    customer.value = newValue;
+    isEditing.value = true;
+  }
+});
+
 // FUNCIONES
 function registerCustomer(): void {
   // validar los campos
-  if (!customer.value.nombre_completo || !customer.value.email || !customer.value.telefono || !customer.value.nit || !customer.value.direccion) {
-    // Mostrar algún mensaje de error o hacer lo que desees en caso de campos vacíos o inválidos
-    return;
-  }
+  console.log('Registrar');
+}
+
+function updateCustomer(): void {
+  alert("Modificar")
 }
 
 const validateRequiredFields = (): void => {
