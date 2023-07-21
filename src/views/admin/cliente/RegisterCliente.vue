@@ -73,9 +73,16 @@ watch(() => props.cliente, (newValue) => {
 });
 
 // FUNCIONES
-function registerCustomer(): void {
+async function registerCustomer(): Promise<void> {
   // validar los campos
-  console.log('Registrar');
+  try {
+    validateRequiredFields();
+    await serviceCliente.postCliente(customer.value);
+    toast.add({ severity: 'success', summary: "Exito", detail: 'Cliente Registrado', life: 3000 });
+    visible.value = false;
+  } catch (error: unknown) {
+    showError((error as Error).message)
+  }
 }
 
 function updateCustomer(): void {
