@@ -37,13 +37,14 @@ import type { Cliente } from '../types';
 // PROP
 const { cliente } = defineProps({
   cliente: {
-    type: Object as () => Cliente | null,
-    default: null,
+    type: Object as () => Cliente,
+    required: true
   },
 });
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
+
 </script>
 
 
