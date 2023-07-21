@@ -1,7 +1,7 @@
 <template>
   <Toast />
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
-    :header="categoria.id ? 'Modificar categoria' : 'Registrar nueva categoria'" :modal="true" class="p-fluid">
+    :header="categoria ? 'Modificar categoria' : 'Registrar nueva categoria'" :modal="true" class="p-fluid">
     <div class="field">
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="categoria.nombre" required="true" autofocus />
