@@ -14,11 +14,12 @@
     <div class="flex justify-content-between">
       <div class="field">
         <label for="telefono">Telefono</label>
-        <InputNumber id="telefono" required="true" v-model="customer.telefono" />
+        <InputNumber id="telefono" required="true" v-model="customer.telefono" :min="60000000" :max="79999999"
+          :useGrouping="false" />
       </div>
       <div class="field nit">
         <label for="nit">NIT</label>
-        <InputNumber id="nit" required="true" v-model="customer.nit" />
+        <InputNumber id="nit" required="true" v-model="customer.nit" :min="1000" :max="9999" :useGrouping="false" />
       </div>
     </div>
     <div class="field">
