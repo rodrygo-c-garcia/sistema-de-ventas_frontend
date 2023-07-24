@@ -28,3 +28,9 @@ export default {
   name: "ClienteSearch"
 }
 </script>
+
+<style>
+.data-customer {
+  margin-top: 20px;
+}
+</style>
