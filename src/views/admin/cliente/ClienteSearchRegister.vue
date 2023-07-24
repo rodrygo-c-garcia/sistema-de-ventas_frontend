@@ -36,5 +36,11 @@ export default {
 <style>
 .data-customer {
   margin-top: 20px;
+  font-size: 14px;
+}
+
+.data-cliente {
+  font-size: 16px;
+  font-weight: 500;
 }
 </style>
