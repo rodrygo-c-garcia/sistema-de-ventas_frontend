@@ -1,11 +1,13 @@
 <template>
   <SearchInput @click="visible = true" />
-  <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
-    <span class="p-input-icon-left">
-      <i class="pi pi-search" style="color: blue; font-size: 18px;" />
-      <InputText style="width: 300px; height: 50px; box-shadow: 2px 1px 4px green;" type="text"
-        placeholder="Buscar Cliente por NIT o Nombre" />
-    </span>
+  <Dialog v-model:visible="visible" modal header="Buscar Cliente" :style="{ width: '50vw' }">
+    <div class="flex justify-content-center">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search" style="color: blue; font-size: 18px;" />
+        <InputText style="width: 300px; height: 50px; box-shadow: 2px 1px 4px green;" type="text"
+          placeholder="Buscar Cliente por NIT o Nombre" />
+      </span>
+    </div>
   </Dialog>
 </template>
 
