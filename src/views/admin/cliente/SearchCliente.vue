@@ -18,13 +18,20 @@
 import { ref } from 'vue';
 import SearchInput from './SearchInput.vue'
 import CustomerWantedTable from './CustomerWantedTable.vue';
+import * as customerService from '@/services/cliente.service';
+
 
 // VARIABLES react
 const visible = ref<boolean>(false);
 const customers = ref([]);
+const searchTerm = ref<string>('');
 
 // FUNCIONES
-
+async function searchCustomer() {
+  const { data: { data } } = await customerService.lookingForCustomer(searchTerm.value);
+  customers.value = data.data;
+  console.log(customers);
+}
 </script>
 
 <script lang="ts">
