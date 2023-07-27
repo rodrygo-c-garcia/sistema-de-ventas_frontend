@@ -9,11 +9,7 @@
       </span>
     </div>
     <div :style="{ margin: '10px' }">
-      <DataTable tableStyle="min-width: 45vw">
-        <Column field="code" header="Code"></Column>
-        <Column field="name" header="Name"></Column>
-        <Column field="quantity" header="Quantity"></Column>
-      </DataTable>
+      <CustomerWantedTable />
     </div>
   </Dialog>
 </template>
@@ -21,11 +17,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import SearchInput from './SearchInput.vue'
+import CustomerWantedTable from './CustomerWantedTable.vue';
 
 // VARIABLES react
 const visible = ref<boolean>(false);
 const customers = ref([]);
 
+// FUNCIONES
 
 </script>
 
