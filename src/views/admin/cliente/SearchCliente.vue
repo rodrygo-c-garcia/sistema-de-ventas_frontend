@@ -10,7 +10,7 @@
     </div>
     <div :style="{ margin: '10px' }">
       {{ customers }}
-      <CustomerWantedTable />
+      <CustomerWantedTable :clinetes="customers" />
     </div>
   </Dialog>
 </template>
