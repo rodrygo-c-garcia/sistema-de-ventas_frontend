@@ -9,8 +9,7 @@
       </span>
     </div>
     <div :style="{ margin: '10px' }">
-      {{ customers }}
-      <CustomerWantedTable :clinetes="customers" />
+      <CustomerWantedTable :clientes="customers" />
     </div>
   </Dialog>
 </template>
