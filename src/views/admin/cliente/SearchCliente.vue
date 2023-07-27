@@ -8,6 +8,13 @@
           placeholder="Buscar Cliente por NIT o Nombre" />
       </span>
     </div>
+    <div :style="{ margin: '10px' }">
+      <DataTable tableStyle="min-width: 45vw">
+        <Column field="code" header="Code"></Column>
+        <Column field="name" header="Name"></Column>
+        <Column field="quantity" header="Quantity"></Column>
+      </DataTable>
+    </div>
   </Dialog>
 </template>
 
