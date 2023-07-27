@@ -1,13 +1,13 @@
 <template>
-  <DataTable tableStyle="min-width: 45vw">
-    <Column field="code" header="Code"></Column>
-    <Column field="name" header="Name"></Column>
+  <DataTable :value="customers" tableStyle="min-width: 45vw">
+    <Column field="nombre_completo" header="Nombre/Apellido"></Column>
+    <Column field="nit" header="NIT"></Column>
     <Column field="quantity" header="Quantity"></Column>
   </DataTable>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { toRefs } from 'vue'
 
 const props = defineProps({
   clientes: {
@@ -15,6 +15,9 @@ const props = defineProps({
     required: false
   }
 });
+
+// VARIABLES
+const { clientes: customers } = toRefs(props);
 
 </script>
 
