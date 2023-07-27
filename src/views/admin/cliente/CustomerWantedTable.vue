@@ -6,9 +6,20 @@
   </DataTable>
 </template>
 
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const props = defineProps({
+  clientes: {
+    type: Array,
+    required: false
+  }
+});
+
+</script>
+
 <script lang="ts">
 export default {
   name: "CustomerWantedTable"
 }
 </script>
-
