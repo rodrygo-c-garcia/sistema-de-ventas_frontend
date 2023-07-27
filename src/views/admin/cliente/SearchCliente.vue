@@ -24,6 +24,8 @@ import SearchInput from './SearchInput.vue'
 
 // VARIABLES react
 const visible = ref<boolean>(false);
+const customers = ref([]);
+
 
 </script>
 
