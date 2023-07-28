@@ -2,12 +2,18 @@
   <DataTable :value="customers" tableStyle="min-width: 45vw">
     <Column field="nombre_completo" header="Nombre/Apellido"></Column>
     <Column field="nit" header="NIT"></Column>
-    <Column field="quantity" header="Quantity"></Column>
+    <Column :exportable="false">
+      <template #body="slotProps">
+        <Button icon="pi pi-check-circle" class="p-button-rounded p-button-success mr-2"
+          @click="addCustomer(slotProps.data)" />
+      </template>
+    </Column>
   </DataTable>
 </template>
 
 <script lang="ts" setup>
 import { toRefs } from 'vue'
+import type { Cliente } from '../types'
 
 const props = defineProps({
   clientes: {
