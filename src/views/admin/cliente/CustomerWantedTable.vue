@@ -19,6 +19,10 @@ const props = defineProps({
 // VARIABLES
 const { clientes: customers } = toRefs(props);
 
+// FUNCIONES
+function addCustomer(customer: Cliente): void {
+
+}
 </script>
 
 <script lang="ts">
