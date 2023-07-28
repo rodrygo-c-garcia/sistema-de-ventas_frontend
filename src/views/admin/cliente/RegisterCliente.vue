@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import type { Cliente } from '../types';
 import * as serviceCliente from '@/services/cliente.service';
 import { useToast } from 'primevue/usetoast';
@@ -63,11 +63,25 @@ const isEditing = ref<boolean>(false); // Esta es la variable que indica si esta
 const toast = useToast();
 
 // WATCHERS
+// escucha los cambios que hay en el prop cliente, se usa para editar
 watch(() => props.cliente, (newValue) => {
   // Si hay un nuevo valor de cliente, lo asignamos a la variable reactiva y ponemos isEditing en true
   if (newValue) {
     customer.value = newValue;
     isEditing.value = true;
+  }
+});
+
+// watchEffect para poner en vacio los inputs desdepues de cerrar
+watchEffect(() => {
+  if (!visible.value) {
+    customer.value = {
+      nombre_completo: '',
+      email: '',
+      telefono: 0,
+      nit: 0,
+      direccion: ''
+    }
   }
 });
 
@@ -109,6 +123,7 @@ const validateRequiredFields = (): void => {
 const showError = (message: string): void => {
   toast.add({ severity: 'warn', summary: message, detail: 'Obligatorio', life: 3000 });
 }
+
 </script>
 
 
