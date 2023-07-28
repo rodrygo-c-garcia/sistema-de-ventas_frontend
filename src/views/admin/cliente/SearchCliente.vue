@@ -16,22 +16,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import SearchInput from './SearchInput.vue'
 import CustomerWantedTable from './CustomerWantedTable.vue';
 import * as customerService from '@/services/cliente.service';
+import { useToast } from 'primevue/usetoast';
 
 
 // VARIABLES react
 const visible = ref<boolean>(false);
 const customers = ref([]);
 const searchTerm = ref<string>('');
+const toast = useToast();
+
+// enviar load al hijo para la carga del DataTable
+const load = ref(inject<boolean>('load'));
 
 // FUNCIONES
 async function searchCustomer() {
-  const { data: { data } } = await customerService.lookingForCustomer(searchTerm.value);
-  customers.value = data.data;
-  console.log(customers);
+  try {
+    load.value = true;
+    const { data: { data } } = await customerService.lookingForCustomer(searchTerm.value);
+    customers.value = data.data;
+  } catch (error) {
+    console.log('error en el back', error);
+    toast.add({ severity: 'error', summary: "Error", detail: 'Hubo un error al buscar clientes.', life: 3000 });
+  } finally {
+    load.value = false;
+  }
 }
 </script>
 
