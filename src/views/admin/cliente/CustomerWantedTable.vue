@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue'
+import { ref, toRefs, provide } from 'vue'
 import type { Cliente } from '../types'
 
 const props = defineProps({
@@ -24,6 +24,8 @@ const props = defineProps({
 
 // VARIABLES
 const { clientes: customers } = toRefs(props);
+const load = ref<boolean>(false);
+provide('load', load);
 
 // FUNCIONES
 function addCustomer(customer: Cliente): void {
