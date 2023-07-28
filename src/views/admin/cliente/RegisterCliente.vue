@@ -31,7 +31,6 @@
     <div class="field">
       <Button label="Guardar" @click="(isEditing ? updateCustomer() : registerCustomer())" />
     </div>
-    {{ customer }}
   </Dialog>
 </template>
 
