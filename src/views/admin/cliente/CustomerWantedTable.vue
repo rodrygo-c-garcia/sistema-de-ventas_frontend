@@ -1,5 +1,5 @@
 <template>
-  <DataTable :value="customers" tableStyle="min-width: 45vw">
+  <DataTable :value="customers" tableStyle="min-width: 45vw" :loading="load">
     <Column field="nombre_completo" header="Nombre/Apellido"></Column>
     <Column field="nit" header="NIT"></Column>
     <Column :exportable="false">
