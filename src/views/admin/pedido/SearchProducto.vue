@@ -14,7 +14,7 @@ import * as productoService from '@/services/producto.service';
 
 // Variables 
 const search_term = ref<string>('');
-const loading = ref(inject<boolean>('loading'))
+const loading = ref(inject<boolean>('loading'));
 
 const emit = defineEmits(['searched']);
 
