@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, provide } from 'vue'
+import { ref, toRefs, inject } from 'vue'
 import type { Cliente } from '../types'
 
 const props = defineProps({
@@ -24,8 +24,9 @@ const props = defineProps({
 
 // VARIABLES
 const { clientes: customers } = toRefs(props);
-const load = ref<boolean>(false);
-provide('load', load);
+
+// injectamos el load para usarlo en el DataTable
+const load = ref(inject<boolean>('load'));
 
 // FUNCIONES
 function addCustomer(customer: Cliente): void {
