@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <SearchInput @click="visible = true" />
   <Dialog v-model:visible="visible" modal header="Buscar Cliente" :style="{ width: '50vw' }">
     <div class="flex justify-content-center">
