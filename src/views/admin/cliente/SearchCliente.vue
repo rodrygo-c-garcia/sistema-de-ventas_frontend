@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide } from 'vue';
+import { ref, provide, watchEffect } from 'vue';
 import SearchInput from './SearchInput.vue'
 import CustomerWantedTable from './CustomerWantedTable.vue';
 import * as customerService from '@/services/cliente.service';
@@ -32,6 +32,15 @@ const toast = useToast();
 // enviar load al hijo para la carga del DataTable
 const load = ref<boolean>(false);
 provide('load', load);
+
+// WATCHERS
+watchEffect(() => {
+  if (!visible.value) {
+    searchTerm.value = '';
+    customers.value = [];
+  }
+});
+
 
 // FUNCIONES
 async function searchCustomer() {
