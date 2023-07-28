@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject } from 'vue';
+import { ref, provide } from 'vue';
 import SearchInput from './SearchInput.vue'
 import CustomerWantedTable from './CustomerWantedTable.vue';
 import * as customerService from '@/services/cliente.service';
@@ -30,7 +30,8 @@ const searchTerm = ref<string>('');
 const toast = useToast();
 
 // enviar load al hijo para la carga del DataTable
-const load = ref(inject<boolean>('load'));
+const load = ref<boolean>(false);
+provide('load', load);
 
 // FUNCIONES
 async function searchCustomer() {
