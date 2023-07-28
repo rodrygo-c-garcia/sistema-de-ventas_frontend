@@ -1,13 +1,19 @@
 <template>
-  <DataTable :value="customers" tableStyle="min-width: 45vw">
+  <DataTable :value="customers" tableStyle="min-width: 45vw" :loading="load">
     <Column field="nombre_completo" header="Nombre/Apellido"></Column>
     <Column field="nit" header="NIT"></Column>
-    <Column field="quantity" header="Quantity"></Column>
+    <Column :exportable="false">
+      <template #body="slotProps">
+        <Button icon="pi pi-check-circle" class="p-button-rounded p-button-success mr-2"
+          @click="addCustomer(slotProps.data)" />
+      </template>
+    </Column>
   </DataTable>
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue'
+import { ref, toRefs, inject } from 'vue'
+import type { Cliente } from '../types'
 
 const props = defineProps({
   clientes: {
@@ -19,6 +25,13 @@ const props = defineProps({
 // VARIABLES
 const { clientes: customers } = toRefs(props);
 
+// injectamos el load para usarlo en el DataTable
+const load = ref(inject<boolean>('load'));
+
+// FUNCIONES
+function addCustomer(customer: Cliente): void {
+
+}
 </script>
 
 <script lang="ts">
