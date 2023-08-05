@@ -181,10 +181,6 @@ export default {
       <label for="name">Nombre</label>
       <InputText id="name" v-model.trim="producto.nombre" required="true" autofocus />
     </div>
-    <div class="field">
-      <label for="cod_barras">Codigo de Barras</label>
-      <InputText id="cod_barras" v-model="producto.cod_barras" required="true" />
-    </div>
     <div class="container-img-upload">
       <button class="btn-upload">
         <i class="pi pi-image" style="font-size: 1.5rem"></i>
@@ -195,6 +191,10 @@ export default {
         <img v-if="imagen_min.value !== ''" class="img-miniatura" :src="imagen_min.value" alt="Imagen del producto">
         <p v-else>Miniatura de tu producto</p>
       </figure>
+    </div>
+    <div class="field">
+      <label for="cod_barras">Codigo de Barras</label>
+      <InputText id="cod_barras" v-model="producto.cod_barras" required="true" />
     </div>
     <div class="field">
       <Dropdown v-model="producto.categoria_id" :options="categorias" optionLabel="nombre" optionValue="id"
