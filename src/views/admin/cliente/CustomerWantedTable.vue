@@ -14,6 +14,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue'
 import type { Cliente } from '../types'
+import { usePinia } from '@/stores/store';
 
 const props = defineProps({
   clientes: {
@@ -25,12 +26,15 @@ const props = defineProps({
 // VARIABLES
 const { clientes: customers } = toRefs(props);
 
+// VARIBLE DE PINIA
+const pinia = usePinia();
+
 // injectamos el load para usarlo en el DataTable
 const load = ref(inject<boolean>('load'));
 
 // FUNCIONES
 function addCustomer(customer: Cliente): void {
-
+  pinia.changeCustomer(customer);
 }
 </script>
 
