@@ -39,6 +39,7 @@ import { ref, watch, watchEffect } from 'vue';
 import type { Cliente } from '../types';
 import * as serviceCliente from '@/services/cliente.service';
 import { useToast } from 'primevue/usetoast';
+import { usePinia } from '@/stores/store';
 
 // PROP
 const props = defineProps({
@@ -58,6 +59,7 @@ const customer = ref<Cliente>({
   direccion: ''
 });
 const isEditing = ref<boolean>(false); // Esta es la variable que indica si estamos editando o no
+
 
 // Toast
 const toast = useToast();
@@ -89,9 +91,12 @@ watchEffect(() => {
 async function registerCustomer(): Promise<void> {
   // validar los campos
   try {
+    // VARIBLE DE PINIA
+    const pinia = usePinia();
     validateRequiredFields();
     await serviceCliente.postCliente(customer.value);
     toast.add({ severity: 'success', summary: "Exito", detail: 'Cliente Registrado', life: 3000 });
+    pinia.changeCustomer(customer.value);
     visible.value = false;
   } catch (error: unknown) {
     showError((error as Error).message)
