@@ -12,8 +12,8 @@
       </div>
     </div>
     <div class="data-customer">
-      <p>Nombre: <span class="data-cliente">Ariel</span></p>
-      <p>NIT: <span class="data-cliente">123443</span></p>
+      <p>Nombre: <span class="data-cliente">{{ pinia.customer?.nombre_completo }}</span></p>
+      <p>NIT: <span class="data-cliente">{{ pinia.customer?.nit }}</span></p>
     </div>
   </div>
 </template>
