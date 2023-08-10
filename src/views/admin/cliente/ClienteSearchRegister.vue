@@ -22,9 +22,13 @@
 import { ref } from 'vue';
 import RegisterCliente from './RegisterCliente.vue';
 import SearchCliente from './SearchCliente.vue';
+import { usePinia } from '@/stores/store';
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
+
+// VARIBLE DE PINIA
+const pinia = usePinia(); 
 </script>
 
 <script lang="ts">
