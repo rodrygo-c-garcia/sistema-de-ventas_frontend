@@ -3,7 +3,7 @@
     :style="{ width: '350px' }">
     <div class="container-loading">
       <div class="loader"></div>
-      <p class="cargando">Cargando...</p>
+      <p class="cargando"> {{ props.msg }}</p>
     </div>
   </Dialog>
 </template>

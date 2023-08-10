@@ -11,10 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref, defineProps, toRefs } from 'vue';
+import { inject, ref, defineProps, toRefs, watch } from 'vue';
 import PagoView from './PagoView.vue'
 import ClienteSearchRegister from '../cliente/ClienteSearchRegister.vue'
-
+import { usePinia } from '@/stores/store';
 // PROPs
 
 const props = defineProps({
@@ -28,7 +28,20 @@ const props = defineProps({
 const visible = ref(inject<boolean>("visible"));
 const { total_carrito: total } = toRefs(props);
 
+// VARIBLE DE PINIA
+const pinia = usePinia();
 
+// WATCHERS
+// Rastrea solo el valor de vidible
+watch(visible, () => {
+  pinia.customer = {
+    nombre_completo: '',
+    email: '',
+    telefono: 0,
+    nit: 0,
+    direccion: ''
+  };
+})
 
 // FUNCIONES
 

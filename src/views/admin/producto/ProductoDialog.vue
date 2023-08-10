@@ -170,7 +170,7 @@ export default {
 </script>
 <template>
   <Toast />
-  <LoaderView msg="Cargando" :visible="loading_conexion_API" />
+  <LoaderView msg="Guardando en la Base de Datos" :visible="loading_conexion_API" />
 
   <Dialog v-model:visible="display" :style="{ width: '450px' }"
     :header="producto.id ? 'Modificar Producto' : 'Registrar Producto'" :modal="true" class="p-fluid">

@@ -25,6 +25,9 @@ import { useToast } from 'primevue/usetoast';
 
 // VARIABLES react
 const visible = ref<boolean>(false);
+// Proveemos el valor de la variable visible
+provide('visible', visible);
+
 const customers = ref([]);
 const searchTerm = ref<string>('');
 const toast = useToast();

@@ -12,8 +12,8 @@
       </div>
     </div>
     <div class="data-customer">
-      <p>Nombre: <span class="data-cliente">Ariel</span></p>
-      <p>NIT: <span class="data-cliente">123443</span></p>
+      <p>Nombre: <span class="data-cliente">{{ pinia.customer?.nombre_completo }}</span></p>
+      <p>NIT: <span class="data-cliente">{{ pinia.customer?.nit }}</span></p>
     </div>
   </div>
 </template>
@@ -22,9 +22,13 @@
 import { ref } from 'vue';
 import RegisterCliente from './RegisterCliente.vue';
 import SearchCliente from './SearchCliente.vue';
+import { usePinia } from '@/stores/store';
 
 // VARIABLES REACTIVAS
 const visible = ref<boolean>(false);
+
+// VARIBLE DE PINIA
+const pinia = usePinia(); 
 </script>
 
 <script lang="ts">
