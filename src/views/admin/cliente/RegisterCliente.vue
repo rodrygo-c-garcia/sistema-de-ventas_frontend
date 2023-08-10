@@ -40,6 +40,7 @@ import type { Cliente } from '../types';
 import * as serviceCliente from '@/services/cliente.service';
 import { useToast } from 'primevue/usetoast';
 import { usePinia } from '@/stores/store';
+import LoaderView from '../LoaderView.vue';
 
 // PROP
 const props = defineProps({
@@ -59,6 +60,7 @@ const customer = ref<Cliente>({
   direccion: ''
 });
 const isEditing = ref<boolean>(false); // Esta es la variable que indica si estamos editando o no
+const loading_conexion_API = ref<boolean>(false)
 
 
 // Toast
