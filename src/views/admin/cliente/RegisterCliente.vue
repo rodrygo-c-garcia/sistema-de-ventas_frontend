@@ -95,15 +95,20 @@ watchEffect(() => {
 async function registerCustomer(): Promise<void> {
   // validar los campos
   try {
+    // iniciamos la carga del guardado
+    loading_conexion_API.value = true;
     // VARIBLE DE PINIA
     const pinia = usePinia();
     validateRequiredFields();
     await serviceCliente.postCliente(customer.value);
     toast.add({ severity: 'success', summary: "Exito", detail: 'Cliente Registrado', life: 3000 });
     pinia.changeCustomer(customer.value);
-    visible.value = false;
   } catch (error: unknown) {
     showError((error as Error).message)
+  } finally {
+    // cerrarmos el guardado cuando termine de guardar
+    loading_conexion_API.value = false;
+    visible.value = false;
   }
 }
 
