@@ -6,7 +6,9 @@
     <section class="card">
       <ClienteSearchRegister />
     </section>
-    <Button>Cerrar</Button>
+    <div class="flex justify-content-center">
+      <Button label="Registrar Pedido" icon="pi pi-check" iconPos="right" />
+    </div>
   </Dialog>
 </template>
 
