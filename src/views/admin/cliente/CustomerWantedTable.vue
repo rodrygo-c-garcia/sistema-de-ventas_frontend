@@ -9,7 +9,6 @@
           @click="addCustomer(slotProps.data)" />
       </template>
     </Column>
-    {{ visible }}
   </DataTable>
 </template>
 
