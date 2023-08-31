@@ -2,7 +2,10 @@
 Ariel Rodrigo Colque Garcia
 
 
-https://github.com/rodrygo-c-garcia/sistema-de-ventas_frontend/assets/43041624/c5ee4df6-6958-43b7-8572-23ba1d158edb
+https://github.com/rodrygo-c-garcia/sistema-de-ventas_frontend/assets/43041624/0c0b2dc5-6f45-436b-8f1c-d4da720d6518
+
+
+
 
 
 
