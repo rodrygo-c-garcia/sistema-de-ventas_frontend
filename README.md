@@ -1,6 +1,11 @@
 # Sistema-Ventas-Frontend (VueJs3 + TS)
 Ariel Rodrigo Colque Garcia
 
+
+https://github.com/rodrygo-c-garcia/sistema-de-ventas_frontend/assets/43041624/c5ee4df6-6958-43b7-8572-23ba1d158edb
+
+
+
 - This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
