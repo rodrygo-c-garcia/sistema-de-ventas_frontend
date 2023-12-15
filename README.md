@@ -2,13 +2,6 @@
 Ariel Rodrigo Colque Garcia
 
 
-https://github.com/rodrygo-c-garcia/sistema-de-ventas_frontend/assets/43041624/0c0b2dc5-6f45-436b-8f1c-d4da720d6518
-
-
-
-
-
-
 - This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
